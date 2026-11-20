@@ -170,11 +170,11 @@ add(pop(560), 34.50, .8)
 add(pop(600), 34.70, .8)
 add(pop(520), 34.90, .8)
 add(pop(500), 35.75, .8)
-add(impact(), 36.40, 1.1)
-add(chime(1046.5), 36.45, 1.0)
-add(marker(0.35), 37.05, 1.0, 0.25)
-add(chime(784), 38.10, 0.9)
-add(whoosh(0.5), 37.90, 0.5)
+add(impact(), 37.20, 1.1)
+add(chime(1046.5), 37.25, 1.0)
+add(marker(0.35), 37.85, 1.0, 0.25)
+add(chime(784), 38.90, 0.9)
+add(whoosh(0.5), 38.70, 0.5)
 sfx_L, sfx_R = L.copy(), R.copy()
 L[:] = 0; R[:] = 0
 bpm = 104; beat = 60 / bpm
@@ -228,4 +228,5 @@ def write(name, l, r):
 mg = 0.55
 write('mix_music_sfx.wav', sfx_L + mus_L * mg, sfx_R + mus_R * mg)
 write('sfx_only.wav', sfx_L, sfx_R)
+np.save('sfx.npy',np.stack([sfx_L,sfx_R]));np.save('music.npy',np.stack([mus_L,mus_R]))
 print('ok')

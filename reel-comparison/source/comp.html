@@ -228,15 +228,15 @@ function icon(par,src,x,y,w,label,labTop){const d=document.createElement('div');
 const BI=$('botIcons');
 const ICONS=[
  // pair, el, t-offset
- [0,icon(BI,'img/prayer_mat.png',70,250,170,'صلاته'),5.3],[0,icon(BI,'img/mosque.png',830,250,190,'مسجده'),5.6],
- [0,icon(BI,'img/crescent_moon.png',80,600,170,'قيام الليل'),6.5],[0,icon(BI,'img/spiral_calendar.png',840,600,170,'صيامه'),6.8],
- [1,icon(BI,'img/hot_beverage.png',90,230,170,'قهوة',true),5.3],[1,icon(BI,'img/face_with_tears_of_joy.png',820,230,170,'',false),5.6],
- [1,icon(BI,'img/video_game.png',400,820,280,''),6.3],
- [2,icon(BI,'img/old_woman.png',40,250,140,''),5.3],[2,icon(BI,'img/old_man.png',150,250,140,''),5.45],[2,icon(BI,'img/red_heart.png',860,250,150,'أهله'),5.7],
+ [0,icon(BI,'img/gem_mat.png',60,230,180,'صلاته'),5.3],[0,icon(BI,'img/gem_mosque.png',820,230,210,'مسجده'),5.6],
+ [0,icon(BI,'img/gem_moon.png',60,590,200,'قيام الليل'),6.3],[0,icon(BI,'img/gem_calendar.png',830,590,200,'صيامه'),6.5],
+ [1,icon(BI,'img/gem_coffee.png',60,220,230,'قهوة',true),5.3],[1,icon(BI,'img/gem_laugh.png',820,220,190,'',false),5.6],
+ [1,icon(BI,'img/gem_controller.png',390,800,300,''),6.3],
+ [2,icon(BI,'img/gem_parents.png',40,220,250,'أهله'),5.3],[2,icon(BI,'img/red_heart.png',860,250,150,''),5.7],
  [2,icon(BI,'img/laptop.png',60,600,200,'شغله'),6.3],[2,icon(BI,'img/soccer_ball.png',840,620,170,'رياضة'),6.7],
 ];
 const FI=$('finIcons');
-const RING=[['img/crescent_moon.png',212,170],['img/prayer_mat.png',180,150],['img/prayer_beads.png',148,160],['img/video_game.png',-32,190],['img/hot_beverage.png',0,170],['img/soccer_ball.png',32,160]]
+const RING=[['img/gem_moon.png',212,190],['img/gem_mat.png',180,165],['img/gem_mosque.png',148,190],['img/gem_controller.png',-32,210],['img/gem_coffee.png',0,200],['img/gem_parents.png',32,190]]
  .map(([src,ang,w])=>({el:icon(FI,src,0,0,w,''),ang,w}));
 const lblL=document.createElement('div');lblL.className='ic';lblL.style.cssText='left:70px;top:400px;opacity:0';lblL.innerHTML='<div style="background:#16a085;color:#fff;font-family:Cairo;font-weight:900;font-size:46px;padding:4px 34px 10px;border-radius:40px;box-shadow:0 6px 0 #0b5a45">العبادة</div>';FI.appendChild(lblL);
 const lblR=document.createElement('div');lblR.className='ic';lblR.style.cssText='left:790px;top:400px;opacity:0';lblR.innerHTML='<div style="background:#ff7a45;color:#fff;font-family:Cairo;font-weight:900;font-size:46px;padding:4px 34px 10px;border-radius:40px;box-shadow:0 6px 0 #b8481f">الحياة</div>';FI.appendChild(lblR);
@@ -259,17 +259,18 @@ PAIRS.forEach((s,i)=>{const n=i+1;
   SEG.push(['t'+n+'m',s+.7,1.55]); SEG.push(['b'+n+'m',s+3.2,1.7]);
   if(n===2){SEG.push(['b2a',s+5.0,.6]);SEG.push(['b2b',s+5.65,.6]);}
   ['t'+n+'x','t'+n+'m','b'+n+'m','b2a','b2b'].forEach(id=>{if(id.startsWith('b2')&&!id.startsWith('b2m')&&n!==2)return;WIN[id]=[s,s+9.0];});});
-SEG.push(['fm',FIN_T+.5,1.2],['fring',FIN_T+1.9,.8],['g-under',FIN_T+6.15,.35]);
-WIN.fm=[FIN_T,99];WIN.fring=[FIN_T,99];WIN['g-under']=[FIN_T+6.1,99];
+SEG.push(['fm',FIN_T+.5,1.2],['fring',FIN_T+1.9,.8],['g-under',FIN_T+6.95,.35]);
+WIN.fm=[FIN_T,99];WIN.fring=[FIN_T,99];WIN['g-under']=[FIN_T+6.9,99];
 Object.keys(WIN).forEach(id=>{if(!$(id))delete WIN[id];});Object.keys(WIN).forEach(prep);
 
 // ================= captions =================
 const CAPS=[];
-const PC=[['في الأفلام.. المتدين دايماً مكشّر وقافل على نفسه','لكن في الواقع؟ بيصلّي فروضه.. وقلبه مرتاح','وبيصوم.. وبيقوم الليل كمان'],
+const PC=[['في الأفلام.. المتدين مكشّر وقافل على نفسه','لكن في الواقع؟ بيصلّي.. وقلبه مرتاح','وبيصوم وبيقوم الليل كمان'],
           ['في الأفلام.. بيزعّق وبيخاصم الناس','وفي الواقع؟ بيضحك ويهزّر مع صحابه','ويلعبوا بلايستيشن كمان!'],
-          ['في الأفلام.. قاعد لوحده ومعزول','وفي الواقع؟ بيحب أهله وبيبرّهم','وبيذاكر ويشتغل.. وبيلعب رياضة']];
-PAIRS.forEach((s,i)=>{CAPS.push([s+.2,s+3.1,PC[i][0]]);CAPS.push([s+3.2,s+6.2,PC[i][1]]);CAPS.push([s+6.2,s+8.6,PC[i][2]]);});
-CAPS.push([FIN_T+.3,FIN_T+3.4,'التدين عمره ما كان تشدد ولا انعزال..']);CAPS.push([FIN_T+3.4,FIN_T+4.8,'القاعدة بسيطة:']);
+          ['في الأفلام.. قاعد لوحده ومعزول','وفي الواقع؟ بيحب أهله وبيبرّهم','بيذاكر وبيشتغل.. وبيلعب رياضة']];
+CAPS.push([.35,3.6,'المتدين.. في الأفلام، وفي الواقع!']);
+PAIRS.forEach((s,i)=>{CAPS.push([s+.15,s+3.25,PC[i][0]]);CAPS.push([s+3.3,s+6.2,PC[i][1]]);CAPS.push([s+6.25,s+8.7,PC[i][2]]);});
+CAPS.push([FIN_T+.35,FIN_T+3.4,'التدين عمره ما كان تشدد ولا انعزال..']);CAPS.push([FIN_T+3.45,FIN_T+4.75,'القاعدة بسيطة:']);
 let capIdx=-2;
 function captions(t){const box=$('capbox');const k=CAPS.findIndex(c=>t>=c[0]&&t<c[1]);
   if(k!==capIdx){capIdx=k;box.innerHTML='';if(k>=0)CAPS[k][2].split(' ').forEach(w=>{const s=document.createElement('span');s.textContent=w;box.appendChild(s);});}
@@ -369,20 +370,20 @@ function seek(t){
   RING.forEach((r,i)=>{const q=P(t,F+2.9+i*.15,.45);const ang=r.ang*Math.PI/180+(r.ang>90?-1:1)*(t>F+4?Math.sin((t-F-4)*1.1)*.06:0);
     const cx=540+440*Math.cos(ang),cy=920+440*Math.sin(ang);r.el.style.left=(cx-r.w/2)+'px';r.el.style.top=(cy-r.w/2)+'px';r.el.style.opacity=q>0?1:0;r.el.style.transform=`scale(${back(q,2.2)})`;});
   [[lblL,F+3.6],[lblR,F+3.8],[scaleIc,F+4.0]].forEach(([el,t0])=>{const q=P(t,t0,.4);el.style.opacity=q>0?1:0;el.style.transform=`scale(${back(q)}) rotate(${el===scaleIc?Math.sin(t*2.5)*6:0}deg)`;});
-  const k1=P(t,F+4.85,.45),k2=P(t,F+5.5,.6);
+  const k1=P(t,F+4.8,.45),k2=P(t,F+6.3,.6);
   $('k1').style.opacity=k1;$('k1').style.transform=`translateY(${(1-eout(k1))*60}px) scale(${.7+.3*back(k1)})`;
   $('k2').style.opacity=k2>0?1:0;$('k2').style.transform=`scale(${k2>0?elastic(k2):0}) rotate(${(1-eout(k2))*-10}deg)`;
-  $('g-under').style.display=t>=F+6.1?'':'none';
-  const le=P(t,F+7.2,.6);$('logoEnd').style.opacity=eout(le);$('logoEnd').style.transform=`translateY(${(1-eout(le))*50}px) scale(${.8+.2*back(le)})`;
-  $('follow').style.opacity=eout(P(t,F+7.6,.4));
-  $('wm').style.opacity=t<F+7.2?.95*eout(P(t,.8,.4)):.95*(1-eout(le));
+  $('g-under').style.display=t>=F+6.9?'':'none';
+  const le=P(t,F+8.0,.6);$('logoEnd').style.opacity=eout(le);$('logoEnd').style.transform=`translateY(${(1-eout(le))*50}px) scale(${.8+.2*back(le)})`;
+  $('follow').style.opacity=eout(P(t,F+8.4,.4));
+  $('wm').style.opacity=t<F+8.0?.95*eout(P(t,.8,.4)):.95*(1-eout(le));
   // flashes
   let fl=Math.exp(-Math.pow((t-.68)/.06,2))*.55;PAIRS.forEach(s=>{fl=Math.max(fl,Math.exp(-Math.pow((t-(s+2.4))/.05,2))*.35);});
-  fl=Math.max(fl,Math.exp(-Math.pow((t-(F+5.55))/.07,2))*.6);
+  fl=Math.max(fl,Math.exp(-Math.pow((t-(F+6.35))/.07,2))*.6);
   $('flash').style.opacity=fl;
   $('bar').style.width=(1080*(t+3.25)/(F+10.2+3.25))+'px';
   handAt(t);
-  $('caps').style.top=(t>=FIN_T+.3?1520:960)+'px';
+  $('caps').style.top=(t>=FIN_T+.3?1520:(t<3.7?1760:960))+'px';
   captions(t);
 }
 window.seek=seek;
