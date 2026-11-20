@@ -76,19 +76,19 @@
     <div id="movBg"></div>
     <svg id="movSk" width="1080" height="1920" viewBox="0 0 1080 1920"></svg>
     <div id="tags"></div>
-    <div id="mTitle" style="position:absolute;left:0;right:0;top:640px;text-align:center;direction:rtl;z-index:5;opacity:0"><div style="font-family:Lalezar;font-size:190px;color:#26231f;line-height:1.05">المتدين</div><div style="font-family:Marhey;font-weight:700;font-size:80px;color:#5a5144">زي ما الشاشة بتورّيه 🎬</div></div>
+    <div id="mTitle" style="position:absolute;left:0;right:0;top:640px;text-align:center;direction:rtl;z-index:5;opacity:0"><div style="font-family:Lalezar;font-size:190px;color:#26231f;line-height:1.05">المتدين</div><div style="font-family:Marhey;font-weight:700;font-size:80px;color:#5a5144">كما تصوّره الشاشة 🎬</div></div>
     <img id="xm" src="img/cross_mark.png">
-    <div id="stamp">مش حقيقي!</div>
+    <div id="stamp">ليس حقيقيًّا!</div>
     <div id="grain"></div><div id="scan"></div><div id="scratch"></div><div id="vigM"></div>
     <div class="strip" style="left:0"></div><div class="strip" style="right:0"></div>
     <div class="pill" id="pM"><img src="img/clapper_board.png">في الأفلام والمسلسلات</div>
   </div>
   <div id="burst"></div>
-  <div id="bridge"><div id="bq1">طب.. والواقع؟</div><img id="bicon" src="img/gem_mosque.png"></div>
-  <div id="kin"><div id="k1">أي حاجة مبتغضبش ربنا..</div><br><div id="k2">عيشها!</div></div>
+  <div id="bridge"><div id="bq1">فماذا عن الواقع؟</div><img id="bicon" src="img/gem_mosque.png"></div>
+  <div id="kin"><div id="k1">ما دامت لا تُغضب الله..</div><br><div id="k2">فعِشها!</div></div>
   <svg id="ovl" class="layer" width="1080" height="1920" viewBox="0 0 1080 1920" style="z-index:10"><g id="g-under"><path class="s o" style="stroke-width:12" d="M250,505 C420,530 660,528 830,500"/></g></svg>
   <img id="logoEnd" src="logo.png">
-  <div id="follow">تابعنا لمحتوى أكتر 👇</div>
+  <div id="follow">تابعنا للمزيد 👇</div>
   <div id="caps"><div id="capbox"></div></div>
   <img id="wm" src="logo.png">
   <div id="vig"></div>
@@ -135,18 +135,18 @@ const ringR=P_(FIN,'M540,480 A440,440 0 0 1 540,1360','');ringR.setAttribute('fi
 
 // movie tags (what the movies say)
 function tag(txt,x,y){const d=document.createElement('div');d.className='tag tagM';d.textContent=txt;d.style.left=x+'px';d.style.top=y+'px';d.style.opacity=0;$('tags').appendChild(d);return d;}
-const TAGS=[[tag('مكشّر 😠',120,330),MA[0]+2.2,MA[1]],[tag('قافل على نفسه',640,330),MA[0]+3.0,MA[1]],
-            [tag('بيزعّق',700,330),MA[1]+2.0,MA[2]],[tag('بيخاصم الناس',90,330),MA[1]+2.8,MA[2]],
-            [tag('لوحده',120,330),MA[2]+2.2,MX+2],[tag('معزول',760,330),MA[2]+3.0,MX+2]];
+const TAGS=[[tag('عابس 😠',120,330),MA[0]+2.2,MA[1]],[tag('منغلق على نفسه',600,330),MA[0]+3.0,MA[1]],
+            [tag('يصرخ',740,330),MA[1]+2.0,MA[2]],[tag('يخاصم الناس',90,330),MA[1]+2.8,MA[2]],
+            [tag('وحيد',120,330),MA[2]+2.2,MX+2],[tag('معزول',760,330),MA[2]+3.0,MX+2]];
 // reality icons
 const RI=$('realIcons');
 const ICONS=[ // el, t0, t1
  [icon(RI,'img/gem_mat.png',50,380,200,'صلاته'),RA[0]+2.0,RA[1]],[icon(RI,'img/gem_mosque.png',820,380,220,'مسجده'),RA[0]+2.4,RA[1]],
  [icon(RI,'img/gem_calendar.png',40,860,210,'صيامه'),RA[0]+3.0,RA[1]],[icon(RI,'img/gem_moon.png',830,860,210,'قيام الليل'),RA[0]+3.6,RA[1]],
- [icon(RI,'img/gem_coffee.png',60,360,250,'قهوة مع الصحاب'),RA[1]+1.6,RA[2]],[icon(RI,'img/gem_laugh.png',830,380,200,'ضحك وهزار'),RA[1]+2.0,RA[2]],
+ [icon(RI,'img/gem_coffee.png',60,360,250,'قهوة مع الأصدقاء'),RA[1]+1.6,RA[2]],[icon(RI,'img/gem_laugh.png',830,380,200,'ضحك ومزاح'),RA[1]+2.0,RA[2]],
  [icon(RI,'img/gem_controller.png',360,1230,360,''),RA[1]+3.4,RA[2]],
  [icon(RI,'img/gem_parents.png',30,370,280,'أهله'),RA[2]+0.6,F],[icon(RI,'img/red_heart.png',860,380,170,'بِرّ'),RA[2]+1.2,F],
- [icon(RI,'img/laptop.png',50,880,220,'شغله'),RA[2]+2.3,F],[icon(RI,'img/soccer_ball.png',850,890,180,'رياضة'),RA[2]+3.2,F],
+ [icon(RI,'img/laptop.png',50,880,220,'عمله'),RA[2]+2.3,F],[icon(RI,'img/soccer_ball.png',850,890,180,'رياضة'),RA[2]+3.2,F],
 ];
 const FI=$('finIcons');
 const RING=[['img/gem_moon.png',212,190],['img/gem_mat.png',180,165],['img/gem_mosque.png',148,190],['img/gem_controller.png',-32,210],['img/gem_coffee.png',0,200],['img/gem_parents.png',32,190]]
@@ -164,15 +164,15 @@ const WIN={m1x:[MA[0],MA[1]],m1:[MA[0],MA[1]],m2:[MA[1],MA[2]],m3x:[MA[2],BR+.2]
 Object.keys(WIN).forEach(prep);
 
 // captions = voiceover
-const CAPS=[[.3,2.9,'في الأفلام والمسلسلات.. المتدين ليه صورة واحدة'],
- [MA[0]+.4,MA[1]-.2,'دايماً مكشّر.. وقافل على نفسه'],
- [MA[1]+.3,MA[2]-.2,'بيزعّق في الناس.. وبيخاصم الدنيا كلها'],
- [MA[2]+.3,MX-.1,'وعايش لوحده.. معزول عن الحياة'],
- [MX+.1,BR,'بس ده مش حقيقي!'],
- [RA[0]+.3,RA[1]-.1,'المتدين الحقيقي بيصلّي وبيصوم وبيقوم الليل.. وقلبه مرتاح'],
- [RA[1]+.2,RA[2]-.1,'وبيضحك ويهزّر مع صحابه.. ويلعبوا بلايستيشن كمان!'],
- [RA[2]+.2,F-.1,'بيحب أهله وبيبرّهم.. وبيذاكر ويشتغل ويلعب رياضة'],
- [F+.35,F+3.4,'التدين عمره ما كان تشدد ولا انعزال..'],[F+3.45,F+4.75,'القاعدة بسيطة:']];
+const CAPS=[[.3,2.95,'في الأفلام والمسلسلات.. للمتديّن صورةٌ واحدة'],
+ [MA[0]+.4,MA[1]-.2,'دائمًا عابس الوجه.. منغلقٌ على نفسه'],
+ [MA[1]+.3,MA[2]-.2,'يصرخ في الناس.. ويخاصم الدنيا كلها'],
+ [MA[2]+.3,MX-.1,'ويعيش وحيدًا.. معزولًا عن الحياة'],
+ [MX+.1,BR,'لكنّ هذا ليس حقيقيًّا!'],
+ [RA[0]+.3,RA[1]-.1,'المتديّن الحقيقي يصلّي ويصوم ويقوم الليل.. وقلبه مطمئن'],
+ [RA[1]+.2,RA[2]-.1,'يضحك ويمزح مع أصدقائه.. بل ويلعبون البلايستيشن أيضًا!'],
+ [RA[2]+.2,F-.1,'يحب أهله ويبرّهم.. ويجتهد في دراسته وعمله ويمارس الرياضة'],
+ [F+.35,F+3.25,'التديّن لم يكن يومًا تشدّدًا ولا انعزالًا..'],[F+3.3,F+4.55,'القاعدة بسيطة:']];
 let capIdx=-2;
 function captions(t){const box=$('capbox');const k=CAPS.findIndex(c=>t>=c[0]&&t<c[1]);
   if(k!==capIdx){capIdx=k;box.innerHTML='';if(k>=0)CAPS[k][2].split(' ').forEach(w=>{const s=document.createElement('span');s.textContent=w;box.appendChild(s);});}
