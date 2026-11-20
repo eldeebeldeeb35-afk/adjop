@@ -9,7 +9,7 @@ const path=require('path');
     const ts=process.argv[3].split(',').map(Number);
     for(const t of ts){ await p.evaluate(t=>seek(t),t); await p.screenshot({path:`prev_${t}.jpg`,quality:80,type:'jpeg'}); }
   } else {
-    const fps=30, N=900; const out=process.stdout;
+    const fps=+(process.env.FPS||30), N=+(process.env.DUR||30)*fps; const out=process.stdout;
     for(let i=0;i<N;i++){ await p.evaluate(t=>seek(t),i/fps); const buf=await p.screenshot({type:'jpeg',quality:95});
       await new Promise(r=>out.write(buf,r)); if(i%90===0) process.stderr.write('frame '+i+'\n'); }
   }

@@ -11,6 +11,10 @@
   #cam{position:absolute;left:0;top:0;width:1080px;height:1920px;transform-origin:540px 930px}
   #sk{position:absolute;left:0;top:0}
   .s{stroke:#151515;stroke-width:8;stroke-linecap:round;stroke-linejoin:round}
+  .s.o{stroke-width:9.5}
+  .s.d{stroke-width:4.5}
+  .s.brow{stroke-width:11}
+  .s.guide{stroke:transparent}
   .s:not(.f){fill:none}
   .hz{stroke:#2a2a2a;stroke-width:5;fill:none;stroke-linecap:round;stroke-linejoin:round;opacity:.75}
   .ic{position:absolute;transform-origin:center center;will-change:transform}
@@ -43,6 +47,9 @@
   #follow{position:absolute;left:0;right:0;top:1760px;text-align:center;font-family:Cairo;font-weight:900;font-size:44px;color:#151515;opacity:0;direction:rtl}
   #wm{position:absolute;right:40px;top:40px;width:110px;opacity:.95}
   .conf{position:absolute;width:18px;height:10px;border-radius:3px}
+  #vig{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 45%,rgba(0,0,0,0) 55%,rgba(0,0,0,.22) 100%)}
+  #grain{position:absolute;left:-60px;top:-60px;width:1200px;height:2040px;background:url(img/grain.png);background-size:540px 960px;opacity:.07;mix-blend-mode:overlay}
+  #leak{position:absolute;inset:0;opacity:0;mix-blend-mode:screen;background:radial-gradient(circle at 15% 20%,rgba(255,170,60,.55),rgba(255,170,60,0) 40%),radial-gradient(circle at 90% 75%,rgba(255,80,140,.4),rgba(255,80,140,0) 45%)}
 </style>
 </head>
 <body>
@@ -79,8 +86,25 @@
      <path id="ringR" d="M540,500 A430,430 0 0 1 540,1360" fill="none" stroke="#ff7a45" stroke-width="20" stroke-linecap="round" opacity="0"/>
      <g id="g-fL" transform="translate(170,990) scale(.6)"></g>
      <g id="g-fR" transform="translate(910,990) scale(.6)"></g>
+     <g id="g-chart">
+       <path class="s o" d="M95,1000 L95,1255 L345,1255"/>
+       <path class="s d" d="M125,1255 L125,1205 L160,1205 L160,1255 M185,1255 L185,1170 L220,1170 L220,1255 M245,1255 L245,1125 L280,1125 L280,1255"/>
+       <path class="s o" style="stroke:#14a06a" d="M115,1175 L180,1120 L230,1140 L320,1030"/>
+       <path class="s o" style="stroke:#14a06a" d="M286,1032 L322,1028 L318,1064"/>
+     </g>
+     <g id="g-dumb">
+       <path class="s o" d="M818,1185 L992,1185"/>
+       <path class="s o f" fill="#ffffff" d="M832,1140 L856,1140 L856,1230 L832,1230 Z M954,1140 L978,1140 L978,1230 L954,1230 Z"/>
+       <path class="s o f" fill="#ffffff" d="M808,1158 L832,1158 L832,1212 L808,1212 Z M978,1158 L1002,1158 L1002,1212 L978,1212 Z"/>
+     </g>
      <g id="g-man" transform="translate(540,780)"></g>
    </g>
+   <defs><clipPath id="qc1"><rect id="qr1" x="1040" y="300" width="0" height="140"/></clipPath><clipPath id="qc2"><rect id="qr2" x="1040" y="440" width="0" height="140"/></clipPath></defs>
+   <g id="quoteTxt" style="font-family:Marhey;font-weight:700;font-size:80px" fill="#151515" text-anchor="middle">
+     <text x="540" y="405" clip-path="url(#qc1)" direction="rtl">«تبسُّمك في وجه أخيك</text>
+     <text x="540" y="535" clip-path="url(#qc2)" direction="rtl">لك صدقة»</text>
+   </g>
+   <g id="g-quote"></g>
   </svg>
 
   <!-- worship / life cards -->
@@ -128,6 +152,16 @@
   <div class="ic" id="xmark" style="left:190px;top:600px;width:700px;opacity:0"><img src="img/cross_mark.png"></div>
   <div class="ic" id="unamused" style="left:120px;top:1040px;width:150px;opacity:0"><img src="img/unamused_face.png"></div>
   <div id="confetti"></div>
+  <div class="ic n4" id="iLap" style="left:60px;top:420px;width:240px;opacity:0"><img src="img/laptop.png"><div class="lab">شغل ودراسة</div></div>
+  <div class="ic n4" id="iCap" style="left:425px;top:235px;width:230px;opacity:0"><img src="img/graduation_cap.png"><div class="lab" style="bottom:auto;top:-62px">طموح ونجاح</div></div>
+  <div class="ic n4" id="iBall" style="left:790px;top:430px;width:220px;opacity:0"><img src="img/soccer_ball.png"><div class="lab">رياضة</div></div>
+  <div class="ic n4" id="iTroph" style="left:255px;top:890px;width:130px;opacity:0"><img src="img/trophy.png"></div>
+  <div class="ic n4" id="iBic" style="left:700px;top:930px;width:150px;opacity:0"><img src="img/flexed_biceps.png"></div>
+  <div class="ic n5" id="iFam" style="left:40px;top:430px;width:290px;height:200px;opacity:0"><img src="img/old_woman.png" style="position:absolute;width:175px;left:-10px;top:0"><img src="img/old_man.png" style="position:absolute;width:175px;left:130px;top:0"><div class="lab" style="bottom:-30px">أهلي</div></div>
+  <div class="ic n5" id="iHouse" style="left:425px;top:235px;width:230px;opacity:0"><img src="img/house_with_garden.png"><div class="lab" style="bottom:auto;top:-62px">لمّة البيت</div></div>
+  <div class="ic n5" id="iHelp" style="left:790px;top:430px;width:220px;opacity:0"><img src="img/heart_hands.png"><div class="lab">بساعد غيري</div></div>
+  <div class="ic n5" id="iLove" style="left:720px;top:900px;width:140px;opacity:0"><img src="img/smiling_face_with_hearts.png"></div>
+  <div class="ic" id="iProphet" style="left:0;right:0;top:575px;opacity:0;text-align:center;font-family:Cairo;font-weight:900;font-size:44px;color:#14a06a;width:1080px;direction:rtl">— رسول الله ﷺ</div>
  </div>
 
  <!-- screen-space layers -->
@@ -144,7 +178,7 @@
  <img id="wm" src="logo.png">
  <div id="wipe"></div>
  <img id="hand" src="img/hand_long.png">
- <div id="redv"></div>
+ <div id="leak"></div><div id="vig"></div><div id="grain"></div><div id="redv"></div>
  <div id="flash"></div>
  <div id="bar"></div>
 </div>
@@ -162,52 +196,79 @@ const elastic=x=>{x=clamp(x);if(x===0||x===1)return x;return Math.pow(2,-10*x)*M
 // ---------- doodle person builder ----------
 function P_(g,d,cls='s',fill){const p=document.createElementNS(NS,'path');p.setAttribute('d',d);p.setAttribute('class',cls);if(fill){p.setAttribute('fill',fill);} g.appendChild(p);return p;}
 function person(g,o){
-  // fill-only layers first (they fade in, never stroked)
-  const fills={};
-  fills.shirt=P_(g,'M-28,155 C-70,160 -120,175 -145,205 C-160,225 -168,300 -170,480 L170,480 C168,300 160,225 145,205 C120,175 70,160 28,155 C15,180 -15,180 -28,155 Z','fo','#ffffff');
-  fills.skin=P_(g,'M-100,-40 C-102,40 -70,110 0,120 C70,110 102,40 100,-40 C100,-130 -100,-130 -100,-40 Z M-25,110 L-28,160 L28,160 L25,110 Z','fo','#ffffff');
-  // strokes in drawing order
-  P_(g,'M-100,-40 C-102,40 -70,110 0,120 C70,110 102,40 100,-40');
-  if(o.hair==='spiky') fills.hair=P_(g,'M-108,-22 C-126,-100 -92,-162 -30,-170 C-18,-192 22,-196 42,-176 C82,-180 116,-140 110,-70 C112,-50 108,-36 100,-24 C90,-60 74,-80 54,-86 C48,-70 34,-60 18,-62 C24,-76 18,-88 10,-92 C-2,-70 -42,-60 -70,-64 C-86,-60 -100,-44 -108,-22 Z','s f','#ffffff');
-  else if(o.hair==='curly') fills.hair=P_(g,'M-104,-26 C-120,-70 -110,-120 -80,-130 C-70,-160 -30,-170 -10,-155 C10,-175 55,-170 70,-145 C100,-140 118,-100 104,-26 C95,-60 85,-78 60,-90 C30,-75 -30,-75 -60,-92 C-82,-80 -96,-60 -104,-26 Z','s f','#ffffff');
-  else fills.hair=P_(g,'M-104,-30 C-112,-110 -60,-150 0,-150 C60,-150 112,-110 104,-30 C95,-70 80,-90 60,-95 C40,-80 -40,-80 -60,-95 C-80,-90 -95,-70 -104,-30 Z','s f','#ffffff');
-  P_(g,'M-100,-15 C-122,-25 -128,5 -118,25 C-110,40 -98,40 -94,34');
-  P_(g,'M100,-15 C122,-25 128,5 118,25 C110,40 98,40 94,34');
-  if(o.mood==='sad'){P_(g,'M-66,-38 L-22,-20');P_(g,'M66,-38 L22,-20');}
-  else {P_(g,'M-62,-26 C-50,-36 -32,-36 -22,-29');P_(g,'M22,-29 C32,-36 50,-36 62,-26');}
-  if(o.mood==='laugh'){P_(g,'M-58,4 C-48,-10 -36,-10 -26,4');P_(g,'M26,4 C36,-10 48,-10 58,4');}
-  else {P_(g,'M-42,2 m-8,0 a8,11 0 1 0 16,0 a8,11 0 1 0 -16,0','s f','#151515');P_(g,'M42,2 m-8,0 a8,11 0 1 0 16,0 a8,11 0 1 0 -16,0','s f','#151515');}
-  P_(g,'M2,12 C-5,36 -10,46 6,50');
-  if(o.mood==='sad') P_(g,'M-36,84 C-16,64 18,64 38,84');
-  else if(o.mood==='laugh') fills.mouth=P_(g,'M-44,60 C-32,112 32,112 44,60 Z','s f','#ffffff');
-  else P_(g,'M-42,66 C-20,94 22,94 44,63');
-  if(o.mood!=='sad'&&o.mood!=='laugh') P_(g,'M-60,58 C-56,62 -52,64 -48,64 M60,56 C56,60 52,62 48,62');
-  if(o.beard) P_(g,'M-98,-10 C-96,60 -60,128 0,132 C60,128 96,60 98,-10');
-  P_(g,'M-25,118 L-28,155 M25,118 L28,155');
-  P_(g,'M-28,155 C-70,160 -120,175 -145,205 C-160,225 -168,300 -170,480');
-  P_(g,'M28,155 C70,160 120,175 145,205 C160,225 168,300 170,480');
-  P_(g,'M-28,155 C-15,182 15,182 28,155');
-  P_(g,'M-170,480 L170,480');
-  const arms=document.createElementNS(NS,'g'); g.appendChild(arms);
+  const fills={};const O='s o',D='s d';
+  const fo=(d,c,op)=>{const p=P_(g,d,'fo',c);if(op!==undefined)p.dataset.op=op;return p;};
+  // ---- fill layers (fade in after line art) ----
+  fills.shirt=fo('M-30,150 C-80,156 -130,170 -152,200 C-166,222 -172,300 -172,480 L172,480 C172,300 166,222 152,200 C130,170 80,156 30,150 C16,178 -16,178 -30,150 Z','#ffffff');
+  fills.skin=fo('M-98,-30 C-100,40 -72,108 0,118 C72,108 100,40 98,-30 C98,-130 -98,-130 -98,-30 Z M-28,108 L-30,156 L30,156 L28,108 Z M-97,-8 C-124,-20 -130,18 -116,34 C-108,44 -98,42 -93,36 Z M97,-8 C124,-20 130,18 116,34 C108,44 98,42 93,36 Z','#ffffff');
+  if(o.arms!=='cross'){
+    fills.armL=fo(o.arms==='play'?'':'M-172,318 C-186,370 -190,420 -186,460 C-192,492 -178,512 -160,512 C-140,512 -132,490 -136,460 C-134,420 -130,370 -124,322 Z','#ffffff');
+    fills.armR=fo(o.arms==='play'?'':'M172,318 C186,370 190,420 186,460 C192,492 178,512 160,512 C140,512 132,490 136,460 C134,420 130,370 124,322 Z','#ffffff');
+  }
+  if(o.beard) fills.beard=fo('M-96,-2 C-94,64 -58,130 0,134 C58,130 94,64 96,-2 C88,36 66,62 44,66 C22,80 -22,80 -44,66 C-66,62 -88,36 -96,-2 Z','#ffffff');
+  // cel shading (colour phase only)
+  const shade=[];
+  shade.push(fo('M-98,-30 C-60,-8 -20,-14 10,-38 C40,-18 80,-12 98,-30 L98,-44 L-98,-44 Z','#000','.13'));
+  shade.push(fo('M-28,112 C-10,142 10,142 28,112 L30,156 L-30,156 Z','#000','.2'));
+  shade.push(fo('M172,480 C172,300 166,222 152,200 C140,260 124,380 116,480 Z','#000','.13'));
+  shade.push(fo('M-62,52 m-20,0 a20,10 0 1 0 40,0 a20,10 0 1 0 -40,0 M62,52 m-20,0 a20,10 0 1 0 40,0 a20,10 0 1 0 -40,0','#ff6b6b','.35'));
+  fills.shade=shade;
+  // ---- line art in drawing order ----
+  P_(g,'M-98,-30 C-100,40 -72,108 0,118 C72,108 100,40 98,-30',O);
+  const H={spiky:'M-108,-22 C-126,-100 -92,-162 -30,-170 C-18,-192 22,-196 42,-176 C82,-180 116,-140 110,-70 C112,-50 108,-36 100,-24 C90,-60 74,-80 54,-86 C48,-70 34,-60 18,-62 C24,-76 18,-88 10,-92 C-2,-70 -42,-60 -70,-64 C-86,-60 -100,-44 -108,-22 Z',
+     curly:'M-104,-26 C-122,-70 -112,-122 -82,-132 C-72,-162 -30,-172 -10,-156 C10,-178 56,-172 70,-146 C102,-140 120,-100 104,-26 C96,-60 84,-78 60,-90 C30,-74 -30,-74 -60,-92 C-82,-80 -96,-60 -104,-26 Z',
+     round:'M-104,-30 C-112,-112 -60,-152 0,-152 C60,-152 112,-112 104,-30 C95,-70 80,-90 60,-96 C40,-80 -40,-80 -60,-96 C-80,-90 -95,-70 -104,-30 Z'};
+  fills.hair=P_(g,H[o.hair],'s o f','#ffffff');
+  if(o.hair==='spiky')P_(g,'M-62,-124 C-50,-104 -40,-92 -26,-84 M8,-152 C16,-128 22,-110 28,-98 M62,-132 C72,-112 78,-96 80,-82',D);
+  else P_(g,'M-60,-112 C-46,-104 -36,-102 -24,-104 M20,-120 C34,-112 46,-110 58,-114',D);
+  P_(g,'M-97,-8 C-124,-20 -130,18 -116,34 C-108,44 -98,42 -93,36',O);
+  P_(g,'M97,-8 C124,-20 130,18 116,34 C108,44 98,42 93,36',O);
+  P_(g,'M-108,6 C-114,12 -112,22 -104,26 M108,6 C114,12 112,22 104,26',D);
+  if(o.mood==='sad')P_(g,'M-68,-44 C-52,-34 -36,-26 -20,-20 M68,-44 C52,-34 36,-26 20,-20','s o brow');
+  else P_(g,'M-66,-30 C-54,-44 -32,-44 -20,-34 M20,-34 C32,-44 54,-44 66,-30','s o brow');
+  if(o.mood==='laugh'){P_(g,'M-58,6 C-48,-10 -34,-10 -24,6 M24,6 C34,-10 48,-10 58,6',O);}
+  else{
+    P_(g,'M-40,4 m-15,0 a15,18 0 1 0 30,0 a15,18 0 1 0 -30,0 M40,4 m-15,0 a15,18 0 1 0 30,0 a15,18 0 1 0 -30,0','s d f','#ffffff');
+    P_(g,'M-36,9 m-8,0 a8,10 0 1 0 16,0 a8,10 0 1 0 -16,0 M44,9 m-8,0 a8,10 0 1 0 16,0 a8,10 0 1 0 -16,0','s d f','#151515');
+    fo('M-33,4 m-3,0 a3,3 0 1 0 6,0 a3,3 0 1 0 -6,0 M47,4 m-3,0 a3,3 0 1 0 6,0 a3,3 0 1 0 -6,0','#ffffff');
+    if(o.mood==='sad')P_(g,'M-56,-6 C-44,-12 -32,-12 -24,-8 M24,-8 C32,-12 44,-12 56,-6',D);
+  }
+  P_(g,'M4,16 C-2,34 -10,44 4,48 C10,50 14,48 16,44',D);
+  if(o.beard)P_(g,'M-96,-2 C-94,64 -58,130 0,134 C58,130 94,64 96,-2',D);
+  if(o.mood==='sad')P_(g,'M-34,88 C-14,70 18,70 36,88',O);
+  else{fills.mouth=P_(g,'M-42,62 C-22,100 22,100 44,60 C22,72 -22,72 -42,62 Z','s o f','#ffffff');
+       P_(g,'M-50,58 C-48,62 -44,64 -40,64 M50,56 C48,60 44,62 40,62',D);}
+  P_(g,'M-28,112 L-30,152 M28,112 L30,152',O);
+  P_(g,'M-30,150 C-80,156 -130,170 -152,200 C-166,222 -172,300 -172,480',O);
+  P_(g,'M30,150 C80,156 130,170 152,200 C166,222 172,300 172,480',O);
+  P_(g,'M-30,150 C-16,178 16,178 30,150',O);
+  P_(g,'M-38,148 C-20,192 20,192 38,148',D);
+  P_(g,'M-172,480 L172,480',O);
+  P_(g,'M-60,300 C-50,340 -48,380 -56,420 M70,320 C62,350 60,380 66,410 M-20,440 C-10,452 6,456 20,452',D);
+  const arms=document.createElementNS(NS,'g');g.appendChild(arms);
   if(o.arms==='cross'){
-    P_(arms,'M-150,215 C-195,290 -150,335 -60,322 C10,312 80,300 140,292');
-    P_(arms,'M-136,300 C-100,350 20,352 130,336');
-    P_(arms,'M150,215 C195,290 150,335 60,322');
-    P_(arms,'M138,292 m-22,22 a24,24 0 1 0 48,0 a24,24 0 1 0 -48,0');
+    P_(arms,'M-150,215 C-195,290 -150,335 -60,322 C10,312 80,300 140,292',O);
+    P_(arms,'M-136,300 C-100,350 20,352 130,336',O);
+    P_(arms,'M150,215 C195,290 150,335 60,322',O);
+    P_(arms,'M138,292 m-22,22 a24,24 0 1 0 48,0 a24,24 0 1 0 -48,0',O);
+    P_(arms,'M-100,322 C-96,330 -92,336 -84,340 M40,318 C44,326 48,332 56,336',D);
   } else {
-    P_(arms,'M-145,205 C-178,260 -190,360 -188,440 M-128,272 C-136,330 -140,390 -140,440 M-188,440 C-192,476 -180,500 -164,502 C-146,503 -138,478 -140,440');
-    P_(arms,'M145,205 C178,260 190,360 188,440 M128,272 C136,330 140,390 140,440 M188,440 C192,476 180,500 164,502 C146,503 138,478 140,440');
+    P_(arms,'M-138,212 C-128,250 -122,290 -124,320 M138,212 C128,250 122,290 124,320',D);
+    P_(arms,'M-176,318 C-158,328 -140,328 -122,320 M176,318 C158,328 140,328 122,320',O);
+    P_(arms,'M-172,320 C-186,370 -190,420 -186,460 M-124,322 C-130,370 -134,420 -136,460 M-186,460 C-192,492 -178,512 -160,512 C-140,512 -132,490 -136,460 M-136,470 C-128,474 -126,486 -132,494',O);
+    P_(arms,'M172,320 C186,370 190,420 186,460 M124,322 C130,370 134,420 136,460 M186,460 C192,492 178,512 160,512 C140,512 132,490 136,460 M136,470 C128,474 126,486 132,494',O);
   }
   return {fills,arms};
 }
 const SAD=person($('g-sad'),{hair:'spiky',mood:'sad',arms:'cross'});
 const MAN=person($('g-man'),{hair:'spiky',mood:'happy',arms:'down',beard:true});
-// playing arms (separate group inside man)
 const playG=document.createElementNS(NS,'g'); playG.setAttribute('id','g-play'); $('g-man').appendChild(playG);
-P_(playG,'M-145,205 C-190,280 -170,340 -70,338 M-128,272 C-130,312 -112,318 -74,316');
-P_(playG,'M145,205 C190,280 170,340 70,338 M128,272 C130,312 112,318 74,316');
+P_(playG,'M-138,212 C-128,250 -122,290 -124,320 M138,212 C128,250 122,290 124,320','s d');
+P_(playG,'M-176,318 C-170,380 -130,392 -70,380 M-122,322 C-118,344 -100,350 -76,348','s o');
+P_(playG,'M176,318 C170,380 130,392 70,380 M122,322 C118,344 100,350 76,348','s o');
 const FL=person($('g-fL'),{hair:'curly',mood:'laugh',arms:'down'});
 const FR=person($('g-fR'),{hair:'round',mood:'laugh',arms:'down'});
+
 
 // hatch scribble for the dark room
 (function(){let d='';let y=585;let dir=1;while(y<1310){const x0=dir>0?312:768,x1=dir>0?768:312;d+=(d?' L':'M')+x0+','+y+' L'+x1+','+(y+18);y+=26;dir*=-1;}
@@ -224,17 +285,22 @@ function drawAt(id,p){const D=DRAW[id];let rem=p*D.tot;let tip=null;
   D.els.forEach((e,i)=>{const L=D.lens[i];const seg=clamp(rem/L);rem-=L;e.style.strokeDashoffset=L*(1-seg);
     if(e.classList.contains('f'))e.style.fillOpacity=clamp((p-.6)/.35);
     if(seg>0&&seg<1&&!tip){const q=e.getPointAtLength(L*seg);tip=new DOMPoint(q.x,q.y).matrixTransform(e.getScreenCTM());}});
-  D.fo.forEach(e=>e.style.fillOpacity=clamp((p-.6)/.35));
+  D.fo.forEach(e=>e.style.fillOpacity=clamp((p-.6)/.35)*(e.dataset.op?+e.dataset.op:1));
   return tip;}
 function pointAt(id,p){ // screen point at fraction p of a group's total stroke
   const D=DRAW[id];let rem=clamp(p,0.0005,0.9995)*D.tot;
   for(let i=0;i<D.els.length;i++){const L=D.lens[i];if(rem<=L){const q=D.els[i].getPointAtLength(rem);return new DOMPoint(q.x,q.y).matrixTransform(D.els[i].getScreenCTM());}rem-=L;}
 }
-['g-door','g-sad','g-hatch','g-clap','g-man','g-play','g-fL','g-fR','g-ring','g-hookline','g-under'].forEach(prep);
+// writing guides for the hand (right-to-left along each text line, with a small squiggle)
+(function(){const g=$('g-quote');
+  const mk=(x0,x1,y)=>{let d=`M${x0},${y}`;for(let x=x0-24,k=0;x>=x1;x-=24,k++)d+=` L${x},${y+(k%2?-22:8)}`;const p=P_(g,d,'s guide');return p;};
+  const b1=$('quoteTxt').children[0].getBBox(), b2=$('quoteTxt').children[1].getBBox();
+  window.QB=[b1,b2]; mk(b1.x+b1.width,b1.x,385); mk(b2.x+b2.width,b2.x,515);})();
+['g-door','g-sad','g-hatch','g-clap','g-man','g-play','g-fL','g-fR','g-ring','g-hookline','g-under','g-chart','g-dumb','g-quote'].forEach(prep);
 
 // segments: [group, start, duration]
 const SEG=[['g-door',0.25,0.55],['g-hookline',0.9,0.25],['g-sad',1.2,1.15],['g-hatch',2.35,0.35],['g-clap',2.7,0.32],
-           ['g-man',5.1,1.75],['g-fL',14.6,0.6],['g-fR',15.25,0.6],['g-play',19.05,0.4],['g-ring',22.3,0.8],['g-under',27.55,0.35]];
+           ['g-man',4.75,2.0],['g-fL',14.6,0.6],['g-fR',15.25,0.6],['g-play',19.05,0.4],['g-chart',23.0,1.1],['g-dumb',26.0,0.8],['g-quote',38.5,2.6],['g-ring',42.3,0.8],['g-under',47.55,0.35]];
 
 // ---------- captions ----------
 const CAPS=[
@@ -246,8 +312,14 @@ const CAPS=[
  [13.1,16.3,'وفي نفس الوقت بهزر وأضحك،',['بهزر','وأضحك،']],
  [16.3,19.0,'بخرج وأتفسح مع صحابي،',['صحابي،']],
  [19.0,21.9,'وبنلعب بلايستيشن عادي جداً!',['بلايستيشن']],
- [22.2,24.9,'التدين عمره ما كان تشدد ولا انعزال..',['تشدد','انعزال..']],
- [24.9,26.3,'القاعدة بسيطة:',['بسيطة:']],
+ [22.2,25.4,'وبذاكر وبشتغل بضمير.. وبحلم أنجح،',['بضمير..','أنجح،']],
+ [25.4,28.6,'وبلعب رياضة وبحافظ على صحتي،',['رياضة','صحتي،']],
+ [28.6,31.9,'لأن المؤمن القوي خير وأحب إلى الله!',['القوي','الله!']],
+ [32.2,35.4,'وبقعد مع أهلي وبهزر معاهم وببرّهم،',['أهلي','وببرّهم،']],
+ [35.4,38.4,'وبساعد اللي محتاج.. وبضحك في وش الناس،',['وبساعد','وبضحك']],
+ [38.4,41.9,'والنبي ﷺ قال: تبسُّمك في وجه أخيك لك صدقة',['صدقة']],
+ [42.2,44.9,'التدين عمره ما كان تشدد ولا انعزال..',['تشدد','انعزال..']],
+ [44.9,46.3,'القاعدة بسيطة:',['بسيطة:']],
 ];
 let capIdx=-2;
 function captions(t){const box=$('caps');const k=CAPS.findIndex(c=>t>=c[0]&&t<c[1]);
@@ -264,11 +336,11 @@ for(let i=0;i<60;i++){const d=document.createElement('div');d.className='conf';d
   CONF.push({d,x:540+(rnd()-.5)*200,y:930+(rnd()-.5)*200,vx:(rnd()-.5)*1700,vy:-600-rnd()*1300,r:rnd()*360,vr:(rnd()-.5)*900});}
 
 // ---------- ring icons (scene 4) ----------
-const RI=[['img/crescent_moon.png',212,150],['spiral',180,150],['img/prayer_beads.png',148,140],['img/video_game.png',-32,170],['img/hot_beverage.png',0,150],['img/party_popper.png',32,150]];
+const RI=[['img/crescent_moon.png',212,175],['spiral',180,175],['img/prayer_beads.png',148,165],['img/video_game.png',-32,195],['img/hot_beverage.png',0,175],['img/party_popper.png',32,175]];
 const RIel=RI.map(([src,ang,w])=>{const d=document.createElement('div');d.className='ic';d.style.width=w+'px';const im=document.createElement('img');im.src=src==='spiral'?'img/spiral_calendar.png':src;d.appendChild(im);$('ringIcons').appendChild(d);return {d,ang,w};});
 
 // ---------- main ----------
-function seek(t){
+function handAt(t){
   // ===== hand: active segment / approach / leave =====
   let hp=null;
   const OFF={x:1250,y:2300};
@@ -287,13 +359,19 @@ function seek(t){
     else if(next&&t>tb-ENTER){const q=eio((t-(tb-ENTER))/ENTER);tip={x:OFF.x+(ns.x-OFF.x)*q,y:OFF.y+(ns.y-OFF.y)*q};}
   }
   const H=$('hand');
-  if(tip){const wob=Math.sin(t*23)*1.2;H.style.opacity=1;H.style.transform=`translate(${tip.x-6*0.64}px,${tip.y-107*0.64}px) scale(.64) rotate(${wob}deg)`;}
+  let drawing=false; SEG.forEach(([id,s0,d])=>{if(t>=s0&&t<=s0+d)drawing=true;});
+  if(tip){const vx=window._pt?tip.x-window._pt.x:0; window._pt={x:tip.x,y:tip.y};
+    window._rot=(window._rot||0)*0.85+clamp(vx*0.35,-7,7)*0.15;
+    const lift=drawing?1:1.05; const wob=window._rot+Math.sin(t*23)*0.8;H.style.opacity=1;H.style.transform=`translate(${tip.x}px,${tip.y}px) rotate(${wob}deg) scale(${.64*lift}) translate(-6px,-107px)`;}
   else H.style.opacity=0;
+}
+function seek(tr){
+  const t= tr<22?tr:(tr<42?21.999:tr-20);
 
   // ===== scene visibility =====
-  const s1=t<4.75;
+  const s1=t<4.6;
   $('s1').style.display=s1?'':'none';
-  $('s2').setAttribute('opacity',t>=4.75?1:0);
+  $('s2').setAttribute('opacity',t>=4.6?1:0);
   // hook
   $('hook').style.opacity=t<4.5?eout(P(t,0.05,0.3)):0;
   $('hook').style.transform=`scale(${0.7+0.3*back(P(t,0.05,0.35))})`;
@@ -301,24 +379,23 @@ function seek(t){
 
   // X slam + glitch + shake
   const xq=P(t,3.05,0.3);
-  $('xmark').style.opacity=(xq>0&&t<4.75)?1:0;
+  $('xmark').style.opacity=(xq>0&&t<4.6)?1:0;
   $('xmark').style.transform=`scale(${xq>0?2.6-1.6*back(xq,2.4):0}) rotate(${(1-eout(xq))*-25}deg)`;
-  $('unamused').style.opacity=t>2.9&&t<4.75?1:0; $('unamused').style.transform=`scale(${back(P(t,2.9,.3))}) rotate(-10deg)`;
+  $('unamused').style.opacity=t>2.9&&t<4.6?1:0; $('unamused').style.transform=`scale(${back(P(t,2.9,.3))}) rotate(-10deg)`;
   const sh=(t>3.15&&t<3.8)?Math.exp(-(t-3.15)*6)*30:0;
   const glitch=(t>3.15&&t<3.45);
-  $('cam').style.filter=glitch?`drop-shadow(${8}px 0 0 rgba(255,0,60,.6)) drop-shadow(${-8}px 0 0 rgba(0,220,255,.6))`:'';
   $('redv').style.opacity=t>3.15&&t<4.6?Math.exp(-(t-3.15)*3):0;
 
   // eraser wipe 4.25-5.0
   const w=eio(P(t,4.25,0.75));
   $('wipe').style.left=(1250-2700*w)+'px';
-  $('wipe').style.display=(t>4.25&&t<5.0)?'':'none';
+  $('wipe').style.display='none';
 
   // ===== scene 2 =====
   const flipT=13.0;
   const cards=[['cMat',6.9],['cCal',8.1],['cMoon',10.0]];
   cards.forEach(([id,t0],i)=>{const q=P(t,t0,.55);const f=eio(P(t,flipT+i*.12,.6));const el=$(id);
-    el.style.opacity=(q>0&&t>=4.75)?1:0;
+    el.style.opacity=(q>0&&t>=4.6)?1:0;
     const bob=Math.sin(t*2.2+i*1.7)*8;
     let sc=back(q,2.2);
     if(t>=22){sc*=1-eout(P(t,22,.4));}
@@ -332,9 +409,14 @@ function seek(t){
   const cm=eio(P(t,13.0,.6));
   const lerpC=(a,b)=>`rgb(${a.map((v,i)=>Math.round(v+(b[i]-v)*cm)).join(',')})`;
   const W=[255,255,255];
-  MAN.fills.shirt.setAttribute('fill',lerpC(W,[255,122,69]));MAN.fills.skin.setAttribute('fill',lerpC(W,[244,201,160]));MAN.fills.hair.setAttribute('fill',lerpC(W,[40,32,28]));
-  FL.fills.shirt.setAttribute('fill','#fd79a8');FL.fills.skin.setAttribute('fill','#e9b48c');FL.fills.hair.setAttribute('fill','#6d4c41');FL.fills.mouth.setAttribute('fill','#c0392b');
-  FR.fills.shirt.setAttribute('fill','#0984e3');FR.fills.skin.setAttribute('fill','#f6d0ae');FR.fills.hair.setAttribute('fill','#2d3436');FR.fills.mouth.setAttribute('fill','#c0392b');
+  const paint=(F,c,k)=>{const L2=(x)=>{const W=[255,255,255];return `rgb(${W.map((v,i)=>Math.round(v+(x[i]-v)*k)).join(',')})`};
+    for(const [key,col] of Object.entries(c)){const el=F.fills[key];if(!el)continue;el.setAttribute('fill',L2(col));}
+    F.fills.shade.forEach(e=>e.style.opacity=k);};
+  const SKIN=[240,196,156];
+  paint(MAN,{shirt:[255,122,69],skin:SKIN,armL:SKIN,armR:SKIN,hair:[38,30,26],beard:[58,44,36],mouth:[150,40,40]},cm);
+  paint(FL,{shirt:[253,121,168],skin:[226,170,128],armL:[226,170,128],armR:[226,170,128],hair:[109,76,65],mouth:[150,40,40]},1);
+  paint(FR,{shirt:[9,132,227],skin:[246,208,174],armL:[246,208,174],armR:[246,208,174],hair:[45,52,54],mouth:[150,40,40]},1);
+  SAD.fills.shade.forEach(e=>e.style.opacity=0);
   // colour burst + confetti
   const bq=P(t,13.0,.7);$('burst').style.opacity=bq>0&&bq<1?1-bq:0;$('burst').style.width=$('burst').style.height=(10+2400*eout(bq))+'px';
   const ct=t-13.0;$('confetti').style.display=(ct>0&&ct<4)?'':'none';
@@ -350,7 +432,7 @@ function seek(t){
   $('car').style.transform=`translateX(${-320+1720*eio(cq)}px) translateY(${-Math.abs(Math.sin(t*14))*6}px)`;
   // play phase
   const play=t>=19.05&&t<22.0;
-  MAN.arms.style.opacity=play?0:1; $('g-play').style.opacity=play?1:0;
+  MAN.arms.style.opacity=play?0:1; MAN.fills.armL.style.display=play?'none':''; MAN.fills.armR.style.display=play?'none':''; $('g-play').style.opacity=play?1:0;
   const pq=P(t,19.2,.3);$('pad').style.opacity=play&&pq>0?1:0;
   $('pad').style.transform=`scale(${back(pq,2)}) rotate(${Math.sin(t*30)*3}deg) translate(${Math.sin(t*41)*3}px,0)`;
   const manBob=(t>13&&t<22)?Math.sin(t*(play?12:3.5))*(play?4:3):0;
@@ -358,11 +440,23 @@ function seek(t){
 
   // ===== scene 4: zoom out & ring =====
   const z=eio(P(t,21.9,1.0));
-  $('cam').style.transform=`translateY(${110*z}px) scale(${1-0.2*z})`;
+  // camera: whip-pan, slow push, punch zooms, shake
+  const w1=P(t,4.28,0.32), w2=P(t,4.6,0.38);
+  let camX=0; if(t<4.6) camX=-1300*Math.pow(w1,2.2); else camX=1300*Math.pow(1-eout(w2),1.6);
+  const whipBlur=t<4.6? 22*Math.pow(w1,1.5) : 22*Math.pow(1-w2,2);
+  const scStart=[0,4.6,13,22].filter(x=>x<=t).pop(); const scLen={0:4.6,4.6:8.4,13:9,22:8}[scStart];
+  const push=1+0.035*eio((t-scStart)/scLen);
+  let punch=1; [[3.05,.07],[7.25,.035],[8.55,.035],[10.05,.04],[13.0,.06],[15.3,.03],[19.25,.05],[27.0,.06]].forEach(([ti,a])=>{if(t>ti)punch+=a*Math.exp(-(t-ti)*4)*(1-Math.exp(-(t-ti)*45));});
+  const shx=Math.sin(t*95)*sh, shy=Math.cos(t*83)*sh;
+  $('cam').style.transform=`translate(${camX+shx}px,${110*z+shy}px) scale(${(1-0.2*z)*push*punch})`;
+  const gl=glitch?` drop-shadow(8px 0 0 rgba(255,0,60,.6)) drop-shadow(-8px 0 0 rgba(0,220,255,.6))`:'';
+  $('cam').style.filter=(whipBlur>0.3?`blur(${whipBlur}px)`:'')+gl;
+  $('leak').style.opacity=t>13&&t<22.4?0.55*eout(P(t,13,.5))*(1-eout(P(t,21.9,.5)))*(0.8+0.2*Math.sin(t*1.3)):0;
+  $('grain').style.transform=`translate(${Math.floor(rnd2(tr*60)*60)}px,${Math.floor(rnd2(tr*60+7)*60)}px)`;
   if(t>22){const h=1-eout(P(t,22,.4));$('g-fL').style.opacity=h;$('g-fR').style.opacity=h;} else {$('g-fL').style.opacity=1;$('g-fR').style.opacity=1;}
   $('g-ring').style.display=t>=22.3?'':'none';
   ['ringL','ringR'].forEach((id,i)=>{const e=$(id),L=e.getTotalLength();const q=eio(P(t,23.1+i*.1,.6));e.style.strokeDasharray=L;e.style.strokeDashoffset=L*(1-q);e.setAttribute('opacity',q>0?1:0);});
-  RIel.forEach((r,i)=>{const q=P(t,23.3+i*.15,.45);const a=r.ang*Math.PI/180;const R=430;const x=540-R*Math.cos(a)*(r.ang>90?1:-1)*(r.ang>90?1:1);
+  RIel.forEach((r,i)=>{const q=P(t,23.3+i*.15,.45);const a=r.ang*Math.PI/180+(r.ang>90?-1:1)*(t>24.2?Math.sin((t-24.2)*1.1)*0.06:0);const R=430;const x=540-R*Math.cos(a)*(r.ang>90?1:-1)*(r.ang>90?1:1);
     const cx=540+R*Math.cos(a), cy=930+R*Math.sin(a);
     r.d.style.left=(cx-r.w/2)+'px';r.d.style.top=(cy-r.w/2)+'px';r.d.style.opacity=q>0?1:0;
     r.d.style.transform=`scale(${back(q,2.2)}) translateY(${t>24?Math.sin(t*2+i)*6:0}px)`;});
@@ -381,21 +475,66 @@ function seek(t){
   $('follow').style.opacity=eout(P(t,28.6,.4));
   $('wm').style.opacity=t<28.2?0.95*eout(P(t,0.2,.4)):0.95*(1-eout(le));
   // flashes
-  const fl=Math.max(Math.exp(-Math.pow((t-4.62)/0.1,2))*0.9,Math.exp(-Math.pow((t-13.0)/0.08,2))*0.7,Math.exp(-Math.pow((t-27.05)/0.08,2))*0.6);
+  const fl=Math.max(Math.exp(-Math.pow((t-4.6)/0.06,2))*0.5,Math.exp(-Math.pow((t-13.0)/0.08,2))*0.7,Math.exp(-Math.pow((t-27.05)/0.08,2))*0.6);
   $('flash').style.opacity=fl;
   // progress
-  $('bar').style.width=(1080*t/30)+'px';
-  captions(t);
+  $('bar').style.width=(1080*tr/50)+'px';
+  midScenes(tr);
+  handAt(tr);
+  captions(tr);
+}
+function pop(id,t0,tOut,tr,bobK){const q=P(tr,t0,.5);const o=1-eout(P(tr,tOut,.35));const el=$(id);
+  el.style.opacity=(q>0&&o>0)?1:0;const b=Math.sin(tr*2.2+(bobK||0))*7;
+  el.style.transform=`translateY(${b+(1-eout(q))*70}px) scale(${back(q,2.2)*o})`;}
+function midScenes(tr){
+  const inMid=tr>=22&&tr<42;
+  ['g-chart','g-dumb'].forEach(id=>$(id).style.display=(tr>=22.9&&tr<32.6)?'':'none');
+  $('g-quote').style.display='none';
+  $('quoteTxt').style.display=(tr>=38.4&&tr<42.2)?'':'none';
+  if(tr>=32.2&&tr<32.6){const o=1-eout(P(tr,32.2,.4));$('g-chart').style.opacity=o;$('g-dumb').style.opacity=o;} else {$('g-chart').style.opacity=1;$('g-dumb').style.opacity=1;}
+  ['iLap','iCap','iBall','iTroph','iBic','iFam','iHouse','iHelp','iLove'].forEach(id=>$(id).style.opacity=0);
+  if(tr<22){$('iProphet').style.opacity=0;return;}
+  // things from scene 3 leave / stay hidden
+  const out=1-eout(P(tr,22,.35));
+  ['cMat','cCal','cMoon'].forEach(id=>{if(tr<42){$(id).style.opacity=out>0.01?1:0;$(id).style.transform=`perspective(1200px) rotateY(180deg) scale(${out})`;}else $(id).style.opacity=0;});
+  ['eLaugh1','eLaugh2','eGrin'].forEach(id=>{$(id).style.opacity=0;});
+  $('g-fL').style.opacity=tr<42?out:0;$('g-fR').style.opacity=tr<42?out:0;
+  $('pad').style.opacity=0;$('car').style.opacity=0;$('confetti').style.display='none';
+  $('leak').style.opacity=tr<42?0.45*out:0;
+  if(!inMid){$('iProphet').style.opacity=0;return;}
+  // man: arms down, gentle breathing
+  MAN.arms.style.opacity=1;$('g-play').style.opacity=0;MAN.fills.armL.style.display='';MAN.fills.armR.style.display='';
+  $('g-man').setAttribute('transform',`translate(540,${780+Math.sin(tr*3)*3})`);
+  // scene A: ambition & health
+  pop('iLap',22.5,32.2,tr,0);pop('iCap',23.9,32.2,tr,1);pop('iBall',25.6,32.2,tr,2);
+  pop('iTroph',24.2,32.2,tr,3);pop('iBic',27.0,32.2,tr,4);
+  // scene B: family & kindness
+  pop('iFam',32.5,38.3,tr,0);pop('iHouse',33.7,38.3,tr,1);pop('iHelp',35.6,38.3,tr,2);pop('iLove',36.8,38.3,tr,3);
+  // quote reveal driven by the hand's guide paths
+  const D=DRAW['g-quote'];const p=P(tr,38.5,2.6);const L1=D.lens[0],L2=D.lens[1];const done=p*(L1+L2);
+  const q1=clamp(done/L1),q2=clamp((done-L1)/L2);const [b1,b2]=window.QB;
+  const r1=$('qr1'),r2=$('qr2');r1.setAttribute('x',b1.x+b1.width*(1-q1)-10);r1.setAttribute('width',b1.width*q1+20);
+  r2.setAttribute('x',b2.x+b2.width*(1-q2)-10);r2.setAttribute('width',b2.width*q2+20);
+  const qo=1-eout(P(tr,41.6,.35));$('quoteTxt').style.opacity=qo;
+  const pq=P(tr,41.0,.4);$('iProphet').style.opacity=eout(pq)*qo;$('iProphet').style.transform=`translateY(${(1-eout(pq))*20}px)`;
+  // camera for the middle scenes
+  const ss=tr<32?22:32;const push=1+0.035*eio((tr-ss)/10);
+  let punch=1;[[22.5,.035],[25.6,.035],[28.7,.07],[32.4,.06],[35.6,.035],[38.5,.04]].forEach(([ti,a])=>{if(tr>ti)punch+=a*Math.exp(-(tr-ti)*4)*(1-Math.exp(-(tr-ti)*45));});
+  $('cam').style.transform=`scale(${push*punch})`;$('cam').style.filter='';
+  const fl=Math.exp(-Math.pow((tr-32.3)/0.07,2))*0.45;$('flash').style.opacity=fl;
 }
 function visible(id,t){
-  if(['g-door','g-sad','g-hatch','g-clap'].includes(id))return t<4.75;
+  if(['g-door','g-sad','g-hatch','g-clap'].includes(id))return t<4.6;
   if(id==='g-hookline')return t<4.5;
   if(id==='g-play')return t>=19.05&&t<22;
-  if(id==='g-ring')return t>=22.3;
-  if(id==='g-under')return t>=27.55;
-  return t>=4.75;
+  if(id==='g-ring')return t>=42.3;
+  if(id==='g-under')return t>=47.55;
+  if(id==='g-chart'||id==='g-dumb')return t>=22.9&&t<32.2;
+  if(id==='g-quote')return t>=38.4&&t<41.9;
+  return t>=4.6;
 }
 window.seek=seek;
+function rnd2(x){const v=Math.sin(Math.floor(x)*12.9898)*43758.5453;return v-Math.floor(v);}
 Promise.all([document.fonts.ready,...[...document.images].map(i=>i.decode().catch(()=>{}))]).then(()=>{window.READY=true;seek(0)});
 </script>
 </body>
