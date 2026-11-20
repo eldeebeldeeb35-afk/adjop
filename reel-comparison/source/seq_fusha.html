@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="ar">
+<head>
+<meta charset="utf-8">
+<title>Movies vs Reality</title>
+<link rel="stylesheet" href="fonts/fonts.css">
+<style>
+  html,body{margin:0;background:#000;overflow:hidden}
+  #stage{position:relative;width:1080px;height:1920px;overflow:hidden;background:url(img/board.jpg) center/cover}
+  .layer{position:absolute;left:0;top:0;width:1080px;height:1920px}
+  /* ---- movies section ---- */
+  #mov{overflow:hidden}
+  #movBg{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 45%,#ebe5d6 0%,#d3cab6 60%,#9f9580 100%)}
+  #movSk,#realSk,#finSk{position:absolute;left:0;top:0}
+  .strip{position:absolute;top:0;bottom:0;width:64px;background:#0b0b0b;z-index:3}
+  .strip::before{content:"";position:absolute;left:16px;right:16px;top:0;bottom:0;border-radius:4px;opacity:.9;
+     background:repeating-linear-gradient(180deg,transparent 0 20px,#e8e8e8 20px 44px,transparent 44px 64px)}
+  #grain{position:absolute;inset:-60px;background:url(img/grain.png);background-size:540px 960px;opacity:.28;mix-blend-mode:multiply;z-index:2}
+  #scan{position:absolute;inset:0;background:repeating-linear-gradient(180deg,rgba(0,0,0,.07) 0 2px,transparent 2px 5px);z-index:2}
+  #vigM{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(0,0,0,0) 45%,rgba(0,0,0,.55) 100%);z-index:2}
+  #scratch{position:absolute;top:0;bottom:0;width:3px;background:rgba(40,30,20,.35);z-index:2}
+  /* ---- shared ---- */
+  .s{stroke:#151515;stroke-width:8;stroke-linecap:round;stroke-linejoin:round}
+  .s:not(.f){fill:none}
+  .s.o{stroke-width:9.5}.s.d{stroke-width:4.5}.s.brow{stroke-width:11}
+  .hz{stroke:#2a2a2a;stroke-width:5;fill:none;stroke-linecap:round;opacity:.55}
+  #movSk .s{stroke:#26231f}
+  .pill{position:absolute;left:50%;top:150px;display:flex;align-items:center;gap:16px;direction:rtl;padding:12px 36px 18px;border-radius:70px;
+     font-family:Cairo;font-weight:900;font-size:58px;white-space:nowrap;z-index:6;transform:translateX(-50%)}
+  .pill img{width:82px;height:82px}
+  #pM{background:#e53935;color:#fff;box-shadow:0 9px 0 #8e1d1b}
+  #pR{background:#16a085;color:#fff;box-shadow:0 9px 0 #0b5a45}
+  .tag{position:absolute;z-index:6;padding:6px 26px 12px;border-radius:40px;font-family:Marhey;font-weight:700;font-size:48px;direction:rtl;white-space:nowrap}
+  .tagM{background:#26231f;color:#f3ead7}
+  #stamp{position:absolute;left:250px;top:420px;padding:10px 40px 22px;border:12px solid #d32f2f;border-radius:22px;color:#d32f2f;
+     font-family:Lalezar;font-size:150px;z-index:7;background:rgba(255,255,255,.15);opacity:0;direction:rtl;white-space:nowrap}
+  #xm{position:absolute;left:190px;top:560px;width:700px;opacity:0;z-index:7}
+  #bridge{position:absolute;inset:0;z-index:12;opacity:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+     background:radial-gradient(circle at 50% 50%,#1e3c34 0%,#0d1f1b 70%)}
+  #bq1{font-family:Marhey;font-weight:700;font-size:96px;color:#cfe9df;direction:rtl}
+  #bq2{font-family:Lalezar;font-size:210px;color:#ffc02e;direction:rtl;text-shadow:0 10px 0 #000,0 0 50px rgba(255,192,46,.5)}
+  #bicon{width:200px;margin-top:20px}
+  .ic{position:absolute;transform-origin:center center}
+  .ic img{display:block;width:100%;filter:drop-shadow(0 18px 18px rgba(0,0,0,.3))}
+  .lab{position:absolute;left:50%;transform:translateX(-50%);white-space:nowrap;font-family:Marhey;font-weight:700;font-size:42px;color:#1d1d1d;bottom:-58px}
+  #caps{position:absolute;left:30px;right:30px;top:1560px;display:flex;justify-content:center;z-index:14}
+  #capbox{background:rgba(18,18,18,.92);border:4px solid #ffc02e;border-radius:30px;padding:8px 30px 16px;display:flex;flex-wrap:wrap;justify-content:center;gap:0 16px;direction:rtl;max-width:1000px;box-shadow:0 12px 30px rgba(0,0,0,.35)}
+  #capbox span{font-family:Cairo;font-weight:900;font-size:58px;line-height:1.35;color:#fff;display:inline-block}
+  #capbox span.on{color:#ffc02e}
+  #hand{position:absolute;left:0;top:0;width:1257px;transform-origin:0 0;filter:drop-shadow(-24px 30px 24px rgba(0,0,0,.28));opacity:0;z-index:20}
+  #kin{position:absolute;left:0;right:0;top:150px;text-align:center;direction:rtl;z-index:10}
+  #k1{font-family:Marhey;font-weight:700;font-size:80px;color:#151515;display:inline-block}
+  #k2{font-family:Lalezar;font-size:230px;line-height:1.05;color:#ffc02e;display:inline-block;text-shadow:0 8px 0 #151515,0 0 40px rgba(255,190,40,.55);-webkit-text-stroke:6px #151515;paint-order:stroke fill}
+  #logoEnd{position:absolute;left:430px;top:1500px;width:220px;opacity:0;z-index:10}
+  #follow{position:absolute;left:0;right:0;top:1750px;text-align:center;font-family:Cairo;font-weight:900;font-size:44px;color:#151515;opacity:0;direction:rtl;z-index:10}
+  #flash{position:absolute;inset:0;background:#fff;opacity:0;z-index:30}
+  #bar{position:absolute;left:0;top:0;height:10px;background:linear-gradient(90deg,#ffc02e,#ff6a3d);z-index:31}
+  #wm{position:absolute;right:80px;top:40px;width:96px;opacity:0;z-index:13}
+  #vig{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(0,0,0,0) 60%,rgba(0,0,0,.18) 100%);z-index:11;pointer-events:none}
+  #burst{position:absolute;left:540px;top:900px;border-radius:50%;transform:translate(-50%,-50%);z-index:9;opacity:0;
+     background:radial-gradient(circle,rgba(255,210,63,0) 55%,rgba(255,210,63,.85) 62%,rgba(22,160,133,.5) 70%,rgba(22,160,133,0) 78%)}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="layer" id="real">
+    <svg id="realSk" width="1080" height="1920" viewBox="0 0 1080 1920"></svg>
+    <div id="realIcons"></div>
+    <div class="pill" id="pR"><img src="img/check_mark_button.png">في الواقع</div>
+  </div>
+  <div class="layer" id="fin" style="opacity:0">
+    <svg id="finSk" width="1080" height="1920" viewBox="0 0 1080 1920"></svg>
+    <div id="finIcons"></div>
+  </div>
+  <div class="layer" id="mov">
+    <div id="movBg"></div>
+    <svg id="movSk" width="1080" height="1920" viewBox="0 0 1080 1920"></svg>
+    <div id="tags"></div>
+    <div id="mTitle" style="position:absolute;left:0;right:0;top:640px;text-align:center;direction:rtl;z-index:5;opacity:0"><div style="font-family:Lalezar;font-size:190px;color:#26231f;line-height:1.05">المتدين</div><div style="font-family:Marhey;font-weight:700;font-size:80px;color:#5a5144">كما تصوّره الشاشة 🎬</div></div>
+    <img id="xm" src="img/cross_mark.png">
+    <div id="stamp">ليس حقيقيًّا!</div>
+    <div id="grain"></div><div id="scan"></div><div id="scratch"></div><div id="vigM"></div>
+    <div class="strip" style="left:0"></div><div class="strip" style="right:0"></div>
+    <div class="pill" id="pM"><img src="img/clapper_board.png">في الأفلام والمسلسلات</div>
+  </div>
+  <div id="burst"></div>
+  <div id="bridge"><div id="bq1">فماذا عن الواقع؟</div><img id="bicon" src="img/gem_mosque.png"></div>
+  <div id="kin"><div id="k1">ما دامت لا تُغضب الله..</div><br><div id="k2">فعِشها!</div></div>
+  <svg id="ovl" class="layer" width="1080" height="1920" viewBox="0 0 1080 1920" style="z-index:10"><g id="g-under"><path class="s o" style="stroke-width:12" d="M250,505 C420,530 660,528 830,500"/></g></svg>
+  <img id="logoEnd" src="logo.png">
+  <div id="follow">تابعنا للمزيد 👇</div>
+  <div id="caps"><div id="capbox"></div></div>
+  <img id="wm" src="logo.png">
+  <div id="vig"></div>
+  <img id="hand" src="hand_long.png">
+  <div id="flash"></div>
+  <div id="bar"></div>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const NS='http://www.w3.org/2000/svg';
+const clamp=(x,a=0,b=1)=>Math.max(a,Math.min(b,x));
+const P=(t,a,d)=>clamp((t-a)/d);
+const eio=x=>{x=clamp(x);return x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2};
+const eout=x=>1-Math.pow(1-clamp(x),3);
+const back=(x,s=1.9)=>{x=clamp(x)-1;return 1+x*x*((s+1)*x+s)};
+const elastic=x=>{x=clamp(x);if(x===0||x===1)return x;return Math.pow(2,-10*x)*Math.sin((x*10-.75)*2*Math.PI/3)+1};
+function rnd2(x){const v=Math.sin(Math.floor(x)*12.9898)*43758.5453;return v-Math.floor(v);}
+function G(parent,id,tr){const g=document.createElementNS(NS,'g');g.setAttribute('id',id);if(tr)g.setAttribute('transform',tr);parent.appendChild(g);return g;}
+function P_(g,d,cls='s',fill){const p=document.createElementNS(NS,'path');p.setAttribute('d',d);p.setAttribute('class',cls);if(fill)p.setAttribute('fill',fill);g.appendChild(p);return p;}
+</script>
+<script src="lib_person.js"></script>
+<script src="lib_engine.js"></script>
+<script src="lib_icon.js"></script>
+<script>
+// ================= timeline =================
+const M0=0, MA=[3.0,8.0,13.0], MX=18.0, BR=20.0, RA=[21.6,27.0,32.5], F=38.0, END=48.2;
+const MOV=$('movSk'),REAL=$('realSk'),FIN=$('finSk');
+// movies scenes (full screen, character centred)
+(function(){const g=G(MOV,'m1x');let d='',y=360,dir=1;while(y<1420){const x0=dir>0?110:970,x1=dir>0?970:110;d+=(d?' L':'M')+x0+','+y+' L'+x1+','+(y+22);y+=32;dir*=-1;}P_(g,d,'hz');})();
+const SM1=person(G(MOV,'m1','translate(540,800) scale(1.12)'),{style:'stern',mood:'sad',arms:'cross'});
+const SM2=person(G(MOV,'m2','translate(470,800) scale(1.12)'),{style:'stern',mood:'angry',arms:'point'});
+(function(){const g=G(MOV,'m3x');P_(g,'M420,500 C360,500 360,420 422,420 C430,368 510,354 530,402 C552,348 646,356 650,418 C714,410 726,500 662,500 Z','s o');
+  P_(g,'M450,540 l-16,40 M512,540 l-16,40 M574,540 l-16,40 M636,540 l-16,40','s d');})();
+const SM3=person(G(MOV,'m3','translate(540,860) scale(1.0)'),{style:'stern',mood:'sad',arms:'down'});
+// reality: one young man + friends
+const SR_=person(G(REAL,'r1','translate(540,820) scale(1.05)'),{mood:'happy',arms:'down',beard:true});
+const FA=person(G(REAL,'r2a','translate(170,1080) scale(.55)'),{hair:'curly',mood:'laugh',arms:'down'});
+const FB=person(G(REAL,'r2b','translate(910,1080) scale(.55)'),{hair:'round',mood:'laugh',arms:'down'});
+// final
+const SF=person(G(FIN,'fm','translate(540,820) scale(.95)'),{mood:'happy',arms:'down',beard:true});
+(function(){const g=G(FIN,'fring');P_(g,'M540,480 A440,440 0 1 0 540.1,480','s o');})();
+const ringL=P_(FIN,'M540,480 A440,440 0 0 0 540,1360','');ringL.setAttribute('fill','none');ringL.setAttribute('stroke','#16a085');ringL.setAttribute('stroke-width','20');ringL.setAttribute('stroke-linecap','round');
+const ringR=P_(FIN,'M540,480 A440,440 0 0 1 540,1360','');ringR.setAttribute('fill','none');ringR.setAttribute('stroke','#ff7a45');ringR.setAttribute('stroke-width','20');ringR.setAttribute('stroke-linecap','round');
+
+// movie tags (what the movies say)
+function tag(txt,x,y){const d=document.createElement('div');d.className='tag tagM';d.textContent=txt;d.style.left=x+'px';d.style.top=y+'px';d.style.opacity=0;$('tags').appendChild(d);return d;}
+const TAGS=[[tag('عابس 😠',120,330),MA[0]+2.2,MA[1]],[tag('منغلق على نفسه',600,330),MA[0]+3.0,MA[1]],
+            [tag('يصرخ',740,330),MA[1]+2.0,MA[2]],[tag('يخاصم الناس',90,330),MA[1]+2.8,MA[2]],
+            [tag('وحيد',120,330),MA[2]+2.2,MX+2],[tag('معزول',760,330),MA[2]+3.0,MX+2]];
+// reality icons
+const RI=$('realIcons');
+const ICONS=[ // el, t0, t1
+ [icon(RI,'img/gem_mat.png',50,380,200,'صلاته'),RA[0]+2.0,RA[1]],[icon(RI,'img/gem_mosque.png',820,380,220,'مسجده'),RA[0]+2.4,RA[1]],
+ [icon(RI,'img/gem_calendar.png',40,860,210,'صيامه'),RA[0]+3.0,RA[1]],[icon(RI,'img/gem_moon.png',830,860,210,'قيام الليل'),RA[0]+3.6,RA[1]],
+ [icon(RI,'img/gem_coffee.png',60,360,250,'قهوة مع الأصدقاء'),RA[1]+1.6,RA[2]],[icon(RI,'img/gem_laugh.png',830,380,200,'ضحك ومزاح'),RA[1]+2.0,RA[2]],
+ [icon(RI,'img/gem_controller.png',360,1230,360,''),RA[1]+3.4,RA[2]],
+ [icon(RI,'img/gem_parents.png',30,370,280,'أهله'),RA[2]+0.6,F],[icon(RI,'img/red_heart.png',860,380,170,'بِرّ'),RA[2]+1.2,F],
+ [icon(RI,'img/laptop.png',50,880,220,'عمله'),RA[2]+2.3,F],[icon(RI,'img/soccer_ball.png',850,890,180,'رياضة'),RA[2]+3.2,F],
+];
+const FI=$('finIcons');
+const RING=[['img/gem_moon.png',212,190],['img/gem_mat.png',180,165],['img/gem_mosque.png',148,190],['img/gem_controller.png',-32,210],['img/gem_coffee.png',0,200],['img/gem_parents.png',32,190]]
+ .map(([src,ang,w])=>({el:icon(FI,src,0,0,w,''),ang,w}));
+const lblL=document.createElement('div');lblL.className='ic';lblL.style.cssText='left:70px;top:400px;opacity:0';lblL.innerHTML='<div style="background:#16a085;color:#fff;font-family:Cairo;font-weight:900;font-size:46px;padding:4px 34px 10px;border-radius:40px;box-shadow:0 6px 0 #0b5a45">العبادة</div>';FI.appendChild(lblL);
+const lblR=document.createElement('div');lblR.className='ic';lblR.style.cssText='left:790px;top:400px;opacity:0';lblR.innerHTML='<div style="background:#ff7a45;color:#fff;font-family:Cairo;font-weight:900;font-size:46px;padding:4px 34px 10px;border-radius:40px;box-shadow:0 6px 0 #b8481f">الحياة</div>';FI.appendChild(lblR);
+const scaleIc=icon(FI,'img/balance_scale.png',455,330,170,'');
+
+// drawing segments & visibility windows
+const SEG=[['m1x',MA[0]+.1,.5],['m1',MA[0]+.6,1.6],['m2',MA[1]+.2,1.6],['m3x',MA[2]+.1,.5],['m3',MA[2]+.6,1.5],
+           ['r1',RA[0]+.1,1.7],['r2a',RA[1]+.2,.7],['r2b',RA[1]+.9,.7],
+           ['fm',F+.5,1.2],['fring',F+1.9,.8],['g-under',F+6.95,.35]];
+const WIN={m1x:[MA[0],MA[1]],m1:[MA[0],MA[1]],m2:[MA[1],MA[2]],m3x:[MA[2],BR+.2],m3:[MA[2],BR+.2],
+           r1:[RA[0],F+.4],r2a:[RA[1],RA[2]],r2b:[RA[1],RA[2]],fm:[F,99],fring:[F,99],'g-under':[F+6.9,99]};
+Object.keys(WIN).forEach(prep);
+
+// captions = voiceover
+const CAPS=[[.3,2.95,'في الأفلام والمسلسلات.. للمتديّن صورةٌ واحدة'],
+ [MA[0]+.4,MA[1]-.2,'دائمًا عابس الوجه.. منغلقٌ على نفسه'],
+ [MA[1]+.3,MA[2]-.2,'يصرخ في الناس.. ويخاصم الدنيا كلها'],
+ [MA[2]+.3,MX-.1,'ويعيش وحيدًا.. معزولًا عن الحياة'],
+ [MX+.1,BR,'لكنّ هذا ليس حقيقيًّا!'],
+ [RA[0]+.3,RA[1]-.1,'المتديّن الحقيقي يصلّي ويصوم ويقوم الليل.. وقلبه مطمئن'],
+ [RA[1]+.2,RA[2]-.1,'يضحك ويمزح مع أصدقائه.. بل ويلعبون البلايستيشن أيضًا!'],
+ [RA[2]+.2,F-.1,'يحب أهله ويبرّهم.. ويجتهد في دراسته وعمله ويمارس الرياضة'],
+ [F+.35,F+3.25,'التديّن لم يكن يومًا تشدّدًا ولا انعزالًا..'],[F+3.3,F+4.55,'القاعدة بسيطة:']];
+let capIdx=-2;
+function captions(t){const box=$('capbox');const k=CAPS.findIndex(c=>t>=c[0]&&t<c[1]);
+  if(k!==capIdx){capIdx=k;box.innerHTML='';if(k>=0)CAPS[k][2].split(' ').forEach(w=>{const s=document.createElement('span');s.textContent=w;box.appendChild(s);});}
+  $('caps').style.opacity=k>=0?1:0;if(k<0)return;const c=CAPS[k];const sp=[...box.children];const span=(c[1]-c[0])*.85;
+  box.style.transform=`scale(${.85+.15*back(P(t,c[0],.2))})`;
+  sp.forEach((s,i)=>{const a=c[0]+span*i/sp.length,b=c[0]+span*(i+1)/sp.length;const q=P(t,a,.12);
+    s.style.opacity=q>0?1:.18;s.style.transform=`translateY(${(1-eout(q))*10}px)`;s.className=(t>=a&&t<b+.05)?'on':'';});}
+
+function vis(id,t){const w=WIN[id];return w&&t>=w[0]&&t<w[1];}
+function handAt(t){
+  let tip=null;const OFF={x:1300,y:2300};
+  SEG.forEach(([id,s,d])=>{if(!vis(id,t))return;const q=drawAt(id,P(t,s,d));if(t>=s&&t<=s+d&&q)tip=q;});
+  const drawing=!!tip;
+  if(!tip){let prev=null,next=null;SEG.forEach(sg=>{if(sg[1]+sg[2]<t)prev=sg;});for(const sg of [...SEG].sort((a,b)=>a[1]-b[1])){if(sg[1]>t){next=sg;break;}}
+    const ta=prev?prev[1]+prev[2]:-9,tb=next?next[1]:99;
+    if(prev&&next&&tb-ta<=1.0&&vis(prev[0],t)&&vis(next[0],tb)){const pe=pointAt(prev[0],1),ns=pointAt(next[0],0);const q=eio((t-ta)/(tb-ta));tip={x:pe.x+(ns.x-pe.x)*q,y:pe.y+(ns.y-pe.y)*q};}
+    else if(prev&&t<ta+.35&&vis(prev[0],ta)){const pe=pointAt(prev[0],1);const q=eio((t-ta)/.35);tip={x:pe.x+(OFF.x-pe.x)*q,y:pe.y+(OFF.y-pe.y)*q};}
+    else if(next&&t>tb-.4&&vis(next[0],tb)){drawAt(next[0],0);const ns=pointAt(next[0],0);if(ns){const q=eio((t-(tb-.4))/.4);tip={x:OFF.x+(ns.x-OFF.x)*q,y:OFF.y+(ns.y-OFF.y)*q};}}}
+  const H=$('hand');
+  if(tip&&!(t>BR-.05&&t<RA[0])){const vx=window._pt?tip.x-window._pt.x:0;window._pt={x:tip.x,y:tip.y};window._rot=(window._rot||0)*.85+clamp(vx*.35,-7,7)*.15;
+    H.style.opacity=1;H.style.transform=`translate(${tip.x}px,${tip.y}px) rotate(${window._rot+Math.sin(t*23)*.8}deg) scale(${.66*(drawing?1:1.05)}) translate(-6px,-107px)`;}
+  else H.style.opacity=0;}
+
+const SKIN=[240,196,156];
+function seek(t){
+  // ===== section visibility =====
+  const inMov=t<BR+.4, inReal=t>=BR&&t<F+.6, inFin=t>=F;
+  $('mov').style.display=inMov?'':'none';$('real').style.display=inReal?'':'none';$('fin').style.opacity=t>=F+.35?1:0;$('fin').style.display=inFin?'':'none';
+  Object.keys(WIN).forEach(id=>{if(id==='g-under')return;$(id).style.display=vis(id,t)?'':'none';});
+  // ===== movies =====
+  const flick=0.9+0.1*rnd2(t*24);
+  $('movBg').style.filter=`brightness(${flick}) sepia(.3)`;$('movSk').style.filter=`brightness(${flick})`;
+  $('grain').style.transform=`translate(${Math.floor(rnd2(t*30)*60)-30}px,${Math.floor(rnd2(t*30+5)*60)-30}px)`;
+  $('scratch').style.left=(100+rnd2(Math.floor(t*6))*880)+'px';$('scratch').style.opacity=rnd2(t*12)>.5?1:0;
+  const pm=P(t,.15,.45);$('pM').style.opacity=pm>0?1:0;$('pM').style.transform=`translateX(-50%) scale(${back(pm,2.2)})`;
+  const mt=P(t,.4,.5),mo=1-eout(P(t,MA[0]-.35,.3));$('mTitle').style.opacity=mt*mo;$('mTitle').style.transform=`scale(${(.7+.3*back(mt))*(0.9+0.1*mo)})`;
+  // film "jump cut" between movie scenes: quick shake/flash
+  let jump=0;MA.forEach(s=>{if(t>s-.08&&t<s+.25)jump=Math.max(jump,1-Math.abs(t-s)/.25);});
+  const mpush=1+0.04*((t%5)/5);
+  let shk=jump*14;if(t>MX&&t<MX+.6)shk=Math.max(shk,Math.exp(-(t-MX)*7)*26);
+  $('movSk').style.transformOrigin='540px 900px';$('movSk').style.transform=`translate(${Math.sin(t*90)*shk}px,${Math.cos(t*70)*shk}px) scale(${mpush})`;
+  TAGS.forEach(([el,t0,t1])=>{const q=P(t,t0,.35);const o=1-eout(P(t,t1-.3,.3));el.style.opacity=q>0?o:0;el.style.transform=`scale(${back(q,2.4)}) rotate(${(el.offsetLeft<500?-6:6)}deg)`;});
+  ['m1','m2','m3'].forEach(k=>SM1&&0);
+  [SM1,SM2,SM3].forEach(S=>S.fills.shade.forEach(e=>e.style.opacity=0));
+  if(t>MA[1]+2&&t<MA[1]+2.8)$('m2').setAttribute('transform',`translate(${470+Math.sin(t*60)*5},800) scale(1.12)`);
+  const xq=P(t,MX,.3),sq=P(t,MX+.35,.3);
+  $('xm').style.opacity=xq>0?1:0;$('xm').style.transform=`scale(${xq>0?2.5-1.5*back(xq,2.4):0}) rotate(${(1-eout(xq))*-25}deg)`;
+  $('stamp').style.opacity=sq>0?1:0;$('stamp').style.transform=`rotate(-12deg) scale(${sq>0?2.4-1.4*back(sq,2):0})`;
+  // burn-out of the movie section into the bridge
+  const bo=P(t,BR-.35,.35);$('mov').style.filter=bo>0?`brightness(${1+3*bo}) blur(${8*bo}px)`:'';
+  // ===== bridge =====
+  const bq=P(t,BR,.35),bOut=P(t,RA[0]-.35,.35);
+  $('bridge').style.opacity=(t>=BR&&t<RA[0])?1:0;
+  $('bq1').style.transform=`scale(${.6+.4*back(bq,2.2)})`;$('bq1').style.opacity=bq;
+  const bi=P(t,BR+.45,.4);$('bicon').style.transform=`scale(${back(bi,2.2)}) translateY(${Math.sin(t*3)*8}px)`;$('bicon').style.opacity=bi>0?1:0;
+  $('bridge').style.clipPath=bOut>0?`circle(${(1-eio(bOut))*150}% at 50% 50%)`:'none';
+  // ===== reality =====
+  const pr=P(t,RA[0]+.05,.45);$('pR').style.opacity=pr>0?1:0;$('pR').style.transform=`translateX(-50%) scale(${back(pr,2.2)})`;
+  const cm=eio(P(t,RA[0]+1.75,.5));
+  paint(SR_,{shirt:[255,122,69],skin:SKIN,armL:SKIN,armR:SKIN,hair:[38,30,26],beard:[58,44,36],mouth:[150,40,40]},cm);
+  paint(FA,{shirt:[253,121,168],skin:[226,170,128],armL:[226,170,128],armR:[226,170,128],hair:[109,76,65],mouth:[150,40,40]},eio(P(t,RA[1]+1.6,.4)));
+  paint(FB,{shirt:[9,132,227],skin:[246,208,174],armL:[246,208,174],armR:[246,208,174],hair:[45,52,54],mouth:[150,40,40]},eio(P(t,RA[1]+1.6,.4)));
+  const laugh=t>RA[1]+1.8&&t<RA[2];const bb=k=>laugh?Math.abs(Math.sin(t*8+k))*9:0;
+  $('r2a').setAttribute('transform',`translate(170,${1080-bb(0)}) scale(.55)`);$('r2b').setAttribute('transform',`translate(910,${1080-bb(1)}) scale(.55)`);
+  $('r1').setAttribute('transform',`translate(540,${820+Math.sin(t*3)*3-(laugh?Math.abs(Math.sin(t*7))*5:0)}) scale(1.05)`);
+  ICONS.forEach(([el,t0,t1],i)=>{const q=P(t,t0,.5);const o=1-eout(P(t,t1-.35,.35));el.style.opacity=(q>0&&o>0)?1:0;
+    el.style.transform=`translateY(${Math.sin(t*2.2+i)*7+(1-eout(q))*60}px) scale(${back(q,2.2)*o}) rotate(${i===6&&t>t0+.5?Math.sin(t*30)*3:0}deg)`;});
+  // colour burst when the reality man is coloured + small punch zooms
+  const bu=P(t,RA[0]+1.75,.7);$('burst').style.opacity=bu>0&&bu<1?1-bu:0;const bs=10+2200*eout(bu);$('burst').style.width=$('burst').style.height=bs+'px';
+  let pz=1;[RA[0]+1.8,RA[1]+1.6,RA[1]+3.4,RA[2]+.6].forEach(ti=>{if(t>ti)pz+=.045*Math.exp(-(t-ti)*4)*(1-Math.exp(-(t-ti)*45));});
+  const rs=RA.filter(x=>x<=t).pop()||RA[0];$('real').style.transformOrigin='540px 900px';$('real').style.transform=`scale(${pz*(1+.03*clamp((t-rs)/5.5))})`;
+  // ===== final =====
+  paint(SF,{shirt:[255,122,69],skin:SKIN,armL:SKIN,armR:SKIN,hair:[38,30,26],beard:[58,44,36],mouth:[150,40,40]},eio(P(t,F+1.5,.4)));
+  const z=eio(P(t,F+1.7,.9));$('fin').style.transformOrigin='540px 920px';$('fin').style.transform=`translateY(${60*z}px) scale(${1-.12*z})`;
+  [ringL,ringR].forEach((e,i)=>{const L=e.getTotalLength();const q=eio(P(t,F+2.7+i*.1,.6));e.style.strokeDasharray=L;e.style.strokeDashoffset=L*(1-q);e.style.opacity=q>0?1:0;});
+  RING.forEach((r,i)=>{const q=P(t,F+2.9+i*.15,.45);const ang=r.ang*Math.PI/180+(r.ang>90?-1:1)*(t>F+4?Math.sin((t-F-4)*1.1)*.06:0);
+    const cx=540+440*Math.cos(ang),cy=920+440*Math.sin(ang);r.el.style.left=(cx-r.w/2)+'px';r.el.style.top=(cy-r.w/2)+'px';r.el.style.opacity=q>0?1:0;r.el.style.transform=`scale(${back(q,2.2)})`;});
+  [[lblL,F+3.6],[lblR,F+3.8],[scaleIc,F+4.0]].forEach(([el,t0])=>{const q=P(t,t0,.4);el.style.opacity=q>0?1:0;el.style.transform=`scale(${back(q)}) rotate(${el===scaleIc?Math.sin(t*2.5)*6:0}deg)`;});
+  const k1=P(t,F+4.6,.45),k2=P(t,F+6.4,.6);
+  $('k1').style.opacity=k1;$('k1').style.transform=`translateY(${(1-eout(k1))*60}px) scale(${.7+.3*back(k1)})`;
+  $('k2').style.opacity=k2>0?1:0;$('k2').style.transform=`scale(${k2>0?elastic(k2):0}) rotate(${(1-eout(k2))*-10}deg)`;
+  $('g-under').style.display=t>=F+6.9?'':'none';
+  const le=P(t,F+8.0,.6);$('logoEnd').style.opacity=eout(le);$('logoEnd').style.transform=`translateY(${(1-eout(le))*50}px) scale(${.8+.2*back(le)})`;
+  $('follow').style.opacity=eout(P(t,F+8.4,.4));
+  $('wm').style.opacity=(t<F+8.0?.95*eout(P(t,.5,.4)):.95*(1-eout(le)))*(t>=BR&&t<RA[0]?0:1);
+  // flashes
+  let fl=Math.max(jump*.25,Math.exp(-Math.pow((t-MX)/.05,2))*.45,Math.exp(-Math.pow((t-(RA[0]+1.75))/.07,2))*.5,Math.exp(-Math.pow((t-(F+6.45))/.07,2))*.6,Math.exp(-Math.pow((t-F)/.08,2))*.5);
+  $('flash').style.opacity=fl;
+  $('bar').style.width=(1080*(t+3.25)/(END+3.25))+'px';
+  $('caps').style.top=(t>=F+.3?1560:1600)+'px';
+  handAt(t);
+  captions(t);
+}
+window.seek=seek;
+Promise.all([document.fonts.ready,...[...document.images].map(i=>i.decode().catch(()=>{}))]).then(()=>{window.READY=true;seek(0)});
+</script>
+</body>
+</html>
