@@ -5,9 +5,11 @@ Guidance for Claude Code when working in this repository.
 ## Project overview
 
 Personal site for Hamdy Eldeeb (Arabic, `dir="rtl"`). The hero is a WebGL
-particle portrait: thousands of gold stars draw his old photo (long tied hair)
-and re-arrange into his current photo (short hair, beard) on hover (desktop) or
-scroll (touch). Below it: "My Professional Work" and "My Creative Journey"
+particle portrait: thousands of gold stars draw his old look (long hair in a
+bun) through three views (back, profile looking up, facing us) and re-arrange
+into his current look (short hair, beard) on hover (desktop) or scroll (touch).
+The current look then turns its head between left / front / right photos as
+the portrait sways in 3D. Below it: "My Professional Work" and "My Creative Journey"
 (the «لسه في رجوع» series, episodes, shorts), then platforms and contact.
 
 ## Stack
@@ -41,15 +43,17 @@ GitHub Pages: `.github/workflows/deploy.yml` builds with
 - `lib/samplePortrait.ts`: image → star positions (equalisation, local contrast,
   Sobel edges, importance sampling, Hilbert-order pairing)
 - `components/sections/`: Nav, Crossroads, Professional, Journey, Contact
-- `public/portraits/{before,after}.webp`: background-removed, identically framed
-  portraits. Regenerate with `scripts/prepare_portraits.py` (rembg + scipy);
-  both files must keep the same size and head position.
+- `public/portraits/{before,after}-{0,1,2}.webp`: background-removed, identically
+  framed views. Regenerate with `scripts/prepare_portraits.py` from the two
+  three-panel composites (rembg + scipy); head positions and erase boxes are set
+  per view in `VIEWS`. All six must keep the same size and head placement.
 
 ## Conventions
 
 - Visual identity: dark warm background, gold `#d9ae5f`, Amiri (display),
   Tajawal (body), Cormorant Garamond (Latin). Do not introduce new palettes.
-- Only real photos of Hamdy in the portrait morph; never substitute others.
+- Use only photos of Hamdy that he supplied (he provided AI-assisted views of
+  himself); never substitute other people or generated faces of your own.
 - Keep the WebGL fallback (`StaticPortrait`) working for no-WebGL and
   `prefers-reduced-motion`.
 - Never commit secrets. Commit messages: imperative mood, short summary line.

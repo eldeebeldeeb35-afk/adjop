@@ -10,8 +10,10 @@ import type { MorphState } from "./ParticleScene";
 const ParticleScene = dynamic(() => import("./ParticleScene"), { ssr: false });
 
 const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-const BEFORE = `${base}/portraits/before.webp`;
-const AFTER = `${base}/portraits/after.webp`;
+const BEFORE_VIEWS = [0, 1, 2].map((i) => `${base}/portraits/before-${i}.webp`);
+const AFTER_VIEWS = [0, 1, 2].map((i) => `${base}/portraits/after-${i}.webp`);
+const BEFORE = BEFORE_VIEWS[1];
+const AFTER = AFTER_VIEWS[1];
 
 type Mode = "pending" | "hover" | "scroll" | "static";
 
@@ -65,7 +67,7 @@ export default function Hero() {
       busy.current = true;
       gsap.to(morph, {
         progress: target,
-        duration: 3.4,
+        duration: 6.5,
         ease: "power2.inOut",
         onComplete: () => {
           settled.current = target;
@@ -103,7 +105,7 @@ export default function Hero() {
   const tall = mode === "scroll" || mode === "static";
 
   return (
-    <section ref={section} id="top" className={`relative ${tall ? "h-[260svh]" : "h-svh min-h-[640px]"}`}>
+    <section ref={section} id="top" className={`relative ${tall ? "h-[340svh]" : "h-svh min-h-[640px]"}`}>
       <div className="sticky top-0 h-svh min-h-[560px] overflow-hidden">
         <div className="hero-glow" aria-hidden />
 
@@ -111,8 +113,8 @@ export default function Hero() {
           <ParticleScene
             morph={morph}
             count={count}
-            beforeSrc={BEFORE}
-            afterSrc={AFTER}
+            beforeSrcs={BEFORE_VIEWS}
+            afterSrcs={AFTER_VIEWS}
             active={visible}
             onReady={onReady}
             onPortraitHover={onPortraitHover}
@@ -148,15 +150,11 @@ export default function Hero() {
               </div>
             </div>
 
-            <p className="mt-6 text-sm text-sand/70 reveal-up" style={{ animationDelay: "1.2s" }}>
-              {mode === "hover" && (done ? "حرّك الماوس على الصورة تاني عشان ترجع النجوم لأولها" : "قرّب الماوس من الصورة… وشوف النجوم بتعيد بناء الوش")}
-              {tall && "انزل لتحت… والنجوم هتعيد بناء الوش"}
-            </p>
             {mode === "hover" && (
               <button
                 type="button"
                 onClick={() => !busy.current && playTo(settled.current === 0 ? 1 : 0)}
-                className="pointer-events-auto mt-4 rounded-full border border-gold/30 px-5 py-2 text-sm text-gold transition hover:border-gold hover:bg-gold/10"
+                className="pointer-events-auto mt-6 rounded-full border border-gold/30 px-5 py-2 text-sm text-gold transition hover:border-gold hover:bg-gold/10"
               >
                 {done ? "رجّع الصورة القديمة ↺" : "ابدأ التحوّل ✦"}
               </button>

@@ -1,8 +1,12 @@
-"""Cut the two portraits out of their backgrounds and frame them identically.
+"""Cut the portrait views out of their backgrounds and frame them identically.
 
-The particle morph samples these files at runtime, so both must share the same
-canvas size and roughly the same head position; otherwise the stars travel
-across the frame instead of rebuilding the face in place.
+Inputs are two composites of three side-by-side panels each:
+  BEFORE: the old look (long hair in a bun): back, profile looking up, three-quarter front
+  AFTER:  the current look (short hair, beard): turned left, front, turned right
+
+The particle morph samples the outputs at runtime, so every view shares the
+same canvas size and head placement; otherwise the stars travel across the
+frame instead of rebuilding the head in place.
 
 Usage (needs: pip install "rembg[cpu]" pillow scipy):
     python scripts/prepare_portraits.py BEFORE.jpg AFTER.jpg
@@ -17,47 +21,65 @@ from scipy import ndimage
 
 OUT = Path(__file__).resolve().parent.parent / "public" / "portraits"
 SIZE = (720, 900)  # 4:5
+TOP = 0.07  # top of the hair sits 7% from the top of the frame
+TOP_TO_EAR = 0.34  # top of the hair to the middle of the ear, as a share of frame height
 
-# Head position as fractions of the source image: (face centre x, top of hair,
-# bottom of beard). Fractions keep this valid if a photo is swapped for a
-# higher-resolution copy of the same shot.
-HEAD_SRC = {
-    "before": (420 / 1024, 200 / 1536, 610 / 1536),
-    "after": (850 / 1500, 230 / 2000, 1200 / 2000),
+# Per panel, in panel pixels: (head centre x, top of hair y, middle of ear y).
+# "erase" lists frame-space rectangles (x0, y0, x1, y1) the matting wrongly kept
+# (a tree trunk, a lamp). "scale_from" lets views shot at the same zoom share one scale, so the head
+# does not grow or shrink while it turns.
+VIEWS = {
+    "before": [
+        dict(cx=280, top=625, ear=1045),
+        dict(cx=330, top=615, ear=975),
+        dict(cx=330, top=530, ear=855, erase=[(548, 0, 720, 600), (380, 0, 548, 60), (440, 58, 548, 82), (485, 82, 548, 110), (530, 110, 548, 560)]),
+    ],
+    "after": [
+        dict(cx=450, top=170, ear=730, scale_from=1, erase=[(150, 372, 221, 450)]),
+        dict(cx=430, top=150, ear=730),
+        dict(cx=385, top=200, ear=730, scale_from=1, erase=[(400, 0, 500, 52)]),
+    ],
 }
-HEAD_DST_TOP = 0.07       # head starts 7% from the top
-HEAD_DST_HEIGHT = 0.60    # and fills 60% of the frame height
-HEAD_DST_CENTER_X = 0.5
 
 
-def frame(name: str, src: Path, session) -> None:
-    img = ImageOps.exif_transpose(Image.open(src)).convert("RGB")
-    cut = remove(img, session=session, post_process_mask=True)
-    # keep only the person: drop stray specks the matting left in the background
-    a = np.asarray(cut.getchannel("A"))
-    labels, n = ndimage.label(a > 32)
-    if n > 1:
-        sizes = ndimage.sum(np.ones_like(a), labels, range(1, n + 1))
-        a = np.where(labels == 1 + int(np.argmax(sizes)), a, 0).astype(np.uint8)
-    # soften the matte edge so particles fade out instead of forming a hard outline
-    alpha = Image.fromarray(a).filter(ImageFilter.GaussianBlur(2))
-    cut.putalpha(alpha)
+def panels(path: Path):
+    img = ImageOps.exif_transpose(Image.open(path)).convert("RGB")
+    w, h = img.size
+    m = 6  # trim the seams between panels
+    return [img.crop((round(i * w / 3) + m, m, round((i + 1) * w / 3) - m, h - m)) for i in range(3)]
 
-    cx, t, b = HEAD_SRC[name]
-    cx, t, b = cx * img.width, t * img.height, b * img.height
-    scale = (SIZE[1] * HEAD_DST_HEIGHT) / (b - t)
+
+def keep_largest(alpha: np.ndarray) -> np.ndarray:
+    labels, n = ndimage.label(alpha > 32)
+    if n <= 1:
+        return alpha
+    sizes = ndimage.sum(np.ones_like(alpha), labels, range(1, n + 1))
+    return np.where(labels == 1 + int(np.argmax(sizes)), alpha, 0).astype(np.uint8)
+
+
+def frame(panel: Image.Image, view: dict, scale_view: dict, session) -> Image.Image:
+    cut = remove(panel, session=session, post_process_mask=True)
+    alpha = Image.fromarray(keep_largest(np.asarray(cut.getchannel("A"))))
+    cut.putalpha(alpha.filter(ImageFilter.GaussianBlur(2)))
+
+    scale = SIZE[1] * TOP_TO_EAR / (scale_view["ear"] - scale_view["top"])
     scaled = cut.resize((round(cut.width * scale), round(cut.height * scale)), Image.LANCZOS)
-    ox = round(SIZE[0] * HEAD_DST_CENTER_X - cx * scale)
-    oy = round(SIZE[1] * HEAD_DST_TOP - t * scale)
-
+    ox = round(SIZE[0] / 2 - view["cx"] * scale)
+    oy = round(SIZE[1] * TOP - view["top"] * scale)
     canvas = Image.new("RGBA", SIZE, (0, 0, 0, 0))
     canvas.alpha_composite(scaled, (max(ox, 0), max(oy, 0)), (max(-ox, 0), max(-oy, 0)))
-    OUT.mkdir(parents=True, exist_ok=True)
-    canvas.save(OUT / f"{name}.webp", quality=88, method=6)
-    print("wrote", OUT / f"{name}.webp")
+    for rect in view.get("erase", []):
+        canvas.paste((0, 0, 0, 0), rect)
+    return canvas
 
 
 if __name__ == "__main__":
     session = new_session("u2net_human_seg")
-    frame("before", Path(sys.argv[1]), session)
-    frame("after", Path(sys.argv[2]), session)
+    OUT.mkdir(parents=True, exist_ok=True)
+    for name, src in (("before", Path(sys.argv[1])), ("after", Path(sys.argv[2]))):
+        views = VIEWS[name]
+        for i, (panel, view) in enumerate(zip(panels(src), views)):
+            scale_view = views[view.get("scale_from", i)]
+            out = OUT / f"{name}-{i}.webp"
+            frame(panel, view, scale_view, session).save(out, quality=88, method=6)
+            print("wrote", out)

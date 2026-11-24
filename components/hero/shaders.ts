@@ -1,14 +1,22 @@
 export const portraitVertex = /* glsl */ `
   uniform float uProgress;
+  uniform float uViewFrom; // -1 left, 0 front, 1 right
+  uniform float uViewTo;
+  uniform float uViewT;    // 0..1 progress of the current head turn
   uniform float uTime;
   uniform vec2 uMouse;
   uniform float uMouseStrength;
   uniform float uSize;
   uniform float uPixelRatio;
 
-  attribute vec3 aTo;
-  attribute float aBFrom;
-  attribute float aBTo;
+  // position = old look, back view
+  attribute vec3 aB1;   // old look, profile looking up
+  attribute vec3 aB2;   // old look, three-quarter front
+  attribute vec3 aA0;   // current look, turned left
+  attribute vec3 aA1;   // current look, front
+  attribute vec3 aA2;   // current look, turned right
+  attribute vec3 aLumB;
+  attribute vec3 aLumA;
   attribute float aSeed;
 
   varying float vBright;
@@ -17,17 +25,37 @@ export const portraitVertex = /* glsl */ `
 
   const float PI = 3.141592653589793;
 
+  vec3 viewPos(float v) { return v < -0.5 ? aA0 : (v > 0.5 ? aA2 : aA1); }
+  float viewLum(float v) { return v < -0.5 ? aLumA.x : (v > 0.5 ? aLumA.z : aLumA.y); }
+
   void main() {
-    // Stars leave in a wave that sweeps down the face, each with its own delay,
-    // so the portrait dissolves and re-forms instead of sliding as one piece.
+    // the current look turns its head: stars lift off one photo and settle on
+    // the next (left / front / right) instead of sliding through a blurry mix
+    float tv = clamp((uViewT - aSeed * 0.35) / 0.65, 0.0, 1.0);
+    tv = tv * tv * (3.0 - 2.0 * tv);
+    vec3 now = mix(viewPos(uViewFrom), viewPos(uViewTo), tv);
+    float turnFlight = sin(tv * PI) * step(0.5, abs(uViewTo - uViewFrom));
+    float ta = aSeed * 9.17 + uTime * 0.5;
+    now += vec3(cos(ta) * 0.05, sin(ta * 1.4) * 0.04, (aSeed - 0.4) * 0.5) * turnFlight;
+    float nowLum = mix(viewLum(uViewFrom), viewLum(uViewTo), tv);
+
+    // journey: back -> looking up -> facing us -> today. Stars leave in a wave
+    // that sweeps down the head, each with its own delay.
     float delay = aSeed * 0.28 + (0.5 - position.y) * 0.22;
-    float t = clamp((uProgress - delay) / 0.5, 0.0, 1.0);
+    float p = clamp((uProgress - delay) / 0.5, 0.0, 1.0) * 3.0;
+    float seg = min(floor(p), 2.0);
+    float t = p - seg;
     t = t * t * (3.0 - 2.0 * t);
 
-    vec3 pos = mix(position, aTo, t);
-    float flight = sin(t * PI);
+    vec3 from = seg < 0.5 ? position : (seg < 1.5 ? aB1 : aB2);
+    vec3 to = seg < 0.5 ? aB1 : (seg < 1.5 ? aB2 : now);
+    float lFrom = seg < 0.5 ? aLumB.x : (seg < 1.5 ? aLumB.y : aLumB.z);
+    float lTo = seg < 0.5 ? aLumB.y : (seg < 1.5 ? aLumB.z : nowLum);
 
-    // drift through space mid-flight: a slow swirl plus a push into depth
+    vec3 pos = mix(from, to, t);
+    // the last leg (old -> today) travels further through space than the turns
+    float flight = sin(t * PI) * (seg > 1.5 ? 1.0 : 0.55);
+
     float a = aSeed * 6.2831 + uTime * 0.35;
     pos.x += cos(a) * flight * (0.10 + aSeed * 0.18);
     pos.y += sin(a * 1.3) * flight * (0.08 + aSeed * 0.14);
@@ -47,7 +75,7 @@ export const portraitVertex = /* glsl */ `
     vec4 mv = modelViewMatrix * vec4(pos, 1.0);
     gl_Position = projectionMatrix * mv;
 
-    float b = mix(aBFrom, aBTo, t);
+    float b = mix(lFrom, lTo, t);
     vBright = b;
     vTwinkle = 0.78 + 0.22 * sin(uTime * (1.2 + aSeed * 2.5) + aSeed * 100.0);
     // a few stars are large soft "bokeh" lights, the rest fine glitter

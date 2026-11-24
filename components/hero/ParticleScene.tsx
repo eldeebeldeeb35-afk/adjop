@@ -11,8 +11,10 @@ export type MorphState = { progress: number };
 type Props = {
   morph: MorphState;
   count: number;
-  beforeSrc: string;
-  afterSrc: string;
+  // [back, profile looking up, three-quarter front] of the old look
+  beforeSrcs: string[];
+  // [turned left, front, turned right] of the current look
+  afterSrcs: string[];
   active: boolean;
   onReady: () => void;
   onPortraitHover: () => void;
@@ -21,10 +23,11 @@ type Props = {
 const GOLD = new THREE.Color("#e0a54a");
 const LIGHT = new THREE.Color("#fff1d0");
 
-function Portrait({ morph, count, beforeSrc, afterSrc, onReady, onPortraitHover }: Omit<Props, "active">) {
+function Portrait({ morph, count, beforeSrcs, afterSrcs, onReady, onPortraitHover }: Omit<Props, "active">) {
   const [geometry, setGeometry] = useState<THREE.BufferGeometry | null>(null);
   const group = useRef<THREE.Group>(null);
   const mouse = useRef({ strength: 0, lastMove: -1e9, inside: false });
+  const turn = useRef({ from: 0, to: 0, t: 1 });
   const { viewport, size, gl } = useThree();
 
   const material = useMemo(
@@ -37,6 +40,9 @@ function Portrait({ morph, count, beforeSrc, afterSrc, onReady, onPortraitHover 
         blending: THREE.AdditiveBlending,
         uniforms: {
           uProgress: { value: 0 },
+          uViewFrom: { value: 0 },
+          uViewTo: { value: 0 },
+          uViewT: { value: 1 },
           uTime: { value: 0 },
           uMouse: { value: new THREE.Vector2(9, 9) },
           uMouseStrength: { value: 0 },
@@ -52,17 +58,29 @@ function Portrait({ morph, count, beforeSrc, afterSrc, onReady, onPortraitHover 
   useEffect(() => {
     let cancelled = false;
     (async () => {
-      const [before, after] = await Promise.all([loadImage(beforeSrc), loadImage(afterSrc)]);
+      const images = await Promise.all([...beforeSrcs, ...afterSrcs].map(loadImage));
       if (cancelled) return;
-      const a = sortSpatially(samplePortrait(before, count, 7));
-      const b = sortSpatially(samplePortrait(after, count, 11));
+      // every view gets the same number of stars, sorted along a Hilbert curve so
+      // star i lands on the same region (hair, eye, beard...) in each view
+      const views = images.map((img, i) => sortSpatially(samplePortrait(img, count, 7 + i * 4)));
+      const [b0, b1, b2, a0, a1, a2] = views;
+      const lumB = new Float32Array(count * 3);
+      const lumA = new Float32Array(count * 3);
+      for (let i = 0; i < count; i++) {
+        lumB.set([b0.brightness[i], b1.brightness[i], b2.brightness[i]], i * 3);
+        lumA.set([a0.brightness[i], a1.brightness[i], a2.brightness[i]], i * 3);
+      }
       const seeds = new Float32Array(count);
       for (let i = 0; i < count; i++) seeds[i] = Math.random();
       const g = new THREE.BufferGeometry();
-      g.setAttribute("position", new THREE.BufferAttribute(a.positions, 3));
-      g.setAttribute("aTo", new THREE.BufferAttribute(b.positions, 3));
-      g.setAttribute("aBFrom", new THREE.BufferAttribute(a.brightness, 1));
-      g.setAttribute("aBTo", new THREE.BufferAttribute(b.brightness, 1));
+      g.setAttribute("position", new THREE.BufferAttribute(b0.positions, 3));
+      g.setAttribute("aB1", new THREE.BufferAttribute(b1.positions, 3));
+      g.setAttribute("aB2", new THREE.BufferAttribute(b2.positions, 3));
+      g.setAttribute("aA0", new THREE.BufferAttribute(a0.positions, 3));
+      g.setAttribute("aA1", new THREE.BufferAttribute(a1.positions, 3));
+      g.setAttribute("aA2", new THREE.BufferAttribute(a2.positions, 3));
+      g.setAttribute("aLumB", new THREE.BufferAttribute(lumB, 3));
+      g.setAttribute("aLumA", new THREE.BufferAttribute(lumA, 3));
       g.setAttribute("aSeed", new THREE.BufferAttribute(seeds, 1));
       g.boundingSphere = new THREE.Sphere(new THREE.Vector3(), 2);
       setGeometry(g);
@@ -71,7 +89,7 @@ function Portrait({ morph, count, beforeSrc, afterSrc, onReady, onPortraitHover 
     return () => {
       cancelled = true;
     };
-  }, [beforeSrc, afterSrc, count, onReady]);
+  }, [beforeSrcs, afterSrcs, count, onReady]);
 
   useEffect(() => () => geometry?.dispose(), [geometry]);
 
@@ -118,6 +136,20 @@ function Portrait({ morph, count, beforeSrc, afterSrc, onReady, onPortraitHover 
       const ry = THREE.MathUtils.clamp(Math.sin(t * 0.32) * 0.2 + state.pointer.x * 0.16 * pointerOn, -0.3, 0.3);
       const rx = Math.sin(t * 0.23 + 1.3) * 0.05 - state.pointer.y * 0.08 * pointerOn;
       group.current.rotation.y = THREE.MathUtils.lerp(group.current.rotation.y, ry, 0.035);
+      // the current look turns its head for real: the sway picks the left /
+      // front / right photo (with hysteresis), and each change is a 1.6s rebuild
+      const tr = turn.current;
+      const y = group.current.rotation.y;
+      const want = y > 0.13 ? 1 : y < -0.13 ? -1 : Math.abs(y) < 0.05 ? 0 : tr.to;
+      if (tr.t >= 1 && want !== tr.to) {
+        tr.from = tr.to;
+        tr.to = want;
+        tr.t = 0;
+      }
+      tr.t = Math.min(1, tr.t + Math.min(delta, 0.05) / 1.6);
+      u.uViewFrom.value = tr.from;
+      u.uViewTo.value = tr.to;
+      u.uViewT.value = tr.t;
       group.current.rotation.x = THREE.MathUtils.lerp(group.current.rotation.x, rx, 0.035);
     }
   });
