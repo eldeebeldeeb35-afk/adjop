@@ -9,7 +9,10 @@ particle portrait: thousands of gold stars draw his old look (long hair in a
 bun) through three views (back, profile looking up, facing us) and re-arrange
 into his current look (short hair, beard) on hover (desktop) or scroll (touch).
 The current look then turns its head between left / front / right photos as
-the portrait sways in 3D. Below it: "My Professional Work" and "My Creative Journey"
+it leans toward the pointer (desktop). Hamdy tuned the portrait in the lab:
+flat (no depth relief), no extra edge stars, 50k stars on desktop, no
+automatic sway; these live as constants in `lib/samplePortrait.ts`,
+`Hero.tsx` and `ParticleScene.tsx`. Below it: "My Professional Work" and "My Creative Journey"
 (the «لسه في رجوع» series, episodes, shorts), then platforms and contact.
 
 ## Stack

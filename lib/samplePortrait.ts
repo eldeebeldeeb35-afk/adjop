@@ -11,6 +11,11 @@ export type PortraitSample = {
   brightness: Float32Array; // 0..1 per star
 };
 
+// Tuned by Hamdy in the portrait lab: a flat portrait (no 3D relief) whose
+// density follows light only, without extra stars along feature edges.
+const DEPTH = 0;
+const EDGE_WEIGHT = 0;
+
 const SAMPLE_W = 288;
 const SAMPLE_H = 360; // 4:5, same as the prepared webp files
 
@@ -103,7 +108,7 @@ export function samplePortrait(img: HTMLImageElement, count: number, seed: numbe
       // contours become dense bright lines, flat areas keep a sparse dusting
       const en = edge[i] / maxEdge;
       const e = Math.min(1, Math.max(0, (en - 0.1) / 0.4));
-      sum += a * (0.03 + Math.pow(lum[i], 2.4) * 0.8 + e * e * 1.8);
+      sum += a * (0.03 + Math.pow(lum[i], 2.4) * 0.8 + e * e * EDGE_WEIGHT);
     }
     weights[i] = sum; // must stay monotonic for the binary search
   }
@@ -126,7 +131,7 @@ export function samplePortrait(img: HTMLImageElement, count: number, seed: numbe
     positions[k * 3] = (x / SAMPLE_W - 0.5) * aspect;
     positions[k * 3 + 1] = 0.5 - y / SAMPLE_H;
     // volume from the silhouette + fine relief from light (lit areas face the camera)
-    positions[k * 3 + 2] = Math.sqrt(depth[lo] / maxDepth) * 0.32 + (lum[lo] - 0.5) * 0.05 + (rand() - 0.5) * 0.015;
+    positions[k * 3 + 2] = (Math.sqrt(depth[lo] / maxDepth) + (lum[lo] - 0.5) * 0.16) * DEPTH;
     brightness[k] = Math.min(1, 0.15 + Math.pow(lum[lo], 1.4) * 0.7 + (edge[lo] / maxEdge) * 0.6);
   }
   return { positions, brightness };
