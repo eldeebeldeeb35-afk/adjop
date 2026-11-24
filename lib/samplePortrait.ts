@@ -88,6 +88,12 @@ export function samplePortrait(img: HTMLImageElement, count: number, seed: numbe
     }
   }
 
+  // depth: distance from the silhouette edge, rounded into a bulge, so the head
+  // and shoulders have volume when the portrait turns
+  const depth = chamferDistance(alpha, SAMPLE_W, SAMPLE_H);
+  let maxDepth = 1e-6;
+  for (let i = 0; i < n; i++) if (depth[i] > maxDepth) maxDepth = depth[i];
+
   // importance weights -> cumulative distribution
   const weights = new Float64Array(n);
   let sum = 0;
@@ -119,11 +125,47 @@ export function samplePortrait(img: HTMLImageElement, count: number, seed: numbe
     const y = Math.floor(lo / SAMPLE_W) + rand();
     positions[k * 3] = (x / SAMPLE_W - 0.5) * aspect;
     positions[k * 3 + 1] = 0.5 - y / SAMPLE_H;
-    // a little depth: brighter (nearer, lit) areas sit slightly forward
-    positions[k * 3 + 2] = (lum[lo] - 0.5) * 0.06 + (rand() - 0.5) * 0.02;
+    // volume from the silhouette + fine relief from light (lit areas face the camera)
+    positions[k * 3 + 2] = Math.sqrt(depth[lo] / maxDepth) * 0.32 + (lum[lo] - 0.5) * 0.05 + (rand() - 0.5) * 0.015;
     brightness[k] = Math.min(1, 0.15 + Math.pow(lum[lo], 1.4) * 0.7 + (edge[lo] / maxEdge) * 0.6);
   }
   return { positions, brightness };
+}
+
+// two-pass chamfer distance (in pixels) from each inside pixel to the outside
+function chamferDistance(alpha: Float32Array, w: number, h: number) {
+  const d = new Float32Array(w * h);
+  const INF = 1e9;
+  for (let i = 0; i < w * h; i++) d[i] = alpha[i] > 0.5 ? INF : 0;
+  const D1 = 1, D2 = Math.SQRT2;
+  for (let y = 0; y < h; y++)
+    for (let x = 0; x < w; x++) {
+      const i = y * w + x;
+      if (!d[i]) continue;
+      let v = d[i];
+      if (x > 0) v = Math.min(v, d[i - 1] + D1);
+      if (y > 0) {
+        v = Math.min(v, d[i - w] + D1);
+        if (x > 0) v = Math.min(v, d[i - w - 1] + D2);
+        if (x < w - 1) v = Math.min(v, d[i - w + 1] + D2);
+      }
+      d[i] = v;
+    }
+  for (let y = h - 1; y >= 0; y--)
+    for (let x = w - 1; x >= 0; x--) {
+      const i = y * w + x;
+      if (!d[i]) continue;
+      let v = d[i];
+      if (x < w - 1) v = Math.min(v, d[i + 1] + D1);
+      if (y < h - 1) {
+        v = Math.min(v, d[i + w] + D1);
+        if (x < w - 1) v = Math.min(v, d[i + w + 1] + D2);
+        if (x > 0) v = Math.min(v, d[i + w - 1] + D2);
+      }
+      d[i] = v;
+    }
+  for (let i = 0; i < w * h; i++) if (d[i] >= INF) d[i] = 0;
+  return d;
 }
 
 function boxBlur(src: Float32Array, w: number, h: number, r: number) {

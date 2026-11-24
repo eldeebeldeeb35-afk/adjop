@@ -57,6 +57,6 @@ GitHub Pages: `.github/workflows/deploy.yml` builds with
 
 ## Open items
 
-- Facebook, TikTok, Instagram and email links are empty in `content/site.ts`
+- Email link is empty in `content/site.ts`
 - Professional section copy is inferred; experience list is empty until provided
 - Enable GitHub Pages (source: GitHub Actions) for deployment

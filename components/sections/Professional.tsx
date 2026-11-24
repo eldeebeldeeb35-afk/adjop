@@ -1,4 +1,4 @@
-import { professional } from "@/content/site";
+import { links, professional } from "@/content/site";
 import { Reveal, SectionLabel } from "@/components/ui";
 
 const toArabic = (n: number) => n.toLocaleString("ar-EG", { minimumIntegerDigits: 2 });
@@ -19,6 +19,18 @@ export default function Professional() {
           </Reveal>
           <Reveal delay={0.1}>
             <p className="text-lg text-sand">{p.intro}</p>
+            {links.work && (
+              <a
+                href={links.work}
+                target="_blank"
+                rel="noopener"
+                className="mt-6 inline-flex items-center gap-3 rounded-full border border-gold/40 px-5 py-2.5 text-sm text-gold transition hover:border-gold hover:bg-gold/10"
+              >
+                صفحة الشغل على فيسبوك
+                <span className="font-latin text-base italic" dir="ltr">{p.pageName}</span>
+                <span aria-hidden>←</span>
+              </a>
+            )}
           </Reveal>
         </div>
 

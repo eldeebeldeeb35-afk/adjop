@@ -12,9 +12,10 @@ export const person = {
 
 export const links = {
   youtube: "https://www.youtube.com/@hamdyeldee",
-  facebook: "", // TODO: رابط صفحة الفيسبوك
-  tiktok: "", // TODO: https://www.tiktok.com/@username
-  instagram: "", // TODO: https://www.instagram.com/username
+  facebook: "https://www.facebook.com/share/1J6HRgC4Vg/",
+  tiktok: "https://www.tiktok.com/@hamdyeldeeb9",
+  instagram: "https://www.instagram.com/eldeebeldeeb23",
+  work: "https://www.facebook.com/profile.php?id=100088481756405", // صفحة الشغل: dip
   email: "", // TODO: إيميل للتواصل
 };
 
@@ -24,6 +25,7 @@ export const youtubeChannelId = "UCbmQG5ZloQge0MkvPRsVxRw";
 // TODO: راجع القسم ده — مكتوب من الأدوات والشغل اللي ظاهر في مساحة العمل (إنتاج
 // فيديو بالذكاء الاصطناعي، مونتاج، إدارة منصات). صحّح المسمى والخبرات.
 export const professional = {
+  pageName: "dip",
   role: "صناعة الفيديو والحكي البصري",
   intro:
     "بحوّل الفكرة لقصة، والقصة لصورة تتشاف وتتحس. بشتغل على السلسلة كاملة: من أول سطر في السيناريو لحد ما الفيديو يوصل للناس على كل منصة.",
