@@ -4,34 +4,30 @@ Guidance for Claude Code when working in this repository.
 
 ## Project status
 
-`adjop` is a new, empty repository: no source code, dependencies, or tooling yet.
-The stack and purpose have not been decided. When the first code lands, update the
-TODO sections below in the same change so this file stays accurate.
+Static personal website (plain HTML/CSS/JS, no build step, no dependencies),
+written in Arabic with `dir="rtl"`. Intended for GitHub Pages.
 
 ## Project overview
 
-TODO: one or two sentences on what adjop does and who it is for.
+Personal site for Hamdy Eldeeb: about section, the «لسه في رجوع» episode series
+(12 weekly episodes, rendered from a config), latest YouTube uploads embed, and
+links to his platforms.
 
 ## Build, run, and test
 
-TODO: replace with the real commands once a stack is chosen. Keep these exact and
-copy-pasteable, for example:
+No install or build. Preview locally:
 
 ```bash
-# install dependencies
-# run locally
-# run all tests
-# run a single test
-# lint / format / type-check
+python3 -m http.server 8000
 ```
 
-Until these exist, do not invent commands. If a task needs a build or test step,
-set up the minimal tooling for the chosen stack and record the commands here.
+Then open http://localhost:8000. There are no tests or linters yet.
+
+Editing content: links, YouTube channel ID and series settings live in the `SITE`
+object at the top of `assets/js/site.js`. An empty link hides its button.
 
 ## Code style
 
-TODO: once a stack is chosen, record the formatter/linter and its config file.
-Until then:
 
 - Follow the conventions of whatever language/framework is introduced, and use its
   standard formatter (e.g. Prettier for JS/TS, Ruff/Black for Python).
@@ -42,7 +38,9 @@ Until then:
 
 ## Repository layout
 
-TODO: describe top-level directories once they exist.
+- `index.html`: the whole page (sections: hero, about, series, latest, platforms)
+- `assets/css/style.css`: styles and colour tokens on `:root`
+- `assets/js/site.js`: `SITE` config + link wiring, episode list, YouTube embed
 
 ## Git workflow
 
@@ -52,10 +50,7 @@ TODO: describe top-level directories once they exist.
   (e.g. "Add login form validation").
 - Don't open pull requests unless asked.
 
-## Open questions to settle (then delete this section)
+## Open items
 
-- Language / framework and package manager
-- Test framework and how to run a single test
-- Lint/format tools and whether they run in CI
-- Deployment target, if any
-- Required environment variables (names only, never values)
+- Facebook, TikTok, Instagram and email links are still empty in `site.js`
+- Deployment: enable GitHub Pages for the repository
