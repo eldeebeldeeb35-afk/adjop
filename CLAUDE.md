@@ -31,8 +31,10 @@ There is no test suite. Verify visual changes in a browser on desktop and phone
 widths; headless Chromium needs `--use-angle=swiftshader --enable-unsafe-swiftshader`
 for WebGL.
 
-GitHub Pages: `.github/workflows/deploy.yml` builds with
-`NEXT_PUBLIC_BASE_PATH=/<repo>` on push to `main` (or manual run).
+Deployment: `.github/workflows/deploy.yml` runs on pushes to the default branch
+(currently `claude/claude-md-setup-r52p5e`; there is no `main`), builds with
+`NEXT_PUBLIC_BASE_PATH=/<repo>` and force-pushes `out/` to `gh-pages`, which
+GitHub Pages serves at https://eldeebeldeeb35-afk.github.io/adjop/.
 
 ## Repository layout
 
@@ -63,4 +65,3 @@ GitHub Pages: `.github/workflows/deploy.yml` builds with
 
 - Email link is empty in `content/site.ts`
 - Professional section copy is inferred; experience list is empty until provided
-- Enable GitHub Pages (source: GitHub Actions) for deployment
