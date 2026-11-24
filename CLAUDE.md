@@ -2,60 +2,66 @@
 
 Guidance for Claude Code when working in this repository.
 
-## Project status
-
-`adjop` is a new, empty repository: no source code, dependencies, or tooling yet.
-The stack and purpose have not been decided. When the first code lands, update the
-TODO sections below in the same change so this file stays accurate.
-
 ## Project overview
 
-TODO: one or two sentences on what adjop does and who it is for.
+Personal site for Hamdy Eldeeb (Arabic, `dir="rtl"`). The hero is a WebGL
+particle portrait: thousands of gold stars draw his old look (long hair in a
+bun) through three views (back, profile looking up, facing us) and re-arrange
+into his current look (short hair, beard) on hover (desktop) or scroll (touch).
+The current look then turns its head between left / front / right photos as
+the portrait sways in 3D. Below it: "My Professional Work" and "My Creative Journey"
+(the «لسه في رجوع» series, episodes, shorts), then platforms and contact.
+
+## Stack
+
+Next.js 15 (App Router, static export to `out/`), React 19, TypeScript 5,
+Tailwind CSS 4, React Three Fiber + custom GLSL shaders, GSAP (ScrollTrigger),
+Framer Motion. No backend.
 
 ## Build, run, and test
 
-TODO: replace with the real commands once a stack is chosen. Keep these exact and
-copy-pasteable, for example:
-
 ```bash
-# install dependencies
-# run locally
-# run all tests
-# run a single test
-# lint / format / type-check
+npm ci                 # install
+npm run dev            # dev server on http://localhost:3000
+npm run build          # static export into out/
+npm run lint           # type-check (tsc --noEmit)
 ```
 
-Until these exist, do not invent commands. If a task needs a build or test step,
-set up the minimal tooling for the chosen stack and record the commands here.
+There is no test suite. Verify visual changes in a browser on desktop and phone
+widths; headless Chromium needs `--use-angle=swiftshader --enable-unsafe-swiftshader`
+for WebGL.
 
-## Code style
-
-TODO: once a stack is chosen, record the formatter/linter and its config file.
-Until then:
-
-- Follow the conventions of whatever language/framework is introduced, and use its
-  standard formatter (e.g. Prettier for JS/TS, Ruff/Black for Python).
-- Keep changes small and focused; don't add unrelated refactors.
-- Prefer clear names over comments; comment only non-obvious "why".
-- Never commit secrets (`.env`, API keys, credentials). Add a `.gitignore` entry
-  when introducing any file that may hold them.
+Deployment: `.github/workflows/deploy.yml` runs on pushes to the default branch
+(currently `claude/claude-md-setup-r52p5e`; there is no `main`), builds with
+`NEXT_PUBLIC_BASE_PATH=/<repo>` and force-pushes `out/` to `gh-pages`, which
+GitHub Pages serves at https://eldeebeldeeb35-afk.github.io/adjop/.
 
 ## Repository layout
 
-TODO: describe top-level directories once they exist.
+- `content/site.ts`: all copy, links, episodes and shorts. Edit content here.
+- `app/`: layout (fonts, metadata), page, `globals.css` (colour tokens in `@theme`)
+- `components/hero/`: `Hero.tsx` (mode detection, hover/scroll driving, fallback),
+  `ParticleScene.tsx` (R3F scene), `shaders.ts` (GLSL)
+- `lib/samplePortrait.ts`: image → star positions (equalisation, local contrast,
+  Sobel edges, importance sampling, Hilbert-order pairing)
+- `components/sections/`: Nav, Crossroads, Professional, Journey, Contact
+- `public/portraits/{before,after}-{0,1,2}.webp`: background-removed, identically
+  framed views. Regenerate with `scripts/prepare_portraits.py` from the two
+  three-panel composites (rembg + scipy); head positions and erase boxes are set
+  per view in `VIEWS`. All six must keep the same size and head placement.
 
-## Git workflow
+## Conventions
 
-- Default remote: `origin` → `github.com/eldeebeldeeb35-afk/adjop`.
-- Work on a feature branch, not directly on the default branch.
-- Write commit messages in the imperative mood with a short summary line
-  (e.g. "Add login form validation").
-- Don't open pull requests unless asked.
+- Visual identity: dark warm background, gold `#d9ae5f`, Amiri (display),
+  Tajawal (body), Cormorant Garamond (Latin). Do not introduce new palettes.
+- Use only photos of Hamdy that he supplied (he provided AI-assisted views of
+  himself); never substitute other people or generated faces of your own.
+- Keep the WebGL fallback (`StaticPortrait`) working for no-WebGL and
+  `prefers-reduced-motion`.
+- Never commit secrets. Commit messages: imperative mood, short summary line.
+- Work on a feature branch; don't open pull requests unless asked.
 
-## Open questions to settle (then delete this section)
+## Open items
 
-- Language / framework and package manager
-- Test framework and how to run a single test
-- Lint/format tools and whether they run in CI
-- Deployment target, if any
-- Required environment variables (names only, never values)
+- Email link is empty in `content/site.ts`
+- Professional section copy is inferred; experience list is empty until provided
