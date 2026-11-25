@@ -9,13 +9,12 @@ export const portraitVertex = /* glsl */ `
   uniform float uSize;
   uniform float uPixelRatio;
 
-  // position = old look, back view
-  attribute vec3 aB1;   // old look, profile looking up
-  attribute vec3 aB2;   // old look, three-quarter front
+  // position = old look, profile looking up
+  attribute vec3 aB1;   // old look, three-quarter front
   attribute vec3 aA0;   // current look, turned left
   attribute vec3 aA1;   // current look, front
   attribute vec3 aA2;   // current look, turned right
-  attribute vec3 aLumB;
+  attribute vec2 aLumB;
   attribute vec3 aLumA;
   attribute float aSeed;
 
@@ -39,22 +38,22 @@ export const portraitVertex = /* glsl */ `
     now += vec3(cos(ta) * 0.05, sin(ta * 1.4) * 0.04, (aSeed - 0.4) * 0.5) * turnFlight;
     float nowLum = mix(viewLum(uViewFrom), viewLum(uViewTo), tv);
 
-    // journey: back -> looking up -> facing us -> today. Stars leave in a wave
-    // that sweeps down the head, each with its own delay.
+    // journey: looking up -> facing us -> today. Stars leave in a wave that
+    // sweeps down the head, each with its own delay.
     float delay = aSeed * 0.28 + (0.5 - position.y) * 0.22;
-    float p = clamp((uProgress - delay) / 0.5, 0.0, 1.0) * 3.0;
-    float seg = min(floor(p), 2.0);
+    float p = clamp((uProgress - delay) / 0.5, 0.0, 1.0) * 2.0;
+    float seg = min(floor(p), 1.0);
     float t = p - seg;
     t = t * t * (3.0 - 2.0 * t);
 
-    vec3 from = seg < 0.5 ? position : (seg < 1.5 ? aB1 : aB2);
-    vec3 to = seg < 0.5 ? aB1 : (seg < 1.5 ? aB2 : now);
-    float lFrom = seg < 0.5 ? aLumB.x : (seg < 1.5 ? aLumB.y : aLumB.z);
-    float lTo = seg < 0.5 ? aLumB.y : (seg < 1.5 ? aLumB.z : nowLum);
+    vec3 from = seg < 0.5 ? position : aB1;
+    vec3 to = seg < 0.5 ? aB1 : now;
+    float lFrom = seg < 0.5 ? aLumB.x : aLumB.y;
+    float lTo = seg < 0.5 ? aLumB.y : nowLum;
 
     vec3 pos = mix(from, to, t);
-    // the last leg (old -> today) travels further through space than the turns
-    float flight = sin(t * PI) * (seg > 1.5 ? 1.0 : 0.55);
+    // the last leg (old -> today) travels further through space than the turn
+    float flight = sin(t * PI) * (seg > 0.5 ? 1.0 : 0.55);
 
     float a = aSeed * 6.2831 + uTime * 0.35;
     pos.x += cos(a) * flight * (0.10 + aSeed * 0.18);

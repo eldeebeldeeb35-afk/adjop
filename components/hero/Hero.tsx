@@ -10,9 +10,10 @@ import type { MorphState } from "./ParticleScene";
 const ParticleScene = dynamic(() => import("./ParticleScene"), { ssr: false });
 
 const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-const BEFORE_VIEWS = [0, 1, 2].map((i) => `${base}/portraits/before-${i}.webp`);
+// old look: profile looking up, then three-quarter facing us (the back view is not used)
+const BEFORE_VIEWS = [1, 2].map((i) => `${base}/portraits/before-${i}.webp`);
 const AFTER_VIEWS = [0, 1, 2].map((i) => `${base}/portraits/after-${i}.webp`);
-const BEFORE = BEFORE_VIEWS[1];
+const BEFORE = BEFORE_VIEWS[0];
 const AFTER = AFTER_VIEWS[1];
 
 type Mode = "pending" | "hover" | "scroll" | "static";
@@ -105,7 +106,7 @@ export default function Hero() {
   const tall = mode === "scroll" || mode === "static";
 
   return (
-    <section ref={section} id="top" className={`relative ${tall ? "h-[340svh]" : "h-svh min-h-[640px]"}`}>
+    <section ref={section} id="top" className={`relative ${tall ? "h-[260svh]" : "h-svh min-h-[640px]"}`}>
       <div className="sticky top-0 h-svh min-h-[560px] overflow-hidden">
         <div className="hero-glow" aria-hidden />
 
@@ -173,7 +174,7 @@ export default function Hero() {
           </div>
         </div>
 
-        <a href="#crossroads" className="scroll-cue" aria-label="انزل للمحتوى">
+        <a href="#about" className="scroll-cue" aria-label="انزل للمحتوى">
           <span />
         </a>
       </div>

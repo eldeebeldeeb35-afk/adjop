@@ -53,7 +53,7 @@ export default function Journey() {
     <section id="journey" className="cinema-bg grain relative overflow-hidden border-t border-line/60 py-28 md:py-40">
       <div className="relative mx-auto max-w-[1240px] px-6">
         <Reveal>
-          <SectionLabel index="٠٢" ar="رحلتي" en="Content & Story" />
+          <SectionLabel index="٠١" ar="رحلتي" en="Content & Story" />
         </Reveal>
 
         {/* title card */}

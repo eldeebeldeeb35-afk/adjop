@@ -1,7 +1,6 @@
 import Hero from "@/components/hero/Hero";
 import Nav from "@/components/sections/Nav";
-import Crossroads from "@/components/sections/Crossroads";
-import Professional from "@/components/sections/Professional";
+import About from "@/components/sections/About";
 import Journey from "@/components/sections/Journey";
 import Contact from "@/components/sections/Contact";
 import MobileBar from "@/components/sections/MobileBar";
@@ -10,16 +9,23 @@ import { CursorGlow } from "@/components/ui";
 export default function Page() {
   return (
     <>
-      <Nav />
+      <Nav
+        items={[
+          { href: "#about", label: "مين أنا" },
+          { href: "#journey", label: "رحلتي" },
+          { href: "#episodes", label: "الحلقات" },
+          { href: "#contact", label: "تواصل" },
+        ]}
+        cta={{ href: "/work/", label: "شغلي ←" }}
+      />
       <CursorGlow />
       <main>
         <Hero />
-        <Crossroads />
-        <Professional />
+        <About />
         <Journey />
         <Contact />
       </main>
-      <MobileBar />
+      <MobileBar variant="story" />
     </>
   );
 }

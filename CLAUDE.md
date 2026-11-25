@@ -6,7 +6,8 @@ Guidance for Claude Code when working in this repository.
 
 Personal site for Hamdy Eldeeb (Arabic, `dir="rtl"`). The hero is a WebGL
 particle portrait: thousands of gold stars draw his old look (long hair in a
-bun) through three views (back, profile looking up, facing us) and re-arrange
+bun) through two views (profile looking up, then facing us; the back view
+`before-0` is not used) and re-arrange
 into his current look (short hair, beard) on hover (desktop) or scroll (touch).
 The current look then turns its head between left / front / right photos as
 it leans toward the pointer (desktop). Hamdy tuned the portrait in the lab:
@@ -14,15 +15,16 @@ flat (no depth relief), no extra edge stars, 50k stars on desktop, no
 automatic sway; these live as constants in `lib/samplePortrait.ts`,
 `Hero.tsx` and `ParticleScene.tsx`.
 
-Below the hero the page splits into two tracks:
-- **Work («شغلي», `Professional.tsx`)**: Hamdy is a graphic designer doing colour
-  separation for silk-screen garment printing and owns a garment print shop; he
-  studied medical-equipment maintenance. Links to the "dip" Facebook page (his
-  colour-separation portfolio) and to a print-shop page (`links.printShop`, empty
-  until it exists, shown as "قريبًا").
-- **Content («رحلتي», `Journey.tsx`)**: the «لسه في رجوع» series, how an episode
-  is made ("من الفكرة لحد ما تشوفها"), episodes, shorts.
-Then platforms and contact. The phone-only `MobileBar` swaps its actions per track.
+The site has two pages:
+- **Story page (`app/page.tsx`)**: hero, an "مين أنا" CV card (`About.tsx`: full
+  name, job as a medical-equipment maintenance technician at Kafr El-Dawwar
+  General Hospital, D.I.P, the series), the «لسه في رجوع» content track
+  (`Journey.tsx`: how an episode is made, episodes, shorts), then contact. Nothing
+  about colour separation lives here except the link to the work page.
+- **Work page (`app/work/page.tsx`, `components/work/WorkPage.tsx`)**: D.I.P, his
+  brand for clothing design, colour separation (for his own print shop and other
+  print shops) and silk-screen printing. Links to the D.I.P Facebook page.
+`Nav` and the phone-only `MobileBar` take per-page links/variants.
 
 ## Stack
 
@@ -56,7 +58,7 @@ GitHub Pages serves at https://eldeebeldeeb35-afk.github.io/adjop/.
   `ParticleScene.tsx` (R3F scene), `shaders.ts` (GLSL)
 - `lib/samplePortrait.ts`: image → star positions (equalisation, local contrast,
   Sobel edges, importance sampling, Hilbert-order pairing)
-- `components/sections/`: Nav, Crossroads, Professional, Journey, Contact
+- `components/sections/`: Nav, About, Journey, Contact, MobileBar; `components/work/`: WorkPage
 - `public/portraits/{before,after}-{0,1,2}.webp`: background-removed, identically
   framed views. Regenerate with `scripts/prepare_portraits.py` from the two
   three-panel composites (rembg + scipy); head positions and erase boxes are set
@@ -78,5 +80,5 @@ GitHub Pages serves at https://eldeebeldeeb35-afk.github.io/adjop/.
 ## Open items
 
 - Email link is empty in `content/site.ts`
-- Print-shop page link (`links.printShop`) and work samples for a gallery
+- Work samples (photos) for a gallery on the work page
 - Experience list is empty until provided
