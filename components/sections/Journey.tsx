@@ -149,7 +149,9 @@ export default function Journey() {
                 >
                   <span className="relative aspect-video w-32 shrink-0 overflow-hidden rounded-xl bg-coal">
                     <img src={`https://i.ytimg.com/vi/${e.videoId}/mqdefault.jpg`} alt="" loading="lazy" className="h-full w-full object-cover" onError={(ev) => (ev.currentTarget.style.display = "none")} />
-                    <span className="absolute bottom-1 start-1 rounded bg-ink/80 px-1.5 text-[11px] text-cream">{arDigits(e.duration ?? "")}</span>
+                    {e.duration && (
+                      <span className="absolute bottom-1 start-1 rounded bg-ink/80 px-1.5 text-[11px] text-cream">{arDigits(e.duration)}</span>
+                    )}
                   </span>
                   <span className="min-w-0">
                     <span className="block text-xs text-gold">الحلقة {ar(e.n)} · {fmt.format(e.date)}</span>

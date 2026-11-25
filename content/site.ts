@@ -1,3 +1,5 @@
+import videos from "./videos.json";
+
 // ============================================================
 //  كل محتوى الموقع هنا — عدّل الملف ده بس عشان تغيّر الكلام أو الروابط.
 //  أي رابط فاضي ("") الزرار بتاعه بيختفي تلقائيًا.
@@ -69,27 +71,18 @@ export const journey = {
   },
 };
 
+// Episodes and shorts come from content/videos.json, which the deploy workflow
+// refreshes from the channel's YouTube feed every few hours
+// (scripts/fetch-videos.mjs). Edit that file to fix a title or add a duration.
 export const series = {
   firstEpisode: "2026-11-17",
   everyDays: 7,
   total: 12,
-  // videoId بيتملى لكل حلقة لما تنزل
-  episodes: [
-    {
-      n: 1,
-      title: "هل ممكن ربنا يغفر لي بعد كل اللي عملته؟ قصتي",
-      videoId: "aGR0PG2vDIg",
-      duration: "17:58",
-    },
-  ] as { n: number; title: string; videoId?: string; duration?: string }[],
+  episodes: videos.episodes as { n: number; title: string; videoId?: string; duration?: string }[],
 };
 
-export const shorts = [
-  { id: "OcB9K01lWqI", title: "كان بيني وبين الموت شعرة…" },
-  { id: "upVKU-G-tNo", title: "دعيت ومحصلش حاجة؟ اسمع ده" },
-  { id: "BtFr1TO5tMY", title: "المتدين في الأفلام vs في الواقع" },
-  { id: "O1_iqc9FAzQ", title: "هل حد ضامن بكرة" },
-];
+// newest first; the page shows the latest four
+export const shorts = (videos.shorts as { id: string; title: string }[]).slice(0, 4);
 
 export const siteUrl = "https://eldeebeldeeb35-afk.github.io/adjop/";
 export const subscribeUrl = `${"https://www.youtube.com/@hamdyeldee"}?sub_confirmation=1`;

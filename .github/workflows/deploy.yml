@@ -1,11 +1,15 @@
 name: Deploy to GitHub Pages
 
-# Runs on pushes to the repository's default branch (whatever it is called) and
-# on demand. The static export is published to the gh-pages branch, which
-# GitHub Pages serves at https://<owner>.github.io/<repo>/.
+# Runs on pushes to the repository's default branch (whatever it is called), on
+# demand, and every hour so new YouTube episodes and shorts appear on the
+# site without a manual edit (scripts/fetch-videos.mjs reads the channel feed).
+# The static export is published to the gh-pages branch, which GitHub Pages
+# serves at https://<owner>.github.io/<repo>/.
 on:
   push:
   workflow_dispatch:
+  schedule:
+    - cron: "17 * * * *"
 
 permissions:
   contents: write
@@ -25,6 +29,8 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - name: Pull latest episodes and shorts from YouTube
+        run: node scripts/fetch-videos.mjs
       - run: npm run build
         env:
           NEXT_PUBLIC_BASE_PATH: /${{ github.event.repository.name }}

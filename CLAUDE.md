@@ -48,11 +48,15 @@ for WebGL.
 Deployment: `.github/workflows/deploy.yml` runs on pushes to the default branch
 (currently `claude/claude-md-setup-r52p5e`; there is no `main`), builds with
 `NEXT_PUBLIC_BASE_PATH=/<repo>` and force-pushes `out/` to `gh-pages`, which
-GitHub Pages serves at https://eldeebeldeeb35-afk.github.io/adjop/.
+GitHub Pages serves at https://eldeebeldeeb35-afk.github.io/adjop/. It also runs
+every hour: `scripts/fetch-videos.mjs` reads the channel's public YouTube
+feed and merges new episodes (titles with «لسه في رجوع» + "ح<n>") and shorts
+(#shorts) into `content/videos.json` before the build. The merged file is not
+committed back, so fix titles or add durations by editing `content/videos.json`.
 
 ## Repository layout
 
-- `content/site.ts`: all copy, links, episodes and shorts. Edit content here.
+- `content/site.ts`: all copy and links; `content/videos.json`: episodes and shorts.
 - `app/`: layout (fonts, metadata), page, `globals.css` (colour tokens in `@theme`)
 - `components/hero/`: `Hero.tsx` (mode detection, hover/scroll driving, fallback),
   `ParticleScene.tsx` (R3F scene), `shaders.ts` (GLSL)
