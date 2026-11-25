@@ -53,7 +53,7 @@ export default function Journey() {
     <section id="journey" className="cinema-bg grain relative overflow-hidden border-t border-line/60 py-28 md:py-40">
       <div className="relative mx-auto max-w-[1240px] px-6">
         <Reveal>
-          <SectionLabel index="٠٢" ar="رحلتي" en="My Creative Journey" />
+          <SectionLabel index="٠١" ar="رحلتي" en="Content & Story" />
         </Reveal>
 
         {/* title card */}
@@ -78,6 +78,43 @@ export default function Journey() {
               <p className="mt-2 text-sand">{p.text}</p>
             </Reveal>
           ))}
+        </div>
+
+        {/* how an episode is made: from the idea to the screen */}
+        <div className="mt-28">
+          <Reveal className="grid gap-6 md:grid-cols-[1fr_1.1fr] md:items-end">
+            <h3 className="font-display text-4xl leading-tight text-cream md:text-5xl">{journey.making.title}</h3>
+            <p className="text-lg text-sand">{journey.making.intro}</p>
+          </Reveal>
+          <ol className="relative mt-10 grid gap-4 sm:grid-cols-5">
+            <span className="absolute inset-x-0 top-[22px] hidden h-px bg-gradient-to-l from-gold/0 via-gold/50 to-gold/0 sm:block" aria-hidden />
+            {journey.making.workflow.map((step, i) => (
+              <Reveal as="li" key={step} delay={i * 0.08} className="relative flex items-center gap-4 sm:flex-col sm:items-start sm:gap-3">
+                <span className="relative z-10 grid h-11 w-11 shrink-0 place-items-center rounded-full border border-gold/50 bg-night text-sm text-gold">
+                  {ar(i + 1)}
+                </span>
+                <span className="text-cream">{step}</span>
+              </Reveal>
+            ))}
+          </ol>
+          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {journey.making.skills.map((k, i) => (
+              <Reveal key={k.title} delay={i * 0.06} className="rounded-2xl border border-line bg-night/70 p-6">
+                <h4 className="font-bold text-cream">{k.title}</h4>
+                <p className="mt-2 text-sm text-sand">{k.text}</p>
+              </Reveal>
+            ))}
+          </div>
+          <Reveal className="mt-6">
+            <dl className="grid grid-cols-3 gap-4 rounded-2xl border border-line bg-night/70 p-6">
+              {journey.making.stats.map((st) => (
+                <div key={st.label} className="flex flex-col">
+                  <dd className="gold-text font-display text-4xl md:text-5xl">{st.value}</dd>
+                  <dt className="text-xs text-sand md:text-sm">{st.label}</dt>
+                </div>
+              ))}
+            </dl>
+          </Reveal>
         </div>
 
         {/* player + episode list */}

@@ -1,18 +1,16 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { person } from "@/content/site";
 
 const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
-const items = [
-  { href: "#professional", label: "شغلي" },
-  { href: "#journey", label: "رحلتي" },
-  { href: "#episodes", label: "الحلقات" },
-  { href: "#contact", label: "تواصل" },
-];
+type Item = { href: string; label: string };
 
-export default function Nav() {
+// Shared top bar. Each page passes its own in-page links and one highlighted
+// link to the other page (story page -> work page and back).
+export default function Nav({ items, cta }: { items: Item[]; cta: Item }) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -29,17 +27,20 @@ export default function Nav() {
         scrolled || open ? "border-b border-line/60 bg-ink/75 backdrop-blur-xl" : "border-b border-transparent"
       }`}
     >
-      <div className="mx-auto flex h-16 max-w-[1240px] items-center justify-between px-6">
-        <a href="#top" className="flex items-center gap-3 font-display text-xl text-gold">
+      <div className="mx-auto flex h-16 max-w-[1240px] items-center justify-between gap-4 px-6">
+        <Link href="/" className="flex items-center gap-3 font-display text-xl text-gold">
           <img src={`${base}/brand/logo.png`} alt="" width={36} height={34} className="h-9 w-auto" />
           {person.name}
-        </a>
-        <nav className="hidden gap-9 text-sm text-sand md:flex">
+        </Link>
+        <nav className="hidden items-center gap-8 text-sm text-sand md:flex">
           {items.map((i) => (
             <a key={i.href} href={i.href} className="relative transition hover:text-cream after:absolute after:-bottom-1 after:start-0 after:h-px after:w-0 after:bg-gold after:transition-all hover:after:w-full">
               {i.label}
             </a>
           ))}
+          <Link href={cta.href} className="rounded-full border border-gold/50 px-4 py-1.5 text-gold transition hover:bg-gold/10">
+            {cta.label}
+          </Link>
         </nav>
         <button
           type="button"
@@ -59,6 +60,9 @@ export default function Nav() {
               {i.label}
             </a>
           ))}
+          <Link href={cta.href} onClick={() => setOpen(false)} className="py-3 font-display text-2xl text-gold">
+            {cta.label}
+          </Link>
         </nav>
       )}
     </header>

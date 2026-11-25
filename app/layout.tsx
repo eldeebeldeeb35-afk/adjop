@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   // absolute base for the share image and icons (GitHub Pages serves under /adjop)
   metadataBase: new URL("https://eldeebeldeeb35-afk.github.io"),
   title: "حمدي الديب | Hamdy Eldeeb",
-  description: "حمدي الديب — صناعة فيديو وحكي بصري، وسلسلة «لسه في رجوع»: قصص توبة ورجوع لله بلهجة مصرية، صادقة وهادية، من غير وعظ.",
+  description: "حمدي الديب: مصمم جرافيك وفصل ألوان لطباعة السلك سكرين على الملابس وصاحب مطبعة، وصانع محتوى سلسلة «لسه في رجوع».",
   openGraph: {
     title: "حمدي الديب | لسه في رجوع",
     description: "نفس الإنسان، اتبنى من جديد.",

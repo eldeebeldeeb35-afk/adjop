@@ -1,27 +1,29 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { subscribeUrl } from "@/content/site";
+import { links, subscribeUrl } from "@/content/site";
 
-// Phone-only bar that appears once the hero has been scrolled past: one tap to
-// the latest episode, one tap to subscribe.
-export default function MobileBar() {
+// Phone-only bar that slides up once the visitor has scrolled past the first
+// screen. The story page offers the latest episode and subscribe; the work page
+// offers the D.I.P page.
+export default function MobileBar({ variant }: { variant: "story" | "work" }) {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
-    const target = document.getElementById("crossroads");
-    if (!target) return;
-    const io = new IntersectionObserver(([e]) => setShow(e.boundingClientRect.top < window.innerHeight * 0.5), {
-      threshold: [0, 0.1, 0.5, 1],
-    });
-    io.observe(target);
-    const onScroll = () => setShow(target.getBoundingClientRect().top < window.innerHeight * 0.5);
-    window.addEventListener("scroll", onScroll, { passive: true });
+    const anchor = document.getElementById(variant === "story" ? "about" : "services");
+    if (!anchor) return;
+    const update = () => setShow(anchor.getBoundingClientRect().top < window.innerHeight * 0.5);
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
     return () => {
-      io.disconnect();
-      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
     };
-  }, []);
+  }, [variant]);
+
+  const ghost = "flex-1 rounded-full border border-gold/40 py-2.5 text-center text-sm text-gold";
+  const solid = "flex-1 rounded-full bg-gold py-2.5 text-center text-sm font-bold text-ink";
 
   return (
     <div
@@ -29,14 +31,20 @@ export default function MobileBar() {
         show ? "translate-y-0" : "translate-y-full"
       }`}
     >
-      <div className="flex items-center gap-2">
-        <a href="#episodes" className="flex-1 rounded-full border border-gold/40 py-2.5 text-center text-sm text-gold">
-          ▶ أحدث حلقة
+      {variant === "work" ? (
+        <a href={links.work} target="_blank" rel="noopener" className={`${solid} block`}>
+          شوف الشغل على صفحة <span dir="ltr">D.I.P</span>
         </a>
-        <a href={subscribeUrl} target="_blank" rel="noopener" className="flex-1 rounded-full bg-gold py-2.5 text-center text-sm font-bold text-ink">
-          اشترك في القناة
-        </a>
-      </div>
+      ) : (
+        <div className="flex items-center gap-2">
+          <a href="#episodes" className={ghost}>
+            ▶ أحدث حلقة
+          </a>
+          <a href={subscribeUrl} target="_blank" rel="noopener" className={solid}>
+            اشترك في القناة
+          </a>
+        </div>
+      )}
     </div>
   );
 }
