@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { person } from "@/content/site";
 
+const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+
 const items = [
   { href: "#professional", label: "شغلي" },
   { href: "#journey", label: "رحلتي" },
@@ -28,7 +30,8 @@ export default function Nav() {
       }`}
     >
       <div className="mx-auto flex h-16 max-w-[1240px] items-center justify-between px-6">
-        <a href="#top" className="font-display text-xl text-gold">
+        <a href="#top" className="flex items-center gap-3 font-display text-xl text-gold">
+          <img src={`${base}/brand/logo.png`} alt="" width={36} height={34} className="h-9 w-auto" />
           {person.name}
         </a>
         <nav className="hidden gap-9 text-sm text-sand md:flex">

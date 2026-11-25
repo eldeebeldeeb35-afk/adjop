@@ -7,6 +7,8 @@ const tajawal = Tajawal({ subsets: ["arabic"], weight: ["300", "400", "500", "70
 const cormorant = Cormorant_Garamond({ subsets: ["latin"], weight: ["400", "500"], style: ["normal", "italic"], variable: "--font-cormorant", display: "swap" });
 
 export const metadata: Metadata = {
+  // absolute base for the share image and icons (GitHub Pages serves under /adjop)
+  metadataBase: new URL("https://eldeebeldeeb35-afk.github.io"),
   title: "حمدي الديب | Hamdy Eldeeb",
   description: "حمدي الديب — صناعة فيديو وحكي بصري، وسلسلة «لسه في رجوع»: قصص توبة ورجوع لله بلهجة مصرية، صادقة وهادية، من غير وعظ.",
   openGraph: {
