@@ -49,7 +49,7 @@ Deployment: `.github/workflows/deploy.yml` runs on pushes to the default branch
 (currently `claude/claude-md-setup-r52p5e`; there is no `main`), builds with
 `NEXT_PUBLIC_BASE_PATH=/<repo>` and force-pushes `out/` to `gh-pages`, which
 GitHub Pages serves at https://eldeebeldeeb35-afk.github.io/adjop/. It also runs
-every 3 hours: `scripts/fetch-videos.mjs` reads the channel's public YouTube
+every hour: `scripts/fetch-videos.mjs` reads the channel's public YouTube
 feed and merges new episodes (titles with «لسه في رجوع» + "ح<n>") and shorts
 (#shorts) into `content/videos.json` before the build. The merged file is not
 committed back, so fix titles or add durations by editing `content/videos.json`.
