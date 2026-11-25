@@ -135,7 +135,7 @@ export default function Hero() {
             <p className="font-latin text-sm uppercase tracking-[0.4em] text-gold/80 reveal-up" style={{ animationDelay: "0.2s" }} dir="ltr">
               {person.latinName}
             </p>
-            <h1 className="mt-3 font-display text-[clamp(3.2rem,9vw,7rem)] leading-[1.05] text-cream reveal-up" style={{ animationDelay: "0.4s" }}>
+            <h1 className="mt-3 font-display text-[clamp(3rem,7.2vw,5.6rem)] leading-[1.15] whitespace-nowrap text-cream reveal-up" style={{ animationDelay: "0.4s" }}>
               {person.name}
             </h1>
             <p className="mt-5 text-lg text-sand md:text-xl reveal-up" style={{ animationDelay: "0.7s" }}>

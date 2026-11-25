@@ -55,8 +55,10 @@ GitHub Pages serves at https://eldeebeldeeb35-afk.github.io/adjop/.
 
 ## Conventions
 
-- Visual identity: dark warm background, gold `#d9ae5f`, Amiri (display),
-  Tajawal (body), Cormorant Garamond (Latin). Do not introduce new palettes.
+- Visual identity: dark warm background, gold `#d9ae5f`, the square-Kufic channel
+  logo (`public/brand/logo.png`). Fonts match the logo: Reem Kufi (display and
+  Latin), Noto Kufi Arabic (body); Amiri only for the Quran verse (`font-quran`).
+  Do not introduce new palettes.
 - Use only photos of Hamdy that he supplied (he provided AI-assisted views of
   himself); never substitute other people or generated faces of your own.
 - Keep the WebGL fallback (`StaticPortrait`) working for no-WebGL and

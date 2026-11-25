@@ -27,7 +27,7 @@ export default function Professional() {
                 className="mt-6 inline-flex items-center gap-3 rounded-full border border-gold/40 px-5 py-2.5 text-sm text-gold transition hover:border-gold hover:bg-gold/10"
               >
                 صفحة الشغل على فيسبوك
-                <span className="font-latin text-base italic" dir="ltr">{p.pageName}</span>
+                <span className="font-latin text-base" dir="ltr">{p.pageName}</span>
                 <span aria-hidden>←</span>
               </a>
             )}

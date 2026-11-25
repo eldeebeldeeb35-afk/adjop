@@ -36,7 +36,7 @@ export default function Crossroads() {
               className="group relative block overflow-hidden rounded-3xl border border-line bg-coal/60 p-8 transition duration-500 hover:border-gold/60 md:p-12"
             >
               <span className="pointer-events-none absolute -top-24 start-1/2 h-64 w-64 -translate-x-1/2 rounded-full bg-gold/0 blur-3xl transition duration-700 group-hover:bg-gold/15" />
-              <span className="font-latin text-sm italic text-sand/70" dir="ltr">{d.en}</span>
+              <span className="font-latin text-sm text-sand/70" dir="ltr">{d.en}</span>
               <h2 className="mt-2 font-display text-5xl text-cream transition group-hover:text-gold md:text-6xl">{d.ar}</h2>
               <p className="mt-4 max-w-sm text-sand">{d.text}</p>
               <span className="mt-8 inline-flex items-center gap-2 text-sm text-gold">

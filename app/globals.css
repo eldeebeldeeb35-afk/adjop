@@ -10,9 +10,10 @@
   --color-sand: #b3a690;
   --color-gold: #d9ae5f;
   --color-gold-deep: #a8813d;
-  --font-display: var(--font-amiri), serif;
-  --font-sans: var(--font-tajawal), system-ui, sans-serif;
-  --font-latin: var(--font-cormorant), serif;
+  --font-display: var(--font-reem), var(--font-noto-kufi), system-ui, sans-serif;
+  --font-sans: var(--font-noto-kufi), system-ui, sans-serif;
+  --font-latin: var(--font-reem), system-ui, sans-serif;
+  --font-quran: var(--font-amiri), serif;
 }
 
 html {
@@ -26,10 +27,13 @@ body {
   margin: 0;
   background: var(--color-ink);
   font-family: var(--font-sans);
-  font-size: 17px;
-  line-height: 1.85;
+  font-size: 16px;
+  line-height: 1.9;
   overflow-x: clip;
 }
+
+/* Reem Kufi's word space is narrow; widen it so short phrases don't run together */
+.font-display { word-spacing: 0.18em; }
 
 ::selection { background: color-mix(in srgb, var(--color-gold) 35%, transparent); }
 

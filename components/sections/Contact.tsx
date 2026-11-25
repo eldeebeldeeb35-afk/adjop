@@ -47,7 +47,7 @@ export default function Contact() {
 
       <section className="relative border-t border-line/60 px-6 py-28 text-center md:py-36">
         <Reveal>
-          <p className="mx-auto max-w-3xl font-display text-[clamp(1.6rem,4vw,2.6rem)] leading-[1.9] text-cream">
+          <p className="mx-auto max-w-3xl font-quran text-[clamp(1.6rem,4vw,2.6rem)] leading-[1.9] text-cream">
             ﴿ قُلْ يَا عِبَادِيَ الَّذِينَ أَسْرَفُوا عَلَىٰ أَنفُسِهِمْ لَا تَقْنَطُوا مِن رَّحْمَةِ اللَّهِ ﴾
           </p>
         </Reveal>
