@@ -12,8 +12,17 @@ The current look then turns its head between left / front / right photos as
 it leans toward the pointer (desktop). Hamdy tuned the portrait in the lab:
 flat (no depth relief), no extra edge stars, 50k stars on desktop, no
 automatic sway; these live as constants in `lib/samplePortrait.ts`,
-`Hero.tsx` and `ParticleScene.tsx`. Below it: "My Professional Work" and "My Creative Journey"
-(the «لسه في رجوع» series, episodes, shorts), then platforms and contact.
+`Hero.tsx` and `ParticleScene.tsx`.
+
+Below the hero the page splits into two tracks:
+- **Work («شغلي», `Professional.tsx`)**: Hamdy is a graphic designer doing colour
+  separation for silk-screen garment printing and owns a garment print shop; he
+  studied medical-equipment maintenance. Links to the "dip" Facebook page (his
+  colour-separation portfolio) and to a print-shop page (`links.printShop`, empty
+  until it exists, shown as "قريبًا").
+- **Content («رحلتي», `Journey.tsx`)**: the «لسه في رجوع» series, how an episode
+  is made ("من الفكرة لحد ما تشوفها"), episodes, shorts.
+Then platforms and contact. The phone-only `MobileBar` swaps its actions per track.
 
 ## Stack
 
@@ -69,4 +78,5 @@ GitHub Pages serves at https://eldeebeldeeb35-afk.github.io/adjop/.
 ## Open items
 
 - Email link is empty in `content/site.ts`
-- Professional section copy is inferred; experience list is empty until provided
+- Print-shop page link (`links.printShop`) and work samples for a gallery
+- Experience list is empty until provided

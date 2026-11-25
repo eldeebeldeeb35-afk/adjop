@@ -4,14 +4,14 @@ const doors = [
   {
     href: "#professional",
     ar: "شغلي",
-    en: "My Professional Work",
-    text: "الحرفة: إزاي الفكرة بتتحول لقصة، والقصة لفيديو يوصل.",
+    en: "Design & Screen Printing",
+    text: "تصميم وفصل ألوان لطباعة السلك سكرين على الملابس، ومطبعة ملابس.",
   },
   {
     href: "#journey",
     ar: "رحلتي",
-    en: "My Creative Journey",
-    text: "الرسالة: «لسه في رجوع» — حكايات الرجوع لربنا.",
+    en: "Content & Story",
+    text: "«لسه في رجوع»: حكايات الرجوع لربنا، من الفكرة لحد ما تشوفها.",
   },
 ];
 
@@ -25,7 +25,7 @@ export default function Crossroads() {
       </Reveal>
       <Reveal delay={0.15}>
         <p className="mx-auto mt-4 max-w-xl text-center text-sand">
-          جانب بيشتغل بإيده وعينه، وجانب بيحكي اللي في قلبه. الاتنين بيكمّلوا بعض.
+          جانب بيصمم ويفصل الألوان ويطبع، وجانب بيحكي اللي في قلبه.
         </p>
       </Reveal>
       <div className="mt-16 grid gap-5 md:grid-cols-2">
