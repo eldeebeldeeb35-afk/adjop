@@ -1,12 +1,28 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { journey, series, shorts, links } from "@/content/site";
+import { journey, series, shorts, links, whatsappShare } from "@/content/site";
 import { LiteYouTube, Reveal, SectionLabel } from "@/components/ui";
 
 const DAY = 86_400_000;
 const fmt = new Intl.DateTimeFormat("ar-EG", { day: "numeric", month: "long" });
 const ar = (n: number) => n.toLocaleString("ar-EG");
+const arDigits = (t: string) => t.replace(/[0-9]/g, (d) => "٠١٢٣٤٥٦٧٨٩"[+d]);
+const watch = (id: string) => `https://www.youtube.com/watch?v=${id}`;
+
+function ShareButton({ title, url, label = "ابعتها لحد محتاج يسمعها" }: { title: string; url: string; label?: string }) {
+  return (
+    <a
+      href={whatsappShare(title, url)}
+      target="_blank"
+      rel="noopener"
+      className="inline-flex items-center gap-2 rounded-full border border-gold/40 px-4 py-2 text-sm text-gold transition hover:border-gold hover:bg-gold/10"
+    >
+      <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current" aria-hidden><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.4 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.4-.7-2.8-1.1-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2.1 1-2.4c.3-.3.6-.3.8-.3h.6c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .6l-.4.6-.4.4c-.1.2-.3.3-.1.6.2.3.8 1.4 1.8 2.2 1.2 1.1 2.2 1.4 2.5 1.6.3.1.5.1.7-.1l.9-1.1c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.6.3.1.2.1.8-.2 1.5Z" /></svg>
+      {label}
+    </a>
+  );
+}
 
 function useEpisodes() {
   return useMemo(() => {
@@ -37,7 +53,7 @@ export default function Journey() {
     <section id="journey" className="cinema-bg grain relative overflow-hidden border-t border-line/60 py-28 md:py-40">
       <div className="relative mx-auto max-w-[1240px] px-6">
         <Reveal>
-          <SectionLabel index="02" ar="رحلتي" en="My Creative Journey" />
+          <SectionLabel index="٠٢" ar="رحلتي" en="My Creative Journey" />
         </Reveal>
 
         {/* title card */}
@@ -72,51 +88,70 @@ export default function Journey() {
               نزل {ar(released.length)} من {ar(series.total)} · حلقة جديدة كل أسبوع
             </p>
           </Reveal>
-          <div className="mt-6 h-[3px] overflow-hidden rounded-full bg-coal">
-            <div className="h-full rounded-full bg-gold shadow-[0_0_14px_#d9ae5f]" style={{ width: `${(released.length / series.total) * 100}%` }} />
-          </div>
 
           {current?.videoId && (
             <Reveal className="mt-10">
               <LiteYouTube id={current.videoId} title={`الحلقة ${ar(current.n)} — ${current.title}`} />
+              <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
+                <p className="text-sm text-sand">لو الحلقة لمستك، ابعتها لحد محتاج يسمعها.</p>
+                <ShareButton title={`لسه في رجوع · الحلقة ${ar(current.n)}: ${current.title}`} url={watch(current.videoId)} />
+              </div>
             </Reveal>
           )}
 
-          <ol className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            {episodes.map((e, i) => {
-              const selected = current?.n === e.n;
-              return (
-                <Reveal as="li" key={e.n} delay={Math.min(i, 6) * 0.05}>
-                  <button
-                    type="button"
-                    disabled={!e.out}
-                    onClick={() => e.out && setCurrent(e)}
-                    className={`flex w-full items-center gap-4 rounded-2xl border p-4 text-start transition ${
-                      selected
-                        ? "border-gold bg-gold/10"
-                        : e.out
-                          ? "border-line bg-card hover:border-gold/60"
-                          : "cursor-default border-dashed border-line/70 bg-transparent text-sand/60"
-                    }`}
-                  >
-                    <span
-                      className={`grid h-11 w-11 shrink-0 place-items-center rounded-full border font-bold ${
-                        e.out ? "border-gold bg-gold text-ink" : "border-line"
-                      }`}
-                    >
-                      {ar(e.n)}
-                    </span>
-                    <span className="min-w-0">
-                      <span className={`block truncate font-medium ${e.out ? "text-cream" : ""}`}>{e.title ?? `الحلقة ${ar(e.n)}`}</span>
-                      <span className="block text-xs text-sand">
-                        {e.out ? `${e.duration ?? ""} · ${fmt.format(e.date)}` : `${e.due ? "قريب جدًا" : "قريبًا"} · ${fmt.format(e.date)}`}
-                      </span>
-                    </span>
-                  </button>
-                </Reveal>
-              );
-            })}
+          {/* released episodes: real covers */}
+          <ol className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {released.map((e) => (
+              <li key={e.n}>
+                <button
+                  type="button"
+                  onClick={() => setCurrent(e)}
+                  className={`group flex w-full items-center gap-4 rounded-2xl border p-3 text-start transition ${
+                    current?.n === e.n ? "border-gold bg-gold/10" : "border-line bg-card hover:border-gold/60"
+                  }`}
+                >
+                  <span className="relative aspect-video w-32 shrink-0 overflow-hidden rounded-xl bg-coal">
+                    <img src={`https://i.ytimg.com/vi/${e.videoId}/mqdefault.jpg`} alt="" loading="lazy" className="h-full w-full object-cover" onError={(ev) => (ev.currentTarget.style.display = "none")} />
+                    <span className="absolute bottom-1 start-1 rounded bg-ink/80 px-1.5 text-[11px] text-cream">{arDigits(e.duration ?? "")}</span>
+                  </span>
+                  <span className="min-w-0">
+                    <span className="block text-xs text-gold">الحلقة {ar(e.n)} · {fmt.format(e.date)}</span>
+                    <span className="mt-1 block font-medium leading-snug text-cream">{e.title}</span>
+                  </span>
+                </button>
+              </li>
+            ))}
           </ol>
+
+          {/* upcoming episodes: one compact timeline instead of eleven empty cards */}
+          {(() => {
+            const upcoming = episodes.filter((e) => !e.out);
+            const next = upcoming[0];
+            if (!next) return null;
+            return (
+              <Reveal className="mt-8 rounded-2xl border border-line bg-night/70 p-5 md:p-6">
+                <div className="flex flex-wrap items-baseline justify-between gap-2">
+                  <p className="text-cream">
+                    <span className="text-gold">الحلقة الجاية:</span> الحلقة {ar(next.n)} · {fmt.format(next.date)}
+                  </p>
+                  <p className="text-sm text-sand">حلقة جديدة كل أسبوع</p>
+                </div>
+                <ol className="mt-5 flex items-center gap-1.5" aria-label="مواعيد الحلقات">
+                  {episodes.map((e) => (
+                    <li
+                      key={e.n}
+                      title={`الحلقة ${ar(e.n)} · ${fmt.format(e.date)}`}
+                      className={`h-1.5 flex-1 rounded-full ${e.out ? "bg-gold shadow-[0_0_10px_#d9ae5f]" : e.n === next.n ? "bg-gold/50" : "bg-line"}`}
+                    />
+                  ))}
+                </ol>
+                <div className="mt-2 flex justify-between text-xs text-sand/70">
+                  <span>الحلقة ١</span>
+                  <span>الحلقة {ar(series.total)}</span>
+                </div>
+              </Reveal>
+            );
+          })()}
         </div>
 
         {/* shorts */}
@@ -135,6 +170,14 @@ export default function Journey() {
               {shorts.map((s, i) => (
                 <Reveal key={s.id} delay={i * 0.08} className="w-[62vw] max-w-[260px] shrink-0 snap-start lg:w-auto lg:max-w-none">
                   <LiteYouTube id={s.id} title={s.title} vertical />
+                  <a
+                    href={whatsappShare(s.title, `https://www.youtube.com/shorts/${s.id}`)}
+                    target="_blank"
+                    rel="noopener"
+                    className="mt-2 inline-flex items-center gap-1.5 text-xs text-gold hover:underline"
+                  >
+                    ابعتها على واتساب ←
+                  </a>
                 </Reveal>
               ))}
             </div>

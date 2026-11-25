@@ -10,7 +10,7 @@ export default function Professional() {
       <div className="grid-bg pointer-events-none absolute inset-0" aria-hidden />
       <div className="relative mx-auto max-w-[1240px] px-6">
         <Reveal>
-          <SectionLabel index="01" ar="شغلي" en="My Professional Work" />
+          <SectionLabel index="٠١" ar="شغلي" en="My Professional Work" />
         </Reveal>
 
         <div className="mt-10 grid gap-10 md:grid-cols-[1.1fr_1fr] md:items-end">
@@ -27,7 +27,7 @@ export default function Professional() {
                 className="mt-6 inline-flex items-center gap-3 rounded-full border border-gold/40 px-5 py-2.5 text-sm text-gold transition hover:border-gold hover:bg-gold/10"
               >
                 صفحة الشغل على فيسبوك
-                <span className="font-latin text-base italic" dir="ltr">{p.pageName}</span>
+                <span className="font-latin text-base" dir="ltr">{p.pageName}</span>
                 <span aria-hidden>←</span>
               </a>
             )}

@@ -35,7 +35,7 @@ export function SectionLabel({ index, ar, en }: { index: string; ar: string; en:
       <span className="font-latin text-gold" dir="ltr">{index}</span>
       <span className="h-px w-10 bg-gold/40" />
       <span className="text-sand">{ar}</span>
-      <span className="font-latin italic text-sand/60" dir="ltr">{en}</span>
+      <span className="font-latin text-sand/60" dir="ltr">{en}</span>
     </div>
   );
 }

@@ -83,3 +83,10 @@ export const shorts = [
   { id: "BtFr1TO5tMY", title: "المتدين في الأفلام vs في الواقع" },
   { id: "O1_iqc9FAzQ", title: "هل حد ضامن بكرة" },
 ];
+
+export const siteUrl = "https://eldeebeldeeb35-afk.github.io/adjop/";
+export const subscribeUrl = `${"https://www.youtube.com/@hamdyeldee"}?sub_confirmation=1`;
+
+// WhatsApp share link: matches the "ابعتها لحد محتاج يسمعها" call to action
+export const whatsappShare = (title: string, url: string) =>
+  `https://wa.me/?text=${encodeURIComponent(`${title}\n${url}`)}`;
