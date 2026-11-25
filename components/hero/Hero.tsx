@@ -26,7 +26,7 @@ function detectMode(): { mode: Mode; count: number } {
   const cores = navigator.hardwareConcurrency || 4;
   const memory = (navigator as Navigator & { deviceMemory?: number }).deviceMemory ?? 8;
   const weak = cores <= 4 || memory <= 4;
-  const count = finePointer ? (weak ? 26000 : 42000) : weak ? 12000 : 18000;
+  const count = finePointer ? (weak ? 30000 : 50000) : weak ? 14000 : 22000;
   return { mode: finePointer ? "hover" : "scroll", count };
 }
 

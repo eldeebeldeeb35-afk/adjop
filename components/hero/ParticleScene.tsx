@@ -129,15 +129,14 @@ function Portrait({ morph, count, beforeSrcs, afterSrcs, onReady, onPortraitHove
     const inside = Math.abs(lx) < 0.36 && Math.abs(ly) < 0.46;
     if (moving && inside && !m.inside) onPortraitHover();
     if (moving) m.inside = inside;
-    // slow 3D sway so the volume reads, plus a lean toward the pointer
+    // no automatic sway (turned off in the portrait lab): the portrait only leans toward the pointer
     if (group.current) {
-      const t = state.clock.elapsedTime;
       const pointerOn = performance.now() - m.lastMove < 4000 ? 1 : 0;
-      const ry = THREE.MathUtils.clamp(Math.sin(t * 0.32) * 0.2 + state.pointer.x * 0.16 * pointerOn, -0.3, 0.3);
-      const rx = Math.sin(t * 0.23 + 1.3) * 0.05 - state.pointer.y * 0.08 * pointerOn;
+      const ry = THREE.MathUtils.clamp(state.pointer.x * 0.16 * pointerOn, -0.3, 0.3);
+      const rx = -state.pointer.y * 0.08 * pointerOn;
       group.current.rotation.y = THREE.MathUtils.lerp(group.current.rotation.y, ry, 0.035);
-      // the current look turns its head for real: the sway picks the left /
-      // front / right photo (with hysteresis), and each change is a 1.6s rebuild
+      // the current look turns its head toward the pointer: the lean picks the
+      // left / front / right photo (with hysteresis), and each change is a 1.6s rebuild
       const tr = turn.current;
       const y = group.current.rotation.y;
       const want = y > 0.13 ? 1 : y < -0.13 ? -1 : Math.abs(y) < 0.05 ? 0 : tr.to;
