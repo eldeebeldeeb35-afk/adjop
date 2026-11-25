@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 import { useCallback, useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { person } from "@/content/site";
+import { person, subscribeUrl } from "@/content/site";
 import type { MorphState } from "./ParticleScene";
 
 const ParticleScene = dynamic(() => import("./ParticleScene"), { ssr: false });
@@ -150,15 +150,26 @@ export default function Hero() {
               </div>
             </div>
 
-            {mode === "hover" && (
-              <button
-                type="button"
-                onClick={() => !busy.current && playTo(settled.current === 0 ? 1 : 0)}
-                className="pointer-events-auto mt-6 rounded-full border border-gold/30 px-5 py-2 text-sm text-gold transition hover:border-gold hover:bg-gold/10"
+            <div className="mt-7 flex flex-wrap items-center justify-center gap-3 md:justify-start reveal-up" style={{ animationDelay: "1.2s" }}>
+              <a
+                href={subscribeUrl}
+                target="_blank"
+                rel="noopener"
+                className="pointer-events-auto inline-flex items-center gap-2 rounded-full bg-gold px-6 py-2.5 text-sm font-bold text-ink transition hover:brightness-110"
               >
-                {done ? "رجّع الصورة القديمة ↺" : "ابدأ التحوّل ✦"}
-              </button>
-            )}
+                <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current" aria-hidden><path d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .6 12a31 31 0 0 0 .4 4.8 3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1 31 31 0 0 0 .4-4.8 31 31 0 0 0-.4-4.8ZM9.7 15.1V8.9l5.8 3.1-5.8 3.1Z" /></svg>
+                اشترك في القناة
+              </a>
+              {mode === "hover" && (
+                <button
+                  type="button"
+                  onClick={() => !busy.current && playTo(settled.current === 0 ? 1 : 0)}
+                  className="pointer-events-auto rounded-full border border-gold/30 px-5 py-2.5 text-sm text-gold transition hover:border-gold hover:bg-gold/10"
+                >
+                  {done ? "رجّع الصورة القديمة ↺" : "ابدأ التحوّل ✦"}
+                </button>
+              )}
+            </div>
           </div>
         </div>
 

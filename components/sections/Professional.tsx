@@ -10,7 +10,7 @@ export default function Professional() {
       <div className="grid-bg pointer-events-none absolute inset-0" aria-hidden />
       <div className="relative mx-auto max-w-[1240px] px-6">
         <Reveal>
-          <SectionLabel index="01" ar="شغلي" en="My Professional Work" />
+          <SectionLabel index="٠١" ar="شغلي" en="My Professional Work" />
         </Reveal>
 
         <div className="mt-10 grid gap-10 md:grid-cols-[1.1fr_1fr] md:items-end">

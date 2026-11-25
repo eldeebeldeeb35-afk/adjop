@@ -4,6 +4,7 @@ import Crossroads from "@/components/sections/Crossroads";
 import Professional from "@/components/sections/Professional";
 import Journey from "@/components/sections/Journey";
 import Contact from "@/components/sections/Contact";
+import MobileBar from "@/components/sections/MobileBar";
 import { CursorGlow } from "@/components/ui";
 
 export default function Page() {
@@ -18,6 +19,7 @@ export default function Page() {
         <Journey />
         <Contact />
       </main>
+      <MobileBar />
     </>
   );
 }

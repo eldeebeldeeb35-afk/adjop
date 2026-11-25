@@ -22,7 +22,7 @@ export default function Contact() {
             خلّينا <span className="gold-text">نفضل قريبين</span>.
           </h2>
         </Reveal>
-        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-12 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5 [&>*:last-child]:col-span-2 sm:[&>*:last-child]:col-span-1">
           {available.map((p, i) => {
             const url = links[p.key];
             return (
@@ -31,7 +31,7 @@ export default function Contact() {
                   href={p.key === "email" ? `mailto:${url}` : url}
                   target={p.key === "email" ? undefined : "_blank"}
                   rel="noopener"
-                  className="group flex h-full flex-col gap-1 rounded-2xl border border-line bg-coal/60 p-6 transition hover:-translate-y-1 hover:border-gold/60"
+                  className="group flex h-full flex-col gap-1 rounded-2xl border border-line bg-coal/60 p-5 transition hover:-translate-y-1 hover:border-gold/60"
                 >
                   <svg viewBox="0 0 24 24" className="mb-4 h-7 w-7 fill-gold" aria-hidden>
                     <path d={p.path} />
