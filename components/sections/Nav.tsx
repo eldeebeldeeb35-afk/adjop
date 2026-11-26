@@ -8,6 +8,9 @@ const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
 type Item = { href: string; label: string };
 
+// in-page anchors stay as-is; site paths need the GitHub Pages base path (/adjop)
+const withBase = (href: string) => (href.startsWith("/") ? `${base}${href}` : href);
+
 // Shared top bar. Each page passes its own in-page links and one highlighted
 // link to the other page (story page -> work page and back).
 export default function Nav({ items, cta }: { items: Item[]; cta: Item }) {
@@ -34,7 +37,7 @@ export default function Nav({ items, cta }: { items: Item[]; cta: Item }) {
         </Link>
         <nav className="hidden items-center gap-8 text-sm text-sand md:flex">
           {items.map((i) => (
-            <a key={i.href} href={i.href} className="relative transition hover:text-cream after:absolute after:-bottom-1 after:start-0 after:h-px after:w-0 after:bg-gold after:transition-all hover:after:w-full">
+            <a key={i.href} href={withBase(i.href)} className="relative transition hover:text-cream after:absolute after:-bottom-1 after:start-0 after:h-px after:w-0 after:bg-gold after:transition-all hover:after:w-full">
               {i.label}
             </a>
           ))}
@@ -56,7 +59,7 @@ export default function Nav({ items, cta }: { items: Item[]; cta: Item }) {
       {open && (
         <nav className="flex flex-col gap-1 px-6 pb-6 md:hidden">
           {items.map((i) => (
-            <a key={i.href} href={i.href} onClick={() => setOpen(false)} className="border-b border-line/50 py-3 font-display text-2xl text-cream">
+            <a key={i.href} href={withBase(i.href)} onClick={() => setOpen(false)} className="border-b border-line/50 py-3 font-display text-2xl text-cream">
               {i.label}
             </a>
           ))}
