@@ -54,6 +54,12 @@ pip install --break-system-packages -q opencv-python-headless vtracer cairosvg
 - كمّل الأجزاء المستخبية حسب البريف.
 - اعرض `design.svg` كصورة (`export.py` بيطلع PNG) وقارنه بالصورة الأصلية جنب بعض، وعدّل لحد ما يتطابق.
 
+**صورة صغيرة أو مغطية (سكرين شوت تيك توك مثلًا)؟** متتريسش؛ ارسم من الصفر بالهندسة زي `scripts/rebuild_example.py`
+(اتعمل لهودي ESK★II): حروف من خط حقيقي (fontTools) + أشكال (نجمة، مستطيلات) بـ shapely، بترتيب من ورا لقدام،
+وكل شكل قدام بيقص فراغ حواليه في اللي وراه (شكل الستيكر)، وحروف «أوتلاين» = buffer ناقص الحرف، وتدوير الزوايا
+بـ buffer(-r).buffer(r)، وفي الآخر شيل أي حاجة أرفع من 0.5 مم. محتاج: `pip install shapely fonttools` وخط من
+`https://raw.githubusercontent.com/google/fonts/main/ofl/...`.
+
 ### ٧. صدّر
 `python scripts/export.py design.svg --outdir out --name <اسم-التصميم> --films`
 - `NAME.ai`: ملف إليستريتور (PDF-compatible، بيفتح على طول في Illustrator).
