@@ -20,11 +20,10 @@ description: "إدارة باقي منصات وصفحات حمدي الديب: �
 ## الأدوات المتوصلة (حمّلها بـ ToolSearch)
 - **Metricool**: `getBrandSettings` (الحسابات)، `getBestTimeToPostByNetwork`، `createScheduledPostForReview` (مسودة للمراجعة)، `createScheduledPost`، `getScheduledPosts`، `getAnalyticsDataByMetrics`.
 - **Windsor** (قراية تحليلات): `get_connectors` ← `get_fields` ← `get_data` مع connector `facebook_organic` / `instagram` / `tiktok_organic` / `youtube`.
-- **vidIQ**: `vidiq_social_post_draft_create` ← حمدي يوافق ← `vidiq_social_post_publish`؛ وتحليلات إنستجرام وتيك توك.
 - **جهاز حمدي** (computer use / Chrome) للحاجات اللي الأدوات مش بتعملها (Meta Business Suite، رسايل الصفحة).
 
 ## قاعدة الموافقة (إلزامية)
-مسودة ← حمدي يشوفها ← «تمام/انشر» ← نشر أو جدولة. الأفضل `createScheduledPostForReview` أو `draft_create`. الرد على الرسايل الخاصة للعملاء: جهّز الرد ومتبعتوش إلا بموافقته.
+مسودة ← حمدي يشوفها ← «تمام/انشر» ← نشر أو جدولة. الأفضل `createScheduledPostForReview`. الرد على الرسايل الخاصة للعملاء: جهّز الرد ومتبعتوش إلا بموافقته.
 
 ## ريل واحد ← كل المنصات
 | | تيك توك | ريلز إنستجرام | ريلز فيسبوك | يوتيوب شورتس |
@@ -41,7 +40,7 @@ description: "إدارة باقي منصات وصفحات حمدي الديب: �
 
 ## تقرير أسبوعي (كل المنصات في جدول واحد)
 | المنصة | متابعين +/− | وصول | أحسن بوست | ملاحظة |
-وبعده: أحسن 3 حاجات اشتغلت، وخطة الأسبوع الجاي. مصادر الأرقام: Windsor/Metricool/vidIQ؛ قول لو رقم مش متاح بدل ما تخمّنه.
+وبعده: أحسن 3 حاجات اشتغلت، وخطة الأسبوع الجاي. مصادر الأرقام: Windsor/Metricool؛ قول لو رقم مش متاح بدل ما تخمّنه.
 
 ## الروابط والبايو
 لما رابط يتغير، حدّثه في `content/site.ts` وفي البايو على كل منصة (بموافقة حمدي)، وخلي الاسم والصورة والوصف موحّدين.

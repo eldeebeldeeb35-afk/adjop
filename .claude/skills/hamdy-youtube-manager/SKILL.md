@@ -9,17 +9,11 @@ description: "إدارة قناة يوتيوب حمدي الديب (@hamdyeldee)
 للمحتوى والخوارزميات: سكل `hamdy-lesa-fi-rogoo` و`social-algorithms-playbook`.
 
 ## الطرق المجانية للتحكم (من الأسهل للأصعب)
-1. **أدوات vidIQ المتوصلة** (مجانية بحدود الرصيد): حمّلها بـ ToolSearch أول (`+vidiq`).
-   - تحليلات: `vidiq_channel_analytics`, `vidiq_channel_performance_trends`, `vidiq_video_stats`, `vidiq_user_videos`
-   - تعديل: `vidiq_update_video` (عنوان/وصف/تاجز)، `vidiq_update_video_thumbnail`، `vidiq_video_upload`
-   - كومنتات: `vidiq_video_comments`, `vidiq_comment_insights`, `vidiq_generate_comment_replies`, `vidiq_reply_to_comment`
-   - أفكار: `vidiq_keyword_research`, `vidiq_outliers`, `vidiq_generate_titles`, `vidiq_score_title`, `vidiq_score_thumbnail`
-   - اتأكد من الرصيد بـ `vidiq_balance` قبل الأدوات الغالية (توليد فيديو/صور).
-2. **YouTube Studio على جهاز حمدي** (مجاني 100%): لما الجهاز متوصل.
+1. **YouTube Studio على جهاز حمدي** (مجاني 100%، الطريقة الأساسية): لما الجهاز متوصل. منه: الرفع، العناوين والوصف، التامبنيل، الكومنتات، والتحليلات (Analytics).
    - في تطبيق Claude على الكمبيوتر: حمّل سكل `computer-use` (التحكم في الشاشة) أو `chrome-browser` (Claude in Chrome، بيستخدم تسجيل دخول حمدي).
    - من جلسة كلاود: لازم حمدي يوصّل الجهاز (Remote Control في تطبيق Claude على الكمبيوتر). لو مش متوصل، قوله كده بدل ما تحاول.
    - افتح `https://studio.youtube.com` في تابة جديدة، ومتقفلش حاجة حمدي فاتحها.
-3. **الفيد العام** (من غير تسجيل): `https://www.youtube.com/feeds/videos.xml?channel_id=UCbmQG5ZloQge0MkvPRsVxRw` لآخر 15 فيديو.
+2. **الفيد العام** (من غير تسجيل): `https://www.youtube.com/feeds/videos.xml?channel_id=UCbmQG5ZloQge0MkvPRsVxRw` لآخر 15 فيديو.
 
 ## قاعدة الموافقة (إلزامية)
 أي حاجة **بتتنشر أو بتتغير على القناة** (رفع، نشر، تعديل عنوان، تامبنيل، رد على كومنت، حذف، تغيير خصوصية): جهّزها واعرضها، واستنى «تمام» أو «انشر» من حمدي. القراية والتحليل من غير إذن.
@@ -34,3 +28,6 @@ description: "إدارة قناة يوتيوب حمدي الديب (@hamdyeldee)
 
 ## صيغة العنوان
 `<العنوان> | لسه في رجوع ح<رقم>` — عشان الحلقة تظهر على الموقع لوحدها (سكل `hamdy-youtube-sync`). الشورت فيه `#shorts`.
+
+## أدوات اتشالت
+السكل ده مش بيعتمد على vidIQ ولا أي خدمة مدفوعة بكريدت (قرار حمدي). Windsor (`youtube`) ينفع لقراية الأرقام لو متوصل.

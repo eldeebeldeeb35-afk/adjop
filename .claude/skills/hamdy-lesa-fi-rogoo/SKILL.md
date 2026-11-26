@@ -20,8 +20,8 @@ description: "سلسلة «لسه في رجوع» لحمدي الديب من ا�
 | الفكرة والسيناريو (بداية تشد من أول ثانيتين) | `copywriting`, `social-content` |
 | برومبتات الصور والفيديو وثبات الشخصيات | `ai-video-production`, `vibe-creating-prompt` |
 | المونتاج، الصوت، الترجمة، نسخة لكل منصة | `video-editing`, `remotion-captions` |
-| العناوين والوصف والهاشتاجات ووقت النشر | `social-algorithms-playbook` + أدوات vidIQ |
-| تحليل الأرقام وتطوير اللي بينجح | `social-algorithms-playbook` + Windsor/vidIQ |
+| العناوين والوصف والهاشتاجات ووقت النشر | `social-algorithms-playbook` + YouTube Studio |
+| تحليل الأرقام وتطوير اللي بينجح | `social-algorithms-playbook` + Windsor/Metricool |
 | ظهور الحلقة على الموقع | `hamdy-youtube-sync` |
 
 ## قاعدة الموافقة (إلزامية)

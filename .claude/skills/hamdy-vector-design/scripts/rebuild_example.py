@@ -71,14 +71,23 @@ def glyph(ch, x):
 gap = cap * 0.045     # red gap between overlapping shapes
 ring = cap * 0.07     # K outline thickness
 
-E, wE = glyph("E", 0)
-S, wS = glyph("S", wE * 0.86)
-K, wK = glyph("K", wE * 0.86 + wS * 0.9)
+def fit(ch, left, width):
+    """glyph scaled horizontally to `width` (in cap units), left edge at `left` (cap units)."""
+    g, _ = glyph(ch, 0)
+    x0, _, x1, _ = g.bounds
+    g = affinity.scale(g, width * cap / (x1 - x0), 1, origin=(x0, 0))
+    return affinity.translate(g, left * cap - x0, 0), 0
+
+
+# positions measured on the photo, in cap-height units (cap = 180 px there)
+E, _ = fit("E", 0.00, 0.86)
+S, _ = fit("S", 0.80, 0.72)
+K, _ = fit("K", 1.42, 0.76)
 kx1 = K.bounds[2]
 
 # star: fat 5-point star, sits a bit lower than the letters and overlaps K
-R = cap * 0.74
-cx, cy = kx1 + R * 0.3, -cap * 0.42
+R = cap * 0.58
+cx, cy = cap * 2.42, -cap * 0.38
 pts = []
 for i in range(10):
     r = R if i % 2 == 0 else R * 0.47
@@ -87,13 +96,14 @@ for i in range(10):
 star = Polygon(pts)
 
 # two tall bars, taller than the letters
-bw = cap * 0.36
-b1x = cx + R * 0.62
-bars = [box(b1x, -cap * 1.3, b1x + bw, 0), box(b1x + bw + gap * 1.6, -cap * 1.42, b1x + 2 * bw + gap * 1.6, 0)]
+bw = cap * 0.44
+b1x = cap * 2.62
+bars = [box(b1x, -cap * 1.32, b1x + bw, 0), box(b1x + bw + gap * 1.4, -cap * 1.38, b1x + bw + gap * 1.4 + cap * 0.40, 0)]
 
 soft = lambda g, r: g.buffer(-r, join_style=1).buffer(r, join_style=1)
 rr = cap * 0.045
-E, S, K = soft(E, rr), soft(S, rr), soft(K, rr * 0.6)
+puff = cap * 0.03  # puff ink swells the letters a little
+E, S, K = soft(E.buffer(puff), rr), soft(S.buffer(puff), rr), soft(K.buffer(puff * 0.5), rr * 0.6)
 bars = [soft(b, rr) for b in bars]
 star = soft(star, cap * 0.025)
 
