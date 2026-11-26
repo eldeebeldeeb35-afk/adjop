@@ -60,12 +60,12 @@ export const dipPricing = {
 // القيم دي مش سرية (بتتبعت لأي متصفح)؛ الحماية في قواعد firestore.rules.
 // طول ما apiKey فاضي، صفحة الحساب بتقول إن التسجيل لسه ما اتفعّلش.
 export const firebaseConfig = {
-  apiKey: "",
-  authDomain: "",
-  projectId: "",
-  storageBucket: "",
-  messagingSenderId: "",
-  appId: "",
+  apiKey: "AIzaSyBK1wDR7C29rZN1ORu5ablmfil0ps8-OCA",
+  authDomain: "hamdy-eldeeb.firebaseapp.com",
+  projectId: "hamdy-eldeeb",
+  storageBucket: "hamdy-eldeeb.firebasestorage.app",
+  messagingSenderId: "793462526216",
+  appId: "1:793462526216:web:c638485a5ab8de97c71cbd",
 };
 
 // ---------- مسار المحتوى: «لسه في رجوع» ----------

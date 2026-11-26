@@ -35,6 +35,8 @@ The site has two pages:
   email) + Firestore (`customers`, `orders`, `admins`). Access rules and price checks
   are in `firestore.rules`; setup steps in `docs/firebase-setup.md`. Until
   `firebaseConfig` in `content/site.ts` is filled, the pages show a "not enabled" notice.
+  Firebase project: `hamdy-eldeeb` (`.firebaserc`); deploy rule changes with
+  `firebase deploy --only firestore:rules`.
 `Nav` and the phone-only `MobileBar` take per-page links/variants.
 
 ## Stack
@@ -97,5 +99,4 @@ committed back, so fix titles or add durations by editing `content/videos.json`.
 
 - Email link is empty in `content/site.ts`
 - Work samples (photos) for a gallery on the work page
-- Firebase project not created yet: `firebaseConfig` is empty (see `docs/firebase-setup.md`)
 - Experience list is empty until provided
