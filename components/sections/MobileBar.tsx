@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { links, subscribeUrl } from "@/content/site";
+import { subscribeUrl } from "@/content/site";
+
+const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
 // Phone-only bar that slides up once the visitor has scrolled past the first
 // screen. The story page offers the latest episode and subscribe; the work page
@@ -32,9 +34,14 @@ export default function MobileBar({ variant }: { variant: "story" | "work" }) {
       }`}
     >
       {variant === "work" ? (
-        <a href={links.work} target="_blank" rel="noopener" className={`${solid} block`}>
-          شوف الشغل على صفحة <span dir="ltr">D.I.P</span>
-        </a>
+        <div className="flex items-center gap-2">
+          <a href="#separation" className={ghost}>
+            أسعار الفصل
+          </a>
+          <a href={`${base}/work/account/`} className={solid}>
+            اطلب دلوقتي
+          </a>
+        </div>
       ) : (
         <div className="flex items-center gap-2">
           <a href="#episodes" className={ghost}>

@@ -1,0 +1,73 @@
+rules_version = '2';
+
+// D.I.P customer accounts and orders.
+// - Each customer reads and edits only their own profile and orders.
+// - The admin (any user with a document at admins/{uid}) reads everything,
+//   sets prices and moves orders between stages.
+// - Prices that are fixed (colour separation, film printing) are checked here,
+//   so a customer cannot send a lower total from the browser.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() { return request.auth != null; }
+    function isAdmin() { return signedIn() && exists(/databases/$(database)/documents/admins/$(request.auth.uid)); }
+    function isOwner(uid) { return signedIn() && request.auth.uid == uid; }
+
+    match /admins/{uid} {
+      allow read: if isOwner(uid);
+      allow write: if false; // added by hand in the Firebase console
+    }
+
+    match /customers/{uid} {
+      allow read: if isOwner(uid) || isAdmin();
+      allow create: if isOwner(uid)
+        && request.resource.data.keys().hasOnly(['name', 'phone', 'shop', 'type', 'email', 'createdAt'])
+        && request.resource.data.name is string && request.resource.data.name.size() > 1
+        && request.resource.data.phone is string
+        && request.resource.data.type in ['customer', 'printshop'];
+      allow update: if (isOwner(uid)
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['name', 'phone', 'shop', 'type']))
+        || isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    function filmPrice(paper) {
+      return paper == 'calc' ? 20 : (paper == 'white' ? 10 : 0);
+    }
+
+    function validSeparation(d) {
+      return d.kind == 'separation'
+        && d.colors is int && d.colors >= 1 && d.colors <= 16
+        && d.paper in ['none', 'calc', 'white']
+        && d.sheets is int && d.sheets >= 0 && d.sheets <= 200
+        && d.total == d.colors * 35 + (d.paper == 'none' ? 0 : d.sheets * filmPrice(d.paper));
+    }
+
+    function validPrint(d) {
+      return d.kind == 'print'
+        && d.qty is int && d.qty >= 1 && d.qty <= 100000
+        && d.pricePerPiece == null && d.total == null;
+    }
+
+    match /orders/{id} {
+      allow read: if isAdmin() || (signedIn() && resource.data.uid == request.auth.uid);
+
+      allow create: if signedIn()
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.status == 'new'
+        && request.resource.data.title is string && request.resource.data.title.size() <= 120
+        && request.resource.data.notes is string && request.resource.data.notes.size() <= 2000
+        && (request.resource.data.design == null || request.resource.data.design.size() < 900000)
+        && (validSeparation(request.resource.data) || validPrint(request.resource.data));
+
+      // the customer may only approve a priced print order, or cancel before work starts
+      allow update: if isAdmin()
+        || (signedIn() && resource.data.uid == request.auth.uid
+            && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status'])
+            && ((resource.data.status == 'priced' && request.resource.data.status == 'approved')
+                || (resource.data.status in ['new', 'priced'] && request.resource.data.status == 'cancelled')));
+
+      allow delete: if isAdmin();
+    }
+  }
+}

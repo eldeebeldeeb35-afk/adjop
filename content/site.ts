@@ -41,6 +41,33 @@ export const work = {
   workflow: ["التصميم", "فصل الألوان", "تجهيز الشاشات", "الطباعة", "التسليم"],
 };
 
+// ---------- أسعار D.I.P الثابتة (بالجنيه) ----------
+// فصل الألوان بيتحسب باللون (ملفات الفصل بس، من غير طباعة).
+// طباعة الأفلام اختيارية وبتتحسب بالورقة، مقاس A3.
+// طباعة السلك سكرين مالهاش سعر ثابت: العميل يرفع الرسمة ويكتب عدد القطع، وحمدي يحدد سعر القطعة.
+export const dipPricing = {
+  separationPerColor: 35,
+  filmSize: "A3",
+  film: {
+    none: { label: "من غير طباعة أفلام", price: 0 },
+    calc: { label: "طباعة على ورق كلك", price: 20 },
+    white: { label: "طباعة على ورق أبيض", price: 10 },
+  },
+};
+
+// ---------- حسابات العملاء (Firebase) ----------
+// انسخ القيم دي من Firebase Console → Project settings → Your apps → Web app.
+// القيم دي مش سرية (بتتبعت لأي متصفح)؛ الحماية في قواعد firestore.rules.
+// طول ما apiKey فاضي، صفحة الحساب بتقول إن التسجيل لسه ما اتفعّلش.
+export const firebaseConfig = {
+  apiKey: "",
+  authDomain: "",
+  projectId: "",
+  storageBucket: "",
+  messagingSenderId: "",
+  appId: "",
+};
+
 // ---------- مسار المحتوى: «لسه في رجوع» ----------
 export const journey = {
   title: "لسه في رجوع",
