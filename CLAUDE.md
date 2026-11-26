@@ -73,7 +73,10 @@ committed back, so fix titles or add durations by editing `content/videos.json`.
 - `docs/كل-شغل-حمدي-الديب.md`: one Arabic file with all of Hamdy's work, split by area.
 - `.claude/skills/hamdy-*`: project skills for each area (website, star portrait,
   YouTube sync, D.I.P print, the «لسه في رجوع» series, brand). Load the matching one
-  before working on that area.
+  before working on that area. Also: `hamdy-vector-design` (photo of a print → vector,
+  AI/PDF/EPS, films, mockup; scripts need opencv-python-headless, vtracer, cairosvg),
+  `hamdy-youtube-manager`, `hamdy-platforms-manager`, `hamdy-ads-manager`,
+  `conversation-map`, `token-saver`. Zips for upload to claude.ai: `docs/skills-zip/`.
 - `.claude/skills/{frontend-design,webapp-testing,remotion-captions}`: downloaded from
   official GitHub repos; sources in `.claude/skills/SOURCES.md`.
 

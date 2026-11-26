@@ -1,7 +1,10 @@
 # مصادر السكلز
 
 ## سكلز حمدي (اتعملت من شغلنا)
-hamdy-website, hamdy-star-portrait, hamdy-youtube-sync, hamdy-dip-print, hamdy-lesa-fi-rogoo, hamdy-brand
+hamdy-website, hamdy-star-portrait, hamdy-youtube-sync, hamdy-dip-print, hamdy-lesa-fi-rogoo, hamdy-brand,
+hamdy-vector-design, hamdy-youtube-manager, hamdy-platforms-manager, hamdy-ads-manager, conversation-map, token-saver
+
+نسخ zip للرفع على حساب Claude: `docs/skills-zip/`.
 
 ## سكلز متنزلة من GitHub (مصادر رسمية، اتقرت قبل ما تتضاف)
 | السكل | المصدر | الكوميت | ليه |
@@ -11,3 +14,6 @@ hamdy-website, hamdy-star-portrait, hamdy-youtube-sync, hamdy-dip-print, hamdy-l
 | remotion-captions | https://github.com/remotion-dev/skills | a3f4098 | ترجمة على الشاشة للريلز (Remotion؛ للعربي استخدم موديل Whisper متعدد اللغات `small` مع `language: "ar"`) |
 
 لتحديثها: اعمل clone للريبو تاني وانسخ الفولدر فوق القديم.
+
+## اتفحصت ومتضافتش
+سكلز إعلانات ويوتيوب وتوفير توكن وتحويل صور لفيكتور من ريبوهات أشخاص على GitHub. اتعملت سكلز خاصة بدلها لأن مصادرها مش موثوقة كفاية وأغلبها مش مناسب لشغل حمدي.
