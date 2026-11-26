@@ -17,3 +17,10 @@ hamdy-vector-design, hamdy-youtube-manager, hamdy-platforms-manager, hamdy-ads-m
 
 ## اتفحصت ومتضافتش
 سكلز إعلانات ويوتيوب وتوفير توكن وتحويل صور لفيكتور من ريبوهات أشخاص على GitHub. اتعملت سكلز خاصة بدلها لأن مصادرها مش موثوقة كفاية وأغلبها مش مناسب لشغل حمدي.
+
+## من فيديو «5 إضافات لكلود كود» (بموافقة حمدي)
+| السكل | المصدر | الكوميت |
+|---|---|---|
+| task-observer («One Skill to Rule Them All») | https://github.com/rebelytics/one-skill-to-rule-them-all | 49d3c48 |
+| claude-automation-recommender («Claude Code Setup»، رسمي) | https://github.com/anthropics/claude-plugins-official (plugins/claude-code-setup) | 0fbfda5 |
+البرامج التلاتة التانية (OmniRoute, claude-mem, Headroom) مش سكلز؛ بتتسطب على جهاز حمدي: شوف `docs/إضافات-الفيديو.md`.
