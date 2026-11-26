@@ -1,0 +1,2 @@
+function icon(par,src,x,y,w,label,labTop){const d=document.createElement('div');d.className='ic';d.style.left=x+'px';d.style.top=y+'px';d.style.width=w+'px';d.style.opacity=0;
+  const im=document.createElement('img');im.src=src;d.appendChild(im);if(label){const l=document.createElement('div');l.className='lab';l.textContent=label;if(labTop){l.style.bottom='auto';l.style.top='-52px';}d.appendChild(l);}par.appendChild(d);return d;}
