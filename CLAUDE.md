@@ -68,6 +68,15 @@ committed back, so fix titles or add durations by editing `content/videos.json`.
   three-panel composites (rembg + scipy); head positions and erase boxes are set
   per view in `VIEWS`. All six must keep the same size and head placement.
 
+## Skills and work summary
+
+- `docs/كل-شغل-حمدي-الديب.md`: one Arabic file with all of Hamdy's work, split by area.
+- `.claude/skills/hamdy-*`: project skills for each area (website, star portrait,
+  YouTube sync, D.I.P print, the «لسه في رجوع» series, brand). Load the matching one
+  before working on that area.
+- `.claude/skills/{frontend-design,webapp-testing,remotion-captions}`: downloaded from
+  official GitHub repos; sources in `.claude/skills/SOURCES.md`.
+
 ## Conventions
 
 - Visual identity: dark warm background, gold `#d9ae5f`, the square-Kufic channel
