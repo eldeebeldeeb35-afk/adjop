@@ -1,15 +1,18 @@
-# تفعيل حسابات العملاء (Firebase)
+# حسابات العملاء (Firebase)
 
-الموقع static على GitHub Pages، فالحسابات والطلبات محفوظة في Firebase (مجاني للحجم ده).
+الموقع static على GitHub Pages، فالحسابات والطلبات محفوظة في Firebase، على الخطة المجانية (Spark).
 
-1. ادخل https://console.firebase.google.com واعمل مشروع جديد (اسمه مثلاً `dip-orders`). Google Analytics مش لازم.
-2. **Authentication → Get started → Sign-in method**: فعّل **Google** و **Email/Password**.
-3. **Authentication → Settings → Authorized domains**: ضيف `eldeebeldeeb35-afk.github.io`.
-4. **Firestore Database → Create database** (production mode، أقرب منطقة مثلاً `europe-west`).
-5. **Firestore → Rules**: امسح اللي موجود والزق محتوى ملف `firestore.rules` اللي في المشروع، واضغط Publish.
-6. **Project settings → Your apps → Web (</>)**: سجّل تطبيق ويب، وانسخ قيم `firebaseConfig` في `content/site.ts`.
-7. ادخل على `/work/account/` واعمل حسابك عادي. بعدها من **Authentication → Users** انسخ الـ User UID بتاعك،
-   وفي **Firestore → Start collection** اعمل collection اسمها `admins` وجواها document الـ ID بتاعه هو الـ UID ده (من غير حقول، أو حقل `name`).
-   كده لوحة الإدارة `/work/admin/` هتفتح معاك انت بس.
+## اللي اتعمل
+- المشروع: `hamdy-eldeeb` (مربوط في `.firebaserc`، والإعدادات في `content/site.ts`).
+- تسجيل الدخول: Google و Email/Password، والدومين `eldeebeldeeb35-afk.github.io` مسموح.
+- قاعدة البيانات: Firestore في `eur3`، وقواعد الحماية من `firestore.rules`.
+  لو اتعدّلت القواعد: `firebase deploy --only firestore:rules`.
 
-رابط تسجيل العملاء اللي تبعته لأي عميل: https://eldeebeldeeb35-afk.github.io/adjop/work/account/
+## تسجيل الأدمن (مرة واحدة)
+1. اعمل حسابك عادي من https://eldeebeldeeb35-afk.github.io/adjop/work/account/
+2. من Firebase Console → Authentication → Users انسخ الـ User UID بتاعك.
+3. Firestore Database → Start collection → اسمها `admins` → Document ID = الـ UID → ضيف حقل `name` (string) واحفظ.
+4. افتح https://eldeebeldeeb35-afk.github.io/adjop/work/admin/
+
+## رابط تسجيل العملاء
+https://eldeebeldeeb35-afk.github.io/adjop/work/account/
