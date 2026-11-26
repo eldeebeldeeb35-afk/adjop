@@ -20,8 +20,9 @@ export default function Page() {
       <Nav
         items={[
           { href: "#services", label: "الخدمات" },
-          { href: "#steps", label: "خطوات الشغل" },
-          { href: "#contact", label: "تواصل" },
+          { href: "#separation", label: "أسعار الفصل" },
+          { href: "#printing", label: "الطباعة" },
+          { href: "/work/account/", label: "حسابي" },
         ]}
         cta={{ href: "/", label: "القصة والمحتوى" }}
       />

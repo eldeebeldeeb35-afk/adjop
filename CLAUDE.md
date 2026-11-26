@@ -23,14 +23,28 @@ The site has two pages:
   about colour separation lives here except the link to the work page.
 - **Work page (`app/work/page.tsx`, `components/work/WorkPage.tsx`)**: D.I.P, his
   brand for clothing design, colour separation (for his own print shop and other
-  print shops) and silk-screen printing. Links to the D.I.P Facebook page.
+  print shops) and silk-screen printing. The hero (`DipHero.tsx`, `DipStars.tsx`)
+  draws the D.I.P logo in gold stars from `public/dip/field.png` (signed distance +
+  rounded height traced from his logo); fallback image `public/dip/logo-3d.webp`.
+  Fixed prices live in `dipPricing` (`content/site.ts`): separation 35 EGP per
+  colour (files only), film printing per A3 sheet (tracing paper 20, white 10).
+  Silk-screen printing has no fixed price: the customer uploads the design and a
+  quantity, Hamdy sets the price per piece in the admin page.
+- **Customer accounts (`app/work/account/`, `components/work/Account.tsx`)** and
+  **admin (`app/work/admin/`, `components/work/Admin.tsx`)**: Firebase Auth (Google,
+  email) + Firestore (`customers`, `orders`, `admins`). Access rules and price checks
+  are in `firestore.rules`; setup steps in `docs/firebase-setup.md`. Until
+  `firebaseConfig` in `content/site.ts` is filled, the pages show a "not enabled" notice.
+  Firebase project: `hamdy-eldeeb` (`.firebaserc`); deploy rule changes with
+  `firebase deploy --only firestore:rules`.
 `Nav` and the phone-only `MobileBar` take per-page links/variants.
 
 ## Stack
 
 Next.js 15 (App Router, static export to `out/`), React 19, TypeScript 5,
 Tailwind CSS 4, React Three Fiber + custom GLSL shaders, GSAP (ScrollTrigger),
-Framer Motion. No backend.
+Framer Motion. No server of its own: customer accounts and orders use Firebase
+(Auth + Firestore) from the browser.
 
 ## Build, run, and test
 
